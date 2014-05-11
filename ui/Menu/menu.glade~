@@ -20,7 +20,7 @@
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
         <property name="relief">half</property>
-        <signal name="clicked" handler="bottone_test_semplice_cliccato" swapped="no"/>
+        <signal name="clicked" handler="messaggio_senza_intruso_clicked" swapped="no"/>
       </object>
       <packing>
         <property name="expand">True</property>
@@ -34,6 +34,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
+        <signal name="clicked" handler="messaggio_con_intruso_clicked" swapped="no"/>
       </object>
       <packing>
         <property name="expand">True</property>
@@ -42,7 +43,17 @@
       </packing>
     </child>
     <child>
-      <placeholder/>
+      <object class="GtkButton" id="button1">
+        <property name="label" translatable="yes">Genera numeri primi</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">2</property>
+      </packing>
     </child>
   </object>
 </interface>

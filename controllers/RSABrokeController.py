@@ -1,4 +1,4 @@
-from models import RSAClient
+from models import RSAClient, IntruderClient
 
 class RSAComunicationAttackTest():
 	
@@ -17,4 +17,4 @@ class RSAComunicationAttackTest():
 		print("start comunication")
 		self.alice = RSAClient(2**self.key_lenght)
 		self.bob = RSAClient(self.alice.get_public_key())
-		self.trudy = RSAClient()
+		self.trudy = IntruderClient()

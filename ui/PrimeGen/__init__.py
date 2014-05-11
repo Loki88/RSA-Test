@@ -1,0 +1,1 @@
+from PrimeGen import PrimeGenerator

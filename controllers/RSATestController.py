@@ -1,4 +1,4 @@
-from models import RSAClient
+from models import RSAClient 
 
 class RSAComunicationTest():
 	key_lenght = 12
