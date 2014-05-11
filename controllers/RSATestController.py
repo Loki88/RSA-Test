@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+
+__author__      = "Lorenzo Di Giuseppe"
+__copyright__   = "Copyright 2014"
+
 from models import RSAClient 
 
 class RSAComunicationTest():
