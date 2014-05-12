@@ -62,3 +62,6 @@ class NumberFactorySingleton():
 		generator = CoprimeGenerator()
 		coprime = Number(generator, num=number, min=minimum, max=maximum)
 		return coprime
+
+	def set_prime_generator(self, generator):
+		self.prime_generator = generator

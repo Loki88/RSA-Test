@@ -44,6 +44,17 @@ class PrimeGenerator(NumberGenerator):
 	def set_test(self, test):
 		self.test = test
 
+
+class StrongPrimeGenerator(PrimeGenerator):
+
+	def generate(self, **kwargs):
+		'''
+		Here we need to add the logic to prevent that value-1 has small prime factors.
+		Look: the test logic is added by StrongPrimeGenerator's father (PrimeGenerator)
+		'''
+		pass
+		
+
 class CoprimeGenerator(NumberGenerator):
 
 	def generate(self, **kwargs):
