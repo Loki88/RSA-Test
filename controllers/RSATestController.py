@@ -4,6 +4,7 @@ __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
 from models import RSAClient 
+from random import randint
 
 class RSAComunicationTest():
 	key_lenght = 12
@@ -19,8 +20,10 @@ class RSAComunicationTest():
 
 	def start_comunication(self):
 		print("start comunication")
-		self.alice = RSAClient(2**self.key_lenght)
-		self.bob = RSAClient(self.alice.get_public_key())
+		pow1 = pow(2, self.key_lenght)
+		pow2 = pow1 * 2
+		self.alice = RSAClient(randint(pow1, pow2)*randint(1,4))
+		self.bob = RSAClient(randint(pow1, pow2)*randint(5,9))
 
 	def send_message_to_alice(self, message):
 		alice = self.alice

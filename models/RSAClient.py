@@ -11,37 +11,42 @@ import binascii
 
 class RSAClient():
 
+	delta = pow(2, 10)
 
 	def __init__(self, prime_size):
 		self.listeners = []
 		factory = NumberFactorySingleton.get_instance()
 		self.p = factory.get_prime(prime_size)
-		self.q = factory.get_prime(self.p.get_value()+1000)
+		self.q = factory.get_prime(prime_size+self.delta)
 		self.key_algorithm = SimpleFactory.get_instance().get_key_algorithm()
 		self.set_private_key()
 
 	def get_p(self):
-		return self.p.get_value()
+		return self.p
 
 	def get_q(self):
-		return self.q.get_value()
+		return self.q
 
 	def set_private_key(self):
 		algo = SimpleFactory.get_instance().get_key_algorithm()
 		self.private_key = algo.set_private_key(self)
+		print("Private key", self.private_key)
 
 	def get_public_key(self):
 		p = self.get_p()
 		q = self.get_q()
-		theta = (p-1)*(q-1)
+		theta = self.get_theta()
 		gcd, x, y = egcd(self.get_private_key(), theta)
 		return x % theta
 
 	def get_private_key(self):
 		return self.private_key
 
+	def get_theta(self):
+		return (self.p - 1)*(self.q-1)
+
 	def get_n(self):
-		n = self.p.get_value() * self.q.get_value()
+		n = self.p * self.q
 		return n
 
 	def receive_message(self, message=[]):

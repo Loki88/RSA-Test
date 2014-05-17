@@ -1,1 +1,2 @@
 from PrimeGenerator import PrimeGenerator
+from SettingsController import SettingsControllerSingleton

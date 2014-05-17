@@ -13,9 +13,9 @@ class PrimeGenerator(Content):
 		builder = Gtk.Builder()
 		builder.add_from_file("./ui/PrimeGen/primes.glade")
 		
-
 		signals = {
 			'generate_prime': self.bottone_genera_primi_cliccato,
+			'back_button_clicked': self.go_back
 		}
 
 		builder.connect_signals(signals)

@@ -6,6 +6,7 @@ __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
 from models.NumberFactory import NumberFactorySingleton
+from models.NumberGenerator import PrimeGenerator as SimpleGenerator
 
 class PrimeGenerator():
 
@@ -21,9 +22,18 @@ class PrimeGenerator():
 
 	def generate(self, size):
 		primes = []
-		last_primes = 2
-		while last_primes <= size:
-			primes.append(last_primes)
-			last_primes = NumberFactorySingleton.get_instance().get_prime(last_primes).get_value()
+		last_prime = 2
+		
+		factory = NumberFactorySingleton.get_instance()
+		
+		generator = factory.get_prime_generator()
+		test = factory.get_primality_test()
 
+		factory.set_prime_generator(SimpleGenerator(test))
+
+		while last_prime <= size:
+			primes.append(last_prime)
+			last_prime = factory.get_prime(last_prime)
+
+		factory.set_prime_generator(generator)
 		return primes

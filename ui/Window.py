@@ -29,8 +29,16 @@ class MainWindow(Gtk.Window):
 		self.add(element)
 		self.show_all()
 
-
 class Content():
 
 	def get_content(self):
 		return self.content
+
+	def set_back(self, back):
+		self.back = back
+
+	def go_back(self, widget):
+		parent = self.content.get_parent()
+		parent.remove(self.content)
+		MainWindow.get_instance().set_content(self.back)
+

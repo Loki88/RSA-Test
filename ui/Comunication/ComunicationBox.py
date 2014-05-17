@@ -5,7 +5,7 @@ __copyright__   = "Copyright 2014"
 
 from gi.repository import Gtk
 from controllers.RSATestController import RSAComunicationTest
-from ui.Window import MainWindow, Content
+from ui.Window import Content
 from Listener import AliceListener, BobListener
 
 class ComunicationBox(Content):
@@ -16,7 +16,8 @@ class ComunicationBox(Content):
 
 		signals = {
 			'send_message_to_bob': self.send_message_to_bob,
-			'send_message_to_alice': self.send_message_to_alice
+			'send_message_to_alice': self.send_message_to_alice,
+			'back_button_clicked': self.go_back,
 		}
 
 		builder.connect_signals(signals)

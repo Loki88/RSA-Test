@@ -29,12 +29,12 @@
       </packing>
     </child>
     <child>
-      <object class="GtkButton" id="unsecure_message_button">
-        <property name="label" translatable="yes">Messaggi con intruso</property>
+      <object class="GtkButton" id="factorization_button">
+        <property name="label" translatable="yes">Prove di fattorizzazione</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
-        <signal name="clicked" handler="messaggio_con_intruso_clicked" swapped="no"/>
+        <signal name="clicked" handler="factorization_button_clicked" swapped="no"/>
       </object>
       <packing>
         <property name="expand">True</property>
@@ -43,11 +43,12 @@
       </packing>
     </child>
     <child>
-      <object class="GtkButton" id="button1">
+      <object class="GtkButton" id="prime_generator">
         <property name="label" translatable="yes">Genera numeri primi</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
+        <signal name="clicked" handler="prime_generator_clicked" swapped="no"/>
       </object>
       <packing>
         <property name="expand">False</property>
