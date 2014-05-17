@@ -5,44 +5,14 @@ __copyright__   = "Copyright 2014"
 
 from Number import Number, PrimeGenerator, CoprimeGenerator
 from math import sqrt
-
-class SimplePrimeTest():
-
-	def is_prime(self, num):
-		if num % 2 == 0:
-			return False
-
-		max = int(sqrt(num))
-		i = 3
-		while i <= max:
-			if num % i == 0:
-				return False
-			i += 2
-		return True
-
-class AKSPrimeTest(SimplePrimeTest):
-
-	def expand(self, num):
-		ex = [1]
-		i = 0
-		while i < num:
-		    ex.append(ex[-1] * -(num-i) / (i+1))
-		return ex[::-1]
-
-	def is_prime(self, num):
-		if num < 2:
-			return False
-		ex = self.expand(num)
-		ex[0] += 1
-		return not any(mult % num for mult in ex[0:-1])
-
+from PrimalityTest import SimplePrimeTest, MillerRabinTest, AKSPrimeTest
 
 class NumberFactorySingleton():
 	
 	_instance = None
 
 	def __init__(self):
-		self.prime_generator = PrimeGenerator(SimplePrimeTest())
+		self.prime_generator = PrimeGenerator(MillerRabinTest())
 
 	@classmethod
 	def get_instance(cls):
