@@ -6,7 +6,6 @@ class NumberGenerator():
 		pass
 
 
-
 class PrimeGenerator(NumberGenerator):
 
 	def __init__(self, test):
@@ -51,7 +50,11 @@ class StrongPrimeGenerator(PrimeGenerator):
 		print("STRONG PRIME GENERATION")
 		min = kwargs['min']
 		if min == None:
-			kwargs['min'] = pow(2, 20)
+			if self.test.is_deterministic():
+				kwargs['min'] = pow(2, 10)
+			else:
+				kwargs['min'] = pow(2, 20)
+
 		start = PrimeGenerator.generate(self, **kwargs)
 
 		print("Big prime: "+str(start))

@@ -11,6 +11,8 @@ class RSAComunicationTest():
 
 	_instance = None
 
+	randomizer = [1, 3, 5, 2, 4, 6]
+
 	@classmethod
 	def get_instance(cls):
 		if cls._instance == None:
@@ -22,8 +24,8 @@ class RSAComunicationTest():
 		print("start comunication")
 		pow1 = pow(2, self.key_lenght)
 		pow2 = pow1 * 2
-		self.alice = RSAClient(randint(pow1, pow2)*randint(1,4))
-		self.bob = RSAClient(randint(pow1, pow2)*randint(5,9))
+		self.alice = RSAClient(randint(pow1, pow2)*self.randomizer[randint(1,3)])
+		self.bob = RSAClient(randint(pow1, pow2)*self.randomizer[randint(4,6)])
 
 	def send_message_to_alice(self, message):
 		alice = self.alice

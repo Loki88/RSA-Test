@@ -1,5 +1,6 @@
 from models.NumberFactory import NumberFactorySingleton
 from models.FactorizationMethod import PMinusOneAndExponentMethod
+from SecurityBrokeController import RSAComunicationAttackTest
 
 class SettingsControllerSingleton():
 
@@ -18,7 +19,7 @@ class SettingsControllerSingleton():
 		return test
 
 	def get_factorization_method(self):
-		return PMinusOneAndExponentMethod()
+		return RSAComunicationAttackTest.get_instance().get_factorization_method()
 
 	def set_primality_test(self, test):
 		new_test = test()

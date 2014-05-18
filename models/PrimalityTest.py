@@ -4,6 +4,7 @@ __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
 from random import randint
+from math import sqrt
 
 class SimplePrimeTest():
 
@@ -23,14 +24,14 @@ class SimplePrimeTest():
 	def is_deterministic(self):
 		return True
 
+
 class AKSPrimeTest(SimplePrimeTest):
 
 	def expand_x_1(self, p):
 		ex = [1]
 		i = 1
-		while i < p:
+		for i in range(p):
 			ex.append(ex[-1] * -(p-i) / (i+1))
-			i = i + 1
 		
 		return ex[::-1]
 
@@ -47,11 +48,15 @@ class FermatTest(SimplePrimeTest):
 
 	def is_prime(self, num):
 		print("FERMAT PRIMALITY TEST")
-		test = pow(2,num-1,num)
-		return test == 1
+		if num % 2 == 0:
+			return false
+		else:
+			test = pow(2,num-1,num)
+			return test == 1
 
 	def is_deterministic(self):
 		return False
+
 
 class MillerRabinTest(SimplePrimeTest):
 

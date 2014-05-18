@@ -6,6 +6,7 @@ __copyright__   = "Copyright 2014"
 from gi.repository import Gtk
 from controllers.RSATestController import RSAComunicationTest
 from ui.Comunication import ComunicationBox
+from ui.Factorization import FactorizationBox
 from ui.PrimeGen import PrimeGenerator
 from ui.Window import MainWindow, Content
 from ui.Settings import SettingsBox
@@ -45,7 +46,11 @@ class MenuBox(Content):
 		MainWindow.get_instance().set_content(comunication_box.get_content())
 
 	def prova_di_fattorizzazione_cliccata(self, widget):
-		pass
+		prime_box = FactorizationBox()
+		prime_box.set_back(self.get_content())
+		parent = self.content.get_parent()
+		parent.remove(self.content)
+		MainWindow.get_instance().set_content(prime_box.get_content())
 
 	def generatore_numeri_primi_cliccato(self, widget):
 		prime_box = PrimeGenerator()

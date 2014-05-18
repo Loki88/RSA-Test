@@ -13,7 +13,8 @@ class NumberFactorySingleton():
 	_instance = None
 
 	def __init__(self):
-		self.prime_generator = PrimeGenerator(AKSPrimeTest())
+		self.listeners = []
+		self.prime_generator = PrimeGenerator(MillerRabinTest())
 
 	@classmethod
 	def get_instance(cls):
@@ -28,6 +29,7 @@ class NumberFactorySingleton():
 
 	def set_primality_test(self, test):
 		self.prime_generator.set_test(test)
+		self.notifica_listeners()
 
 	def get_primality_test(self):
 		return self.prime_generator.get_test()
@@ -42,3 +44,10 @@ class NumberFactorySingleton():
 
 	def get_prime_generator(self):
 		return self.prime_generator
+
+	def aggiungi_listener(self, listener):
+		self.listeners.append(listener)
+
+	def notifica_listeners(self):
+		for listener in self.listeners:
+			listener.notifica(self)
