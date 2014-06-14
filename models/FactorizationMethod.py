@@ -1,4 +1,5 @@
-from utility.Math import gcd
+from utility.Math import gcd, legendre
+from models import SettingsSingleton
 from random import randint
 
 class FactorizationMethod():
@@ -16,7 +17,7 @@ class FactorizationMethod():
 	def is_successful(self):
 		return self.prime_1 != None and self.prime_2 != None
 
-class QuadraticCrivelMethod(FactorizationMethod):
+class QuadraticSieveMethod(FactorizationMethod):
 
 	def __init__(self):
 		FactorizationMethod.__init__(self)
@@ -24,14 +25,31 @@ class QuadraticCrivelMethod(FactorizationMethod):
 	def attack(self, client):
 		FactorizationMethod.attack(self, client)
 
+		k = randint(1,self.mod)
+
+		self.n_part = int(sqrt(self.mod))
+
+		factor_base = []
+
+		for i in range(k):
+			if self.is_residuo(k) == 1:
+				factor_base.append(k)
+
+		print(factor_base)
+
+
+	def is_residuo(self, x):
+		return (x + self.n_part)**2 % self.mod == 1
+
 
 class PMinusOneAndExponentMethod(FactorizationMethod):
 
-	max_iteration_lenght = 3
+	max_iteration_lenght = None
 
 	def __init__(self):
 		FactorizationMethod.__init__(self)
 		self.count = 0
+		self.max_iteration_lenght = SettingsSingleton.get_instance().get_iteration_count()
 
 	def attack(self, client):
 		FactorizationMethod.attack(self, client)
@@ -56,20 +74,22 @@ class PMinusOneAndExponentMethod(FactorizationMethod):
 		elif d == self.mod:
 			self.global_exponent_factorization(a)
 		elif self.count <= self.max_iteration_lenght:
-			self.p_minus_one_factorization(B*pow(B, self.count))
+			self.p_minus_one_factorization(B*(self.count*2))
 
 	def global_exponent_factorization(self, a):
 		B_fact = self.B_fact
 		r = 0
-		while True:
-			if B_fact % 2 == 0:
-				B_fact = B_fact / 2
-				r += 1
+		while B_fact % 2 == 0:
+			B_fact = B_fact / 2
+			r += 1
+
+		print("r facor in global exponent method is: "+str(r))
 
 		b0 = pow(a, B_fact, self.mod)
 		if b0 != 1:
 			while r > 0:
-				b1 = b0 * b0
+				print("exponent test iteration "+str(r))
+				b1 = b0 * b0 % self.mod
 				r -= 1
 				if b1 == self.mod - 1:
 					break
@@ -80,9 +100,10 @@ class PMinusOneAndExponentMethod(FactorizationMethod):
 				else:
 					b0 = b1
 
+
 	def elevate(self, a, B):
-		if B > pow(2, 20):
-			raise Exception("Maximum recursion exceded, this method works well with small prime factors")
+		# if B > pow(2, 20):
+		# 	raise Exception("Maximum recursion exceded, this method works well with small prime factors")
 		k = 2
 		b = a
 		while k <= B:

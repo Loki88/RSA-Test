@@ -3,19 +3,20 @@
 __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
-from models import RSAClient, IntruderClient
-from models.FactorizationMethod import PMinusOneAndExponentMethod, QuadraticCrivelMethod
+from models import RSAClient, IntruderClient, SettingsSingleton
+from models.FactorizationMethod import PMinusOneAndExponentMethod, QuadraticSieveMethod
 from models.NumberFactory import NumberFactorySingleton
 from random import randint
 
 class RSAComunicationAttackTest():
 	
-	key_lenght = 10
+	key_lenght = None
 
 	_instance = None
 
 	def __init__(self):
 		self.listeners = []
+		self.key_lenght = SettingsSingleton.get_instance().get_prime_size()
 		self.eva = IntruderClient(PMinusOneAndExponentMethod())
 
 		self.primality_test = NumberFactorySingleton.get_instance().get_primality_test()
@@ -41,7 +42,7 @@ class RSAComunicationAttackTest():
 		return self.eva.get_factorization_method()
 
 	def set_factorization_method(self, method):
-		self.intruder.set_factorization_method(method)
+		self.eva.set_factorization_method(method)
 
 	def notifica(self, source):
 		primality_test = source.get_primality_test()

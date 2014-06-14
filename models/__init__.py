@@ -3,3 +3,4 @@ from Number import Number
 from NumberGenerator import PrimeGenerator, CoprimeGenerator, StrongPrimeGenerator
 from NumberFactory import NumberFactorySingleton
 from Intruder import IntruderClient
+from Settings import SettingsSingleton

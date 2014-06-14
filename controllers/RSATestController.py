@@ -3,15 +3,18 @@
 __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
-from models import RSAClient 
+from models import RSAClient, SettingsSingleton
 from random import randint
 
 class RSAComunicationTest():
-	key_lenght = 12
+	key_lenght = None
 
 	_instance = None
 
 	randomizer = [1, 3, 5, 2, 4, 6]
+
+	def __init__(self):
+		self.key_lenght = SettingsSingleton.get_instance().get_prime_size()
 
 	@classmethod
 	def get_instance(cls):

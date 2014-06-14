@@ -14,7 +14,7 @@ import thread
 class FactorizationBox(Content, SimpleListener):
 
 	methods = {PMinusOneAndExponentMethod.__name__: "P-1 & Global Exponent",
-				QuadraticCrivelMethod.__name__: "Quadratic Crivel",
+				QuadraticSieveMethod.__name__: "Quadratic Sieve",
 	}
 
 	def __init__(self):
@@ -31,7 +31,7 @@ class FactorizationBox(Content, SimpleListener):
 		self.wait_spinner = builder.get_object("wait_spinner")
 		self.wait_spinner.stop()
 		self.wait_spinner.set_visible(False)
-		self.message = builder.get_object("message")
+		self.message = Gtk.
 
 		#Intruder's labels
 		self.factorization_method_label = builder.get_object("factorization_method_label")
@@ -110,3 +110,14 @@ class FactorizationBox(Content, SimpleListener):
 	def clear_intruder_fields(self):
 		self.prime_1.set_text("")
 		self.prime_2.set_text("")
+
+	def clear_alice_fields(self):
+		self.mod.set_text("")
+		self.alice_exponent.set_text("")
+		self.prime_p.set_text("")
+		self.prime_q.set_text("")
+		self.alice_private_key.set_text("")
+
+	def clear(self):
+		self.clear_intruder_fields()
+		self.clear_alice_fields()

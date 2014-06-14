@@ -6,7 +6,7 @@ __copyright__   = "Copyright 2014"
 from gi.repository import Gtk
 from models.PrimalityTest import SimplePrimeTest, MillerRabinTest, AKSPrimeTest
 from controllers import SettingsControllerSingleton
-from models.FactorizationMethod import PMinusOneAndExponentMethod, QuadraticCrivelMethod
+from models.FactorizationMethod import PMinusOneAndExponentMethod, QuadraticSieveMethod
 from ui.Window import Content
 
 class SettingsBox(Content):
@@ -33,7 +33,7 @@ class SettingsBox(Content):
 		}
 
 		self.factorization_method_buttons ={
-			1: builder.get_object("quadratic_crivel"),
+			1: builder.get_object("quadratic_sieve"),
 			2: builder.get_object("exponent_attack")
 		}
 
@@ -44,9 +44,12 @@ class SettingsBox(Content):
 		}
 
 		self.factorization_methods = {
-			1: QuadraticCrivelMethod,
+			1: QuadraticSieveMethod,
 			2: PMinusOneAndExponentMethod
 		}
+
+		self.recursion_size = builder.get_object("recursion_size")
+		self.key_lenght = builder.get_object("key_lenght")
 
 		self.set_initial_values()
 
@@ -54,6 +57,9 @@ class SettingsBox(Content):
 		controller = SettingsControllerSingleton.get_instance()
 		controller.set_primality_test(self.primality_tests[self.primality_test])
 		controller.set_factorization_method(self.factorization_methods[self.factorization_method])
+		controller.set_iteration_count(int(self.recursion_size.get_text()))
+		controller.set_prime_size(int(self.key_lenght.get_text()))
+		self.go_back(widget)
 
 	def test_checked(self, widget):
 		if self.initialization:
@@ -86,19 +92,20 @@ class SettingsBox(Content):
 			if primality_test.__class__ == element:
 				self.primality_test = test
 				self.primality_test_buttons[test].set_active(True)
-				print("Primality test: "+str(test))
 			else:
 				self.primality_test_buttons[test].set_active(False)
 
 		factorization_method = controller.get_factorization_method()
-		print(factorization_method.__class__)
+
 		for method in self.factorization_methods.keys():
 			element = self.factorization_methods[method]
 			if factorization_method.__class__ == element:
 				self.factorization_method = method
 				self.factorization_method_buttons[method].set_active(True)
-				print("Factorization method: "+str(method))
 			else:
 				self.primality_test_buttons[method].set_active(False)
+
+		self.recursion_size.set_text(str(controller.get_iteration_count()))
+		self.key_lenght.set_text(str(controller.get_prime_size()))
 
 		self.initialization = False

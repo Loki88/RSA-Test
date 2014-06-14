@@ -20,3 +20,10 @@ def egcd(a, b):
     else:
         g, y, x = egcd(b % a, a)
         return (g, x - (b // a) * y, y)
+
+def jacobi(a,b):
+	pass
+
+
+def legendre(a,b):
+	pass

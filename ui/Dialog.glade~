@@ -188,8 +188,8 @@ of success in factorization algorithm.</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="quadratic_crivel">
-                        <property name="label" translatable="yes">Quadratic crivel</property>
+                      <object class="GtkRadioButton" id="quadratic_sieve">
+                        <property name="label" translatable="yes">Quadratic Sieve</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
