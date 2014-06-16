@@ -12,7 +12,6 @@ class PrimeGenerator(NumberGenerator):
 		self.test = test
 
 	def generate(self, **kwargs):
-		print("SIMPLE PRIME GENERATION")
 		min = kwargs['min']
 		if min == None:
 			min = 1
@@ -47,7 +46,6 @@ class StrongPrimeGenerator(PrimeGenerator):
 		Here we need to add the logic to prevent that value-1 has small prime factors.
 		Look: the test logic is added by StrongPrimeGenerator's father (PrimeGenerator)
 		'''
-		print("STRONG PRIME GENERATION")
 		min = kwargs['min']
 		if min == None:
 			if self.test.is_deterministic():

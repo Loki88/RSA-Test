@@ -12,14 +12,19 @@ import binascii
 class RSAClient():
 
 	delta = pow(2, 10)
+	randomizer = range(1,9)
 
 	def __init__(self, prime_size):
 		self.listeners = []
+		self.prepare(prime_size)
+
+	def prepare(self, prime_size):
 		factory = NumberFactorySingleton.get_instance()
 		self.p = factory.get_prime(prime_size)
 		self.q = factory.get_prime(prime_size+self.delta)
 		self.key_algorithm = SimpleFactory.get_instance().get_key_algorithm()
 		self.set_private_key()
+		self.notifica()
 
 	def get_p(self):
 		return self.p
@@ -30,7 +35,6 @@ class RSAClient():
 	def set_private_key(self):
 		algo = SimpleFactory.get_instance().get_key_algorithm()
 		self.private_key = algo.set_private_key(self)
-		print("Private key", self.private_key)
 
 	def get_public_key(self):
 		p = self.get_p()
@@ -99,3 +103,7 @@ class RSAClient():
 	def notifica_messaggio_decifrato(self, message):
 		for listener in self.listeners:
 			listener.notifica_messaggio_decifrato(message)
+
+	def notifica(self):
+		for listener in self.listeners:
+			listener.notifica(self)

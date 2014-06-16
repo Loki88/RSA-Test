@@ -24,7 +24,6 @@ class RSAComunicationTest():
 		return cls._instance
 
 	def start_comunication(self):
-		print("start comunication")
 		pow1 = pow(2, self.key_lenght)
 		pow2 = pow1 * 2
 		self.alice = RSAClient(randint(pow1, pow2)*self.randomizer[randint(0,2)])
@@ -47,3 +46,9 @@ class RSAComunicationTest():
 
 	def add_listener_to_bob(self, listener):
 		self.bob.add_listener(listener)
+
+	def refresh_keys(self):
+		pow1 = pow(2, self.key_lenght)
+		pow2 = pow1 * 2
+		self.alice.prepare(randint(pow1, pow2)*self.randomizer[randint(0,2)])
+		self.bob.prepare(randint(pow1, pow2)*self.randomizer[randint(3,5)])

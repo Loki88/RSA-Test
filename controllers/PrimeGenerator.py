@@ -20,8 +20,7 @@ class PrimeGenerator():
 		return cls._instance
 
 
-	def generate(self, size):
-		primes = []
+	def generate(self, size, listener):
 		last_prime = 2
 		
 		factory = NumberFactorySingleton.get_instance()
@@ -32,8 +31,7 @@ class PrimeGenerator():
 		factory.set_prime_generator(SimpleGenerator(test))
 
 		while last_prime <= size:
-			primes.append(last_prime)
+			listener.add_prime(last_prime)
 			last_prime = factory.get_prime(last_prime)
 
 		factory.set_prime_generator(generator)
-		return primes

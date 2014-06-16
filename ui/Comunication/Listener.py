@@ -42,8 +42,9 @@ class AliceListener(Listener):
 		self.client.add_status(self.client.get_alice_status(), "Alice received: "+self.received_message)
 
 	def notifica_messaggio_inviato(self, message):
-		Listener.notifica_messaggio_inviato(self, message)
-		self.client.add_status(self.client.get_alice_status(), "Alice sent: "+self.sent_message)
+		pass
+		# Listener.notifica_messaggio_inviato(self, message)
+		# self.client.add_status(self.client.get_alice_status(), "Alice sent: "+self.sent_message)
 
 	def notifica_messaggio_decifrato(self, message):
 		Listener.notifica_messaggio_decifrato(self, message)
@@ -61,8 +62,9 @@ class BobListener(Listener):
 		self.client.add_status(self.client.get_bob_status(), "Bob received: "+self.received_message)
 
 	def notifica_messaggio_inviato(self, message):
-		Listener.notifica_messaggio_inviato(self, message)
-		self.client.add_status(self.client.get_bob_status(), "Bob sent: "+self.sent_message)
+		pass
+		# Listener.notifica_messaggio_inviato(self, message)
+		# self.client.add_status(self.client.get_bob_status(), "Bob sent: "+self.sent_message)
 
 	def notifica_messaggio_decifrato(self, message):
 		Listener.notifica_messaggio_decifrato(self, message)

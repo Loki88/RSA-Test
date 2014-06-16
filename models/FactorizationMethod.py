@@ -58,7 +58,6 @@ class PMinusOneAndExponentMethod(FactorizationMethod):
 		B = randint(1,5)*length
 		self.p_minus_one_factorization(B)
 
-
 	def p_minus_one_factorization(self, B):
 		self.count += 1
 		a = 2

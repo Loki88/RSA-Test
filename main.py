@@ -9,5 +9,5 @@ from ui.Window import MainWindow
 from utility.Database import DatabaseManager
 
 menu = MenuBox()
-MainWindow.get_instance().set_content(menu.get_content())
+MainWindow.get_instance().set_content(menu)
 MainWindow.get_instance().main()

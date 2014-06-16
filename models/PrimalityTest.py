@@ -9,7 +9,6 @@ from math import sqrt
 class SimplePrimeTest():
 
 	def is_prime(self, num):
-		print("SIMPLE PRIMALITY TEST")
 		if num % 2 == 0:
 			return False
 
@@ -47,7 +46,6 @@ class AKSPrimeTest(SimplePrimeTest):
 class FermatTest(SimplePrimeTest):
 
 	def is_prime(self, num):
-		print("FERMAT PRIMALITY TEST")
 		if num % 2 == 0:
 			return false
 		else:
@@ -61,7 +59,6 @@ class FermatTest(SimplePrimeTest):
 class MillerRabinTest(SimplePrimeTest):
 
 	def is_prime(self, num):
-		print("MILLER RABIN PRIMALITY TEST")
 		if num == 2:
 			return True
 		if num % 2 == 0:

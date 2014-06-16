@@ -7,9 +7,11 @@ from gi.repository import Gtk
 from models.PrimalityTest import SimplePrimeTest, MillerRabinTest, AKSPrimeTest
 from controllers import SettingsControllerSingleton
 from models.FactorizationMethod import PMinusOneAndExponentMethod, QuadraticSieveMethod
-from ui.Window import Content
+from ui.Window import Content, MainWindow
 
 class SettingsBox(Content):
+
+	title = "Settings"
 
 	def __init__(self):
 		builder = Gtk.Builder()
@@ -109,3 +111,9 @@ class SettingsBox(Content):
 		self.key_lenght.set_text(str(controller.get_prime_size()))
 
 		self.initialization = False
+
+	def go_back(self, widget):
+		MainWindow.get_instance().history_back(widget)
+
+	def reload(self, widget):
+		self.set_initial_values()

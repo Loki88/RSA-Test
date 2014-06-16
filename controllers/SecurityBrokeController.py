@@ -52,7 +52,6 @@ class RSAComunicationAttackTest():
 			self.alice = RSAClient(randint(pow1, pow2)*randint(1,4))
 			self.push_alice_listeners()
 			self.eva.set_public_key(self.alice.get_n(), self.alice.get_public_key())
-			print("Notifica by Alice")
 
 	def add_listener(self, listener):
 		self.eva.add_listener(listener)
@@ -64,3 +63,7 @@ class RSAComunicationAttackTest():
 	def push_alice_listeners(self):
 		for listener in self.listeners:
 			self.alice.add_listener(listener)
+
+	def refresh(self, *args):
+		self.prepare_attack()
+		self.push_alice_listeners()

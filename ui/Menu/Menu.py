@@ -13,6 +13,8 @@ from ui.Settings import SettingsBox
 
 class MenuBox(Content):
 
+	title = "Main menu"
+
 	_instance = None
 
 	def __init__(self):
@@ -40,28 +42,16 @@ class MenuBox(Content):
 	def bottone_messaggio_semplice_cliccato(self, widget):
 		RSAComunicationTest.get_instance().start_comunication()
 		comunication_box = ComunicationBox()
-		comunication_box.set_back(self.get_content())
-		parent = self.content.get_parent()
-		parent.remove(self.content)
-		MainWindow.get_instance().set_content(comunication_box.get_content())
+		MainWindow.get_instance().set_content(comunication_box)
 
 	def prova_di_fattorizzazione_cliccata(self, widget):
 		prime_box = FactorizationBox()
-		prime_box.set_back(self.get_content())
-		parent = self.content.get_parent()
-		parent.remove(self.content)
-		MainWindow.get_instance().set_content(prime_box.get_content())
+		MainWindow.get_instance().set_content(prime_box)
 
 	def generatore_numeri_primi_cliccato(self, widget):
 		prime_box = PrimeGenerator()
-		prime_box.set_back(self.get_content())
-		parent = self.content.get_parent()
-		parent.remove(self.content)
-		MainWindow.get_instance().set_content(prime_box.get_content())
+		MainWindow.get_instance().set_content(prime_box)
 
 	def modifica_impostazioni_cliccato(self, widget):
 		settings_box = SettingsBox()
-		settings_box.set_back(self.get_content())
-		parent = self.content.get_parent()
-		parent.remove(self.content)
-		MainWindow.get_instance().set_content(settings_box.get_content())
+		MainWindow.get_instance().set_content(settings_box)
