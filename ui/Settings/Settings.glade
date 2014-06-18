@@ -7,7 +7,7 @@
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
     <child>
-      <object class="GtkNotebook" id="notebook1">
+      <object class="GtkNotebook" id="notebook2">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <child>
@@ -17,26 +17,16 @@
             <property name="orientation">vertical</property>
             <property name="spacing">5</property>
             <child>
-              <object class="GtkLabel" id="label8">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="ypad">5</property>
-                <property name="label" translatable="yes">Settings</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel" id="label9">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="ypad">10</property>
-                <property name="label" translatable="yes">If you want to customize your test experience, choose a different prime test
-and a different generation method. This choose can influence the probability 
-of success in factorization algorithm.</property>
+                <property name="label" translatable="yes">This application has several primality test. You can change the test and find out what happens in the generation of prime numbers. Certainly you will notice a difference in performance.</property>
+                <property name="justify">center</property>
+                <property name="wrap">True</property>
+                <style>
+                  <class name="section_intro"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -59,7 +49,56 @@ of success in factorization algorithm.</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_bottom">5</property>
-                        <property name="label" translatable="yes">Primality Test</property>
+                        <property name="label" translatable="yes">Not Deterministic Tests</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="miller_rabin_test">
+                        <property name="label" translatable="yes">Miller - Rabin Test</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="image_position">right</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">simple_test</property>
+                        <signal name="clicked" handler="primality_test_checked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="box4">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="label5">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_bottom">5</property>
+                        <property name="label" translatable="yes">Deterministic Tests (Slow)</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -103,84 +142,6 @@ of success in factorization algorithm.</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="miller_rabin_test">
-                        <property name="label" translatable="yes">Miller - Rabin Test</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="xalign">0</property>
-                        <property name="image_position">right</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">simple_test</property>
-                        <signal name="clicked" handler="primality_test_checked" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">3</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="box12">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkLabel" id="label11">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_bottom">5</property>
-                        <property name="label" translatable="yes">Factorization Method</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="quadratic_sieve">
-                        <property name="label" translatable="yes">Quadratic Sieve</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="xalign">0</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                        <signal name="clicked" handler="factorization_method_checked" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="exponent_attack">
-                        <property name="label" translatable="yes">p-1 &amp; exponent methods</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="xalign">0</property>
-                        <property name="image_position">right</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">quadratic_sieve</property>
-                        <signal name="clicked" handler="factorization_method_checked" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
                       <placeholder/>
                     </child>
                   </object>
@@ -200,11 +161,101 @@ of success in factorization algorithm.</property>
           </object>
         </child>
         <child type="tab">
-          <object class="GtkLabel" id="label5">
+          <object class="GtkLabel" id="label4">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Tests</property>
+            <property name="label" translatable="yes">Primality test</property>
           </object>
+          <packing>
+            <property name="tab_fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="box1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">5</property>
+            <child>
+              <object class="GtkLabel" id="label3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="ypad">10</property>
+                <property name="label" translatable="yes">This application also has some factorization methods. These methods of course are not universal and apply to particular types of numbers. Many methods are effective only if given a prime p, p-1 has only small prime factors.</property>
+                <property name="justify">center</property>
+                <property name="wrap">True</property>
+                <style>
+                  <class name="section_intro"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="box3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="homogeneous">True</property>
+                <child>
+                  <object class="GtkRadioButton" id="quadratic_sieve">
+                    <property name="label" translatable="yes">Quadratic Sieve</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="xalign">0</property>
+                    <property name="draw_indicator">True</property>
+                    <signal name="clicked" handler="factorization_method_checked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkRadioButton" id="exponent_attack">
+                    <property name="label" translatable="yes">p-1 &amp; exponent methods</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="xalign">0</property>
+                    <property name="image_position">right</property>
+                    <property name="draw_indicator">True</property>
+                    <property name="group">quadratic_sieve</property>
+                    <signal name="clicked" handler="factorization_method_checked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child type="tab">
+          <object class="GtkLabel" id="label12">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_bottom">1</property>
+            <property name="label" translatable="yes">Factorization methods</property>
+          </object>
+          <packing>
+            <property name="position">1</property>
+            <property name="tab_fill">False</property>
+          </packing>
         </child>
         <child>
           <object class="GtkBox" id="box2">
@@ -217,10 +268,12 @@ of success in factorization algorithm.</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="ypad">5</property>
-                <property name="label" translatable="yes">These options make possible to set key length and maximum
-recursion lenght, this way your pc won't freeze.
-Factorization method and some primality test needs a lot of
-computation to work, choose them with attenction.</property>
+                <property name="label" translatable="yes">Of course, we leave you the option to choose the size of the first to be used for testing and the maximum depth of recursion. Be careful: some operations require a lot of resources.</property>
+                <property name="justify">center</property>
+                <property name="wrap">True</property>
+                <style>
+                  <class name="section_intro"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -254,7 +307,7 @@ computation to work, choose them with attenction.</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label3">
+                  <object class="GtkLabel" id="label6">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Maximum recursion:</property>
@@ -300,23 +353,23 @@ computation to work, choose them with attenction.</property>
             </child>
           </object>
           <packing>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child type="tab">
-          <object class="GtkLabel" id="label6">
+          <object class="GtkLabel" id="label13">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Options</property>
+            <property name="label" translatable="yes">General settings</property>
           </object>
           <packing>
-            <property name="position">1</property>
+            <property name="position">2</property>
             <property name="tab_fill">False</property>
           </packing>
         </child>
       </object>
       <packing>
-        <property name="expand">True</property>
+        <property name="expand">False</property>
         <property name="fill">True</property>
         <property name="position">0</property>
       </packing>

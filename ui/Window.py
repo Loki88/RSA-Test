@@ -3,7 +3,7 @@
 __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
-from gi.repository import Gtk, Gio
+from gi.repository import Gtk, Gio, Gdk
 from controllers import SettingsControllerSingleton
 
 # class MainWindow(Gtk.Window):
@@ -49,6 +49,14 @@ class MainWindow():
 
 
 	def __init__(self):
+		css_style_provider = Gtk.CssProvider()
+		css_file = open('./ui/style.css', 'rb')
+		css_data = css_file.read()
+		css_file.close()
+		css_style_provider.load_from_data(css_data)
+
+		Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(), css_style_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+
 		builder = Gtk.Builder()
 		builder.add_from_file("./ui/Window.glade")
 		self.window = builder.get_object("window")
@@ -61,9 +69,7 @@ class MainWindow():
 
 		self.hb = Gtk.HeaderBar()
 		self.hb.set_show_close_button(True)
-		self.window.set_titlebar(self.hb)
-
-		
+		self.window.set_titlebar(self.hb)		
 
 		box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
 		Gtk.StyleContext.add_class(box.get_style_context(), "linked")
@@ -93,6 +99,7 @@ class MainWindow():
 	def history_back(self, widget):
 		if len(self._stack) > 1:
 			element = self._stack.pop()
+			element.back()
 			self.remove_content(element)
 			self.change_content(self._stack[-1])
 
@@ -100,9 +107,10 @@ class MainWindow():
 		self.box.remove(element.get_content())
 
 	def change_content(self, element):
+		element.next()
 		self.box.add(element.get_content())
 		self.set_title(element.get_title())
-		self.window.show_all()
+		element.show(self.window)
 
 	def main(self):
 		Gtk.main()
@@ -137,6 +145,7 @@ class MainWindow():
 	def reload(self, widget):
 		self._stack[-1].reload(widget)
 
+
 class UIUtilityComponents():
 	_instance = None
 
@@ -159,8 +168,11 @@ class Content():
 	def get_content(self):
 		return self.content
 
-	def set_back(self, back):
-		self.back = back
+	def back(self):
+		pass
+
+	def next(self):
+		pass
 
 	def clear(self):
 		pass
@@ -183,3 +195,6 @@ class Content():
 
 	def reload(self, widget):
 		pass
+
+	def show(self, window):
+		window.show_all()

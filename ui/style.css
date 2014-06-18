@@ -1,0 +1,83 @@
+GtkWindow {
+    background-color: #E9E9E9;
+}
+
+.section_intro{
+	font-style: italic;
+	color: #424242;
+}
+
+.main_box, #box {
+	background-color: blue;
+	background: blue;
+}
+
+.settings_value{
+	color: #424242;
+	font-weight: bold;
+}
+
+#information_bar{
+	border-width: 2px;
+	border-style: solid;
+	border-color: #424242;
+	background-color: #E9E9E9;
+	color: #424242;
+}
+
+.results {
+	color: #FF9900;
+}
+
+.client_frame{
+	background-color: rgba(234,235,234,1);
+}
+
+.blue_label{
+	color: #3299BB;
+}
+
+.title_label{
+	font-size: 20px;
+}
+
+.black_label{
+	color: #424242;
+}
+
+.alert_label{
+	color: #FF9900;
+}
+
+.button .button_glamour {
+	background: none;
+	color: #E9E9E9;
+	border-width: 1pt;
+	border-color: #FF9900;
+	background: #424242;
+	border: 6px solid;
+	border-color: #c1c0bf;
+	border-radius: 24px;
+}
+
+.button:hover{
+	background: #E9E9E9;
+	color: #FF9900;
+}
+
+.checkbox:hover{
+	color: #FF9900;
+}
+
+.alice_thing {
+	color: rgba(50,153,187,1);
+}
+
+.bob_thing {
+	color: rgba(50,153,187,1);
+}
+
+#prime_window {
+	color: rgba(50,153,187,1);
+	background-color: #E9E9E9;
+}

@@ -2,193 +2,31 @@
 <!-- Generated with glade 3.16.1 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
+  <!-- interface-local-resource-path /home/loki/Projects/RSA-Test/ui -->
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkBox" id="box">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin_left">5</property>
-    <property name="margin_right">5</property>
-    <property name="margin_top">4</property>
-    <property name="margin_bottom">4</property>
-    <property name="spacing">2</property>
-    <property name="homogeneous">True</property>
+    <property name="orientation">vertical</property>
     <child>
-      <object class="GtkBox" id="Alice_box">
+      <object class="GtkLabel" id="label3">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">15</property>
-        <child>
-          <object class="GtkLabel" id="label1">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="margin_left">5</property>
-            <property name="margin_right">5</property>
-            <property name="margin_top">5</property>
-            <property name="margin_bottom">10</property>
-            <property name="ypad">5</property>
-            <property name="label" translatable="yes">Alice</property>
-            <property name="width_chars">0</property>
-            <attributes>
-              <attribute name="font-desc" value="Norasi Bold Italic 14"/>
-              <attribute name="style" value="normal"/>
-              <attribute name="weight" value="semibold"/>
-              <attribute name="variant" value="small-caps"/>
-              <attribute name="stretch" value="semi-expanded"/>
-              <attribute name="foreground" value="#5c5c35356666"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="box1">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <object class="GtkEntry" id="message_for_bob">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="send_to_bob_button">
-                <property name="label" translatable="yes">Send to Bob</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="valign">center</property>
-                <signal name="clicked" handler="send_message_to_bob" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkExpander" id="expander2">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="margin_left">10</property>
-            <property name="margin_right">10</property>
-            <property name="margin_top">5</property>
-            <property name="margin_bottom">10</property>
-            <property name="expanded">True</property>
-            <property name="label_fill">True</property>
-            <child>
-              <object class="GtkGrid" id="grid1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="row_spacing">10</property>
-                <property name="column_spacing">10</property>
-                <property name="row_homogeneous">True</property>
-                <child>
-                  <object class="GtkLabel" id="label6">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Public Key</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="alice_public_key">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label9">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Private Key</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="alice_private_key">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label10">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Mod</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">2</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="alice_mod">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">2</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-              </object>
-            </child>
-            <child type="label">
-              <object class="GtkLabel" id="label7">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="ypad">10</property>
-                <property name="label" translatable="yes">Alice Details</property>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
+        <property name="valign">baseline</property>
+        <property name="margin_top">5</property>
+        <property name="margin_bottom">5</property>
+        <property name="label" translatable="yes">Alice knows Bob's public key, Bobknows Alice's public key. When Alice wants to say something to Bob, 
+she encode message in ascii, then translate in  binary and finally encrypts a message with Bob public key.
+Only Bob knows his private key and others cannot decrypt the message. The same for Alice.
+Words are encoded in ascii, then in binary, finally the binary code is encrypted. Let's try to message.</property>
+        <property name="justify">center</property>
+        <style>
+          <class name="section_intro"/>
+        </style>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -197,23 +35,217 @@
       </packing>
     </child>
     <child>
-      <object class="GtkBox" id="box3">
+      <object class="GtkBox" id="main_box">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
+        <property name="margin_left">5</property>
+        <property name="margin_right">5</property>
+        <property name="margin_top">4</property>
+        <property name="margin_bottom">4</property>
+        <property name="spacing">2</property>
+        <property name="homogeneous">True</property>
         <child>
-          <object class="GtkLabel" id="label3">
+          <object class="GtkFrame" id="frame3">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="valign">center</property>
+            <property name="margin_left">5</property>
+            <property name="margin_right">5</property>
             <property name="margin_top">5</property>
             <property name="margin_bottom">5</property>
-            <property name="label" translatable="yes">Alice knows Bob's public key, Bob
-knows Alice's public key.
-When Alice wants to say something
-Bob, she encrypts a message with
-Bob public key. Only him can decrypt
-and so on. Let's try to message.</property>
+            <property name="label_xalign">0.5</property>
+            <child>
+              <object class="GtkAlignment" id="alignment3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="top_padding">5</property>
+                <property name="bottom_padding">5</property>
+                <property name="left_padding">5</property>
+                <property name="right_padding">5</property>
+                <child>
+                  <object class="GtkBox" id="Alice_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">15</property>
+                    <child>
+                      <object class="GtkBox" id="box1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkEntry" id="message_for_bob">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="send_to_bob_button">
+                            <property name="label" translatable="yes">Send to Bob</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="valign">center</property>
+                            <signal name="clicked" handler="send_message_to_bob" swapped="no"/>
+                            <style>
+                              <class name="button"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkExpander" id="expander2">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="margin_left">10</property>
+                        <property name="margin_right">10</property>
+                        <property name="margin_top">5</property>
+                        <property name="margin_bottom">10</property>
+                        <property name="expanded">True</property>
+                        <property name="label_fill">True</property>
+                        <child>
+                          <object class="GtkGrid" id="grid1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="row_spacing">10</property>
+                            <property name="column_spacing">10</property>
+                            <property name="row_homogeneous">True</property>
+                            <child>
+                              <object class="GtkLabel" id="label6">
+                                <property name="height_request">15</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Public Exp</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">0</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="alice_public_key">
+                                <property name="height_request">15</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">0</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label9">
+                                <property name="height_request">15</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Private Key</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">1</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="alice_private_key">
+                                <property name="height_request">15</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">1</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label10">
+                                <property name="height_request">15</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Mod</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">2</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="alice_mod">
+                                <property name="height_request">15</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">2</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label">
+                          <object class="GtkLabel" id="label7">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="ypad">10</property>
+                            <property name="label" translatable="yes">Alice Details</property>
+                          </object>
+                        </child>
+                        <style>
+                          <class name="black_label"/>
+                        </style>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label">
+              <object class="GtkLabel" id="label1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Alice</property>
+                <style>
+                  <class name="blue_label"/>
+                  <class name="title_label"/>
+                </style>
+              </object>
+            </child>
+            <style>
+              <class name="client_frame"/>
+            </style>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -222,17 +254,293 @@ and so on. Let's try to message.</property>
           </packing>
         </child>
         <child>
-          <object class="GtkScrolledWindow" id="scrolledwindow1">
+          <object class="GtkFrame" id="frame1">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="vexpand">True</property>
-            <property name="shadow_type">in</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0.5</property>
+            <property name="shadow_type">out</property>
             <child>
-              <object class="GtkTextView" id="textview1">
+              <object class="GtkAlignment" id="alignment1">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="hexpand">True</property>
-                <property name="vexpand">True</property>
+                <property name="can_focus">False</property>
+                <property name="top_padding">4</property>
+                <property name="bottom_padding">4</property>
+                <property name="left_padding">4</property>
+                <property name="right_padding">4</property>
+                <child>
+                  <object class="GtkScrolledWindow" id="scrolledwindow1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hscrollbar_policy">never</property>
+                    <property name="vscrollbar_policy">always</property>
+                    <property name="shadow_type">in</property>
+                    <child>
+                      <object class="GtkViewport" id="viewport1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hadjustment">adjustment1</property>
+                        <child>
+                          <object class="GtkGrid" id="grid3">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="column_spacing">5</property>
+                            <property name="row_homogeneous">True</property>
+                            <child>
+                              <object class="GtkLabel" id="alice_action1">
+                                <property name="width_request">105</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="wrap">True</property>
+                                <property name="wrap_mode">word-char</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">0</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="alice_action2">
+                                <property name="width_request">105</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="wrap">True</property>
+                                <property name="wrap_mode">word-char</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">1</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="alice_action3">
+                                <property name="width_request">105</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="wrap">True</property>
+                                <property name="wrap_mode">word-char</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">2</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="alice_action4">
+                                <property name="width_request">105</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="wrap">True</property>
+                                <property name="wrap_mode">word-char</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">3</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="bob_action1">
+                                <property name="width_request">105</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="justify">right</property>
+                                <property name="wrap">True</property>
+                                <property name="wrap_mode">word-char</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">0</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="bob_action2">
+                                <property name="width_request">105</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="justify">right</property>
+                                <property name="wrap">True</property>
+                                <property name="wrap_mode">word-char</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">1</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="bob_action3">
+                                <property name="width_request">105</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="justify">right</property>
+                                <property name="wrap">True</property>
+                                <property name="wrap_mode">word-char</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">2</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="bob_action4">
+                                <property name="width_request">105</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="justify">right</property>
+                                <property name="wrap">True</property>
+                                <property name="wrap_mode">word-char</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">3</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkArrow" id="alice_arrow1">
+                                <property name="width_request">5</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">0</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkArrow" id="alice_arrow2">
+                                <property name="width_request">5</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">1</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkArrow" id="alice_arrow3">
+                                <property name="width_request">5</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">2</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkArrow" id="alice_arrow4">
+                                <property name="width_request">5</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">3</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkArrow" id="bob_arrow1">
+                                <property name="width_request">5</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="arrow_type">left</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">3</property>
+                                <property name="top_attach">0</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkArrow" id="bob_arrow2">
+                                <property name="width_request">5</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="arrow_type">left</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">3</property>
+                                <property name="top_attach">1</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkArrow" id="bob_arrow3">
+                                <property name="width_request">5</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="arrow_type">left</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">3</property>
+                                <property name="top_attach">2</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkArrow" id="bob_arrow4">
+                                <property name="width_request">5</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">end</property>
+                                <property name="arrow_type">left</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">3</property>
+                                <property name="top_attach">3</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label">
+              <object class="GtkLabel" id="label4">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Messages</property>
+                <style>
+                  <class name="blue_label"/>
+                </style>
               </object>
             </child>
           </object>
@@ -240,6 +548,216 @@ and so on. Let's try to message.</property>
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFrame" id="frame4">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0.5</property>
+            <child>
+              <object class="GtkAlignment" id="alignment4">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
+                <property name="top_padding">5</property>
+                <property name="bottom_padding">5</property>
+                <property name="left_padding">5</property>
+                <property name="right_padding">5</property>
+                <child>
+                  <object class="GtkBox" id="Bob_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">15</property>
+                    <child>
+                      <object class="GtkBox" id="box2">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="valign">center</property>
+                        <child>
+                          <object class="GtkButton" id="send_to_alice_button">
+                            <property name="label" translatable="yes">Send to Alice</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="yalign">0.49000000953674316</property>
+                            <signal name="clicked" handler="send_message_to_alice" swapped="no"/>
+                            <style>
+                              <class name="button"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="padding">1</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="message_for_alice">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkExpander" id="expander1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="margin_left">10</property>
+                        <property name="margin_right">10</property>
+                        <property name="margin_top">5</property>
+                        <property name="margin_bottom">10</property>
+                        <property name="expanded">True</property>
+                        <property name="label_fill">True</property>
+                        <child>
+                          <object class="GtkGrid" id="grid2">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="row_spacing">10</property>
+                            <property name="column_spacing">10</property>
+                            <child>
+                              <object class="GtkLabel" id="label11">
+                                <property name="height_request">15</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Public Exp</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">0</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="bob_public_key">
+                                <property name="height_request">15</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">0</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label12">
+                                <property name="height_request">15</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Private Key</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">1</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="bob_private_key">
+                                <property name="height_request">15</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">1</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label13">
+                                <property name="height_request">15</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Mod</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">2</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="bob_mod">
+                                <property name="height_request">15</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">2</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label">
+                          <object class="GtkLabel" id="label8">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="ypad">10</property>
+                            <property name="label" translatable="yes">Bob Details</property>
+                          </object>
+                        </child>
+                        <style>
+                          <class name="black_label"/>
+                        </style>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label">
+              <object class="GtkLabel" id="label2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Bob</property>
+                <style>
+                  <class name="blue_label"/>
+                  <class name="title_label"/>
+                </style>
+              </object>
+            </child>
+            <style>
+              <class name="client_frame"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </object>
@@ -249,191 +767,8 @@ and so on. Let's try to message.</property>
         <property name="position">1</property>
       </packing>
     </child>
-    <child>
-      <object class="GtkBox" id="Bob_box">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">15</property>
-        <child>
-          <object class="GtkLabel" id="label2">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="margin_left">5</property>
-            <property name="margin_right">5</property>
-            <property name="margin_top">5</property>
-            <property name="margin_bottom">10</property>
-            <property name="ypad">5</property>
-            <property name="label" translatable="yes">Bob</property>
-            <property name="width_chars">0</property>
-            <attributes>
-              <attribute name="font-desc" value="Norasi Bold Italic 14"/>
-              <attribute name="style" value="normal"/>
-              <attribute name="weight" value="semibold"/>
-              <attribute name="variant" value="small-caps"/>
-              <attribute name="stretch" value="semi-expanded"/>
-              <attribute name="foreground" value="#5c5c35356666"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="box2">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="valign">center</property>
-            <child>
-              <object class="GtkButton" id="send_to_alice_button">
-                <property name="label" translatable="yes">Send to Alice</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="yalign">0.49000000953674316</property>
-                <signal name="clicked" handler="send_message_to_alice" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="padding">1</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="message_for_alice">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkExpander" id="expander1">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="margin_left">10</property>
-            <property name="margin_right">10</property>
-            <property name="margin_top">5</property>
-            <property name="margin_bottom">10</property>
-            <property name="expanded">True</property>
-            <property name="label_fill">True</property>
-            <child>
-              <object class="GtkGrid" id="grid2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="row_spacing">10</property>
-                <property name="column_spacing">10</property>
-                <child>
-                  <object class="GtkLabel" id="label11">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Public Key</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="bob_public_key">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label12">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Private Key</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="bob_private_key">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label13">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Mod</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">2</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="bob_mod">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">2</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-              </object>
-            </child>
-            <child type="label">
-              <object class="GtkLabel" id="label8">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="ypad">10</property>
-                <property name="label" translatable="yes">Bob Details</property>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">2</property>
-      </packing>
-    </child>
+    <style>
+      <class name="main_box"/>
+    </style>
   </object>
 </interface>

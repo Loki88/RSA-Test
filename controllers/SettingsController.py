@@ -3,6 +3,7 @@ from models import SettingsSingleton
 from models.NumberFactory import NumberFactorySingleton
 from models.FactorizationMethod import PMinusOneAndExponentMethod
 from SecurityBrokeController import RSAComunicationAttackTest
+from models.NumberGenerator import StrongPrimeGenerator, PrimeGenerator
 
 class SettingsControllerSingleton():
 
@@ -58,10 +59,8 @@ class SettingsControllerSingleton():
 		if db.has_key('synchronized'):
 			if db['synchronized']:
 				if db.has_key('prime_size'):
-					print("Prime size: "+str(db['prime_size']))
 					self.set_prime_size(db['prime_size'])
 				if db.has_key('max_iteration_count'):
-					print("Iteration count: "+str(db['max_iteration_count']))
 					self.set_iteration_count(db['max_iteration_count'])
 				if db.has_key('primality_test'):
 					self.set_primality_test(db['primality_test'])
@@ -80,3 +79,18 @@ class SettingsControllerSingleton():
 
 		db['synchronized'] = True
 		db.close()
+
+	def is_strong_prime_generator(self):
+		return NumberFactorySingleton.get_instance().get_prime_generator().is_strong()
+
+	def set_strong_prime_generator(self):
+		if not self.is_strong_prime_generator():
+			test = NumberFactorySingleton.get_instance().get_primality_test()
+			generator = StrongPrimeGenerator(test)
+			NumberFactorySingleton.get_instance().set_prime_generator(generator)
+		
+	def set_simple_prime_generator(self):
+		if self.is_strong_prime_generator():
+			test = NumberFactorySingleton.get_instance().get_primality_test()
+			generator = PrimeGenerator(test)
+			NumberFactorySingleton.get_instance().set_prime_generator(generator)

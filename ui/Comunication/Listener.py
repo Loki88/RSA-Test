@@ -5,27 +5,29 @@ __copyright__   = "Copyright 2014"
 
 class Listener():
 
+	max_lenght = 16
+
 	def __init__(self, client):
 		self.client = client
 
 	def notifica_messaggio_ricevuto(self, message):
-		if len(message) > 32:
-			message = message[:32]
+		if len(message) > self.max_lenght:
+			message = message[:self.max_lenght]
 			message = message.replace("0b", "")
 			message += "..."
 		self.received_message = str(message)
 
 	def notifica_messaggio_inviato(self, message):
-		if len(message) > 32:
-			message = message[:32]
+		if len(message) > self.max_lenght:
+			message = message[:self.max_lenght]
 			message = message.replace("0b", "")
 			message += "..."
 		print(message)
 		self.sent_message = message
 
 	def notifica_messaggio_decifrato(self, message):
-		if len(message) > 64:
-			message = message[:64]
+		if len(message) > 2*self.max_lenght:
+			message = message[:2*self.max_lenght]
 		self.decrypted_message = message
 
 	def notifica(self, RSAClient):
@@ -39,16 +41,15 @@ class AliceListener(Listener):
 	
 	def notifica_messaggio_ricevuto(self, message):
 		Listener.notifica_messaggio_ricevuto(self, message)
-		self.client.add_status(self.client.get_alice_status(), "Alice received: "+self.received_message)
+		self.client.add_alice_status("Alice receives:\n"+self.received_message)
 
 	def notifica_messaggio_inviato(self, message):
-		pass
-		# Listener.notifica_messaggio_inviato(self, message)
-		# self.client.add_status(self.client.get_alice_status(), "Alice sent: "+self.sent_message)
+		Listener.notifica_messaggio_inviato(self, message)
+		self.client.add_alice_status("Alice sends:\n"+self.sent_message)
 
 	def notifica_messaggio_decifrato(self, message):
 		Listener.notifica_messaggio_decifrato(self, message)
-		self.client.add_status(self.client.get_alice_status(), "Alice decrypted: "+self.decrypted_message)
+		self.client.add_alice_status("Alice decrypts:\n"+self.decrypted_message)
 
 	def notifica(self, RSAClient):
 		Listener.notifica(self, RSAClient)
@@ -59,16 +60,15 @@ class BobListener(Listener):
 	
 	def notifica_messaggio_ricevuto(self, message):
 		Listener.notifica_messaggio_ricevuto(self, message)
-		self.client.add_status(self.client.get_bob_status(), "Bob received: "+self.received_message)
+		self.client.add_bob_status("Bob receives:\n"+self.received_message)
 
 	def notifica_messaggio_inviato(self, message):
-		pass
-		# Listener.notifica_messaggio_inviato(self, message)
-		# self.client.add_status(self.client.get_bob_status(), "Bob sent: "+self.sent_message)
+		Listener.notifica_messaggio_inviato(self, message)
+		self.client.add_bob_status("Bob sends:\n"+self.sent_message)
 
 	def notifica_messaggio_decifrato(self, message):
 		Listener.notifica_messaggio_decifrato(self, message)
-		self.client.add_status(self.client.get_bob_status(), "Bob decrypted: "+self.decrypted_message)
+		self.client.add_bob_status("Bob decrypts:\n"+self.decrypted_message)
 
 	def notifica(self, RSAClient):
 		Listener.notifica(self, RSAClient)

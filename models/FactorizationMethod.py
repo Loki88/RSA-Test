@@ -53,7 +53,7 @@ class PMinusOneAndExponentMethod(FactorizationMethod):
 
 	def attack(self, client):
 		FactorizationMethod.attack(self, client)
-
+		self.count = 0
 		length = len(str(bin(self.mod)))
 		B = randint(1,5)*length
 		self.p_minus_one_factorization(B)
@@ -75,6 +75,7 @@ class PMinusOneAndExponentMethod(FactorizationMethod):
 		elif self.count <= self.max_iteration_lenght:
 			self.p_minus_one_factorization(B*(self.count*2))
 
+
 	def global_exponent_factorization(self, a):
 		B_fact = self.B_fact
 		r = 0
@@ -82,7 +83,7 @@ class PMinusOneAndExponentMethod(FactorizationMethod):
 			B_fact = B_fact / 2
 			r += 1
 
-		print("r facor in global exponent method is: "+str(r))
+		print("r-factor in global exponent method is: "+str(r))
 
 		b0 = pow(a, B_fact, self.mod)
 		if b0 != 1:

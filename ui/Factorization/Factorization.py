@@ -5,7 +5,7 @@ __copyright__   = "Copyright 2014"
 
 from gi.repository import Gtk
 from ui.Window import Content
-from controllers.SecurityBrokeController import RSAComunicationAttackTest
+from controllers import RSAComunicationAttackTest, SettingsControllerSingleton
 from models.FactorizationMethod import *
 from ui import SimpleListener
 import thread
@@ -25,8 +25,10 @@ class FactorizationBox(Content, SimpleListener):
 
 		signals = {
 			'factorization_clicked': self.fattorizza_chiave_pubblica,
+			'strong_prime_checked': self.use_strong_prime
 		}
 
+		self.sync = False
 		builder.connect_signals(signals)
 		self.content = builder.get_object("box")
 
@@ -34,6 +36,11 @@ class FactorizationBox(Content, SimpleListener):
 		self.factorization_method_label = builder.get_object("factorization_method_label")
 		self.prime_1 = builder.get_object("prime_1")
 		self.prime_2 = builder.get_object("prime_2")
+
+		self.strong_prime = builder.get_object("strong_prime")
+		if SettingsControllerSingleton.get_instance().is_strong_prime_generator():
+			self.strong_prime.set_active(True)
+		
 
 		#Alice's labels
 		self.mod = builder.get_object("mod")
@@ -43,9 +50,8 @@ class FactorizationBox(Content, SimpleListener):
 		self.alice_private_key = builder.get_object("private_key")
 
 		self.controller = RSAComunicationAttackTest.get_instance()
-
+		self.sync = True
 		thread.start_new_thread(self.prepare_test, (None,))
-
 
 	def prepare_test(self, *args):
 		self.controller.prepare_attack()
@@ -74,6 +80,15 @@ class FactorizationBox(Content, SimpleListener):
 			self.prime_1.set_text(str(prime_1))
 			self.prime_2.set_text(str(prime_2))
 
+	def use_strong_prime(self, widget):
+		if self.sync:
+			if widget.get_active():
+				SettingsControllerSingleton.get_instance().set_strong_prime_generator()
+				self.reload(widget)
+			else:
+				SettingsControllerSingleton.get_instance().set_simple_prime_generator()
+				self.reload(widget)
+
 	def notifica_alice(self, alice):
 		self.mod.set_text(str(alice.get_n()))
 		self.alice_exponent.set_text(str(alice.get_public_key()))
@@ -97,5 +112,16 @@ class FactorizationBox(Content, SimpleListener):
 		self.clear_alice_fields()
 
 	def reload(self, widget):
+		self.sync = False
 		self.clear()
 		thread.start_new_thread(self.controller.refresh, (None, ))
+		if SettingsControllerSingleton.get_instance().is_strong_prime_generator():
+			self.strong_prime.set_active(True)
+		else:
+			self.strong_prime.set_active(False)
+		self.sync = True
+
+	def back(self):
+		self.clear()
+		SettingsControllerSingleton.get_instance().set_simple_prime_generator()
+		self.stop_waiting()

@@ -55,8 +55,6 @@ class StrongPrimeGenerator(PrimeGenerator):
 
 		start = PrimeGenerator.generate(self, **kwargs)
 
-		print("Big prime: "+str(start))
-
 		k = 2
 		while True:
 			p = k*start + 1
@@ -64,8 +62,6 @@ class StrongPrimeGenerator(PrimeGenerator):
 				break
 			else:
 				k = k + 1
-
-		print("Strong prime: "+str(p))
 
 		return p
 

@@ -66,22 +66,18 @@ class SettingsBox(Content):
 	def test_checked(self, widget):
 		if self.initialization:
 			return
-		print("test checked")
 		for test in self.primality_test_buttons.keys():
 			element = self.primality_test_buttons[test]
 			if element == widget:
 				self.primality_test = test
-				print("Primality test: "+str(test))
 
 	def method_checked(self, widget):
 		if self.initialization:
 			return
-		print("method checked")
 		for method in self.factorization_method_buttons.keys():
 			element = self.factorization_method_buttons[method]
 			if element == widget:
 				self.factorization_method = method
-				print("Factorization method: "+str(method))
 
 	def set_initial_values(self):
 		controller = SettingsControllerSingleton.get_instance()

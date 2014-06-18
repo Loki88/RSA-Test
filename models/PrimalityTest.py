@@ -4,7 +4,8 @@ __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
 from random import randint
-from math import sqrt
+from math import sqrt, log, ceil
+from utility.Math import gcd
 
 class SimplePrimeTest():
 
@@ -21,14 +22,19 @@ class SimplePrimeTest():
 		return True
 
 	def is_deterministic(self):
-		return True
+		return self.deterministic
 
 
 class AKSPrimeTest(SimplePrimeTest):
 
+	deterministic = True
+
+	def __init__(self):
+		self.speedup = FermatTest()
+
 	def expand_x_1(self, p):
 		ex = [1]
-		i = 1
+		
 		for i in range(p):
 			ex.append(ex[-1] * -(p-i) / (i+1))
 		
@@ -37,13 +43,64 @@ class AKSPrimeTest(SimplePrimeTest):
 	def is_prime(self, num):
 		if num < 2:
 			return False
+		if not self.speedup.is_prime(num):
+			return False
 		ex = self.expand_x_1(num)
 		ex[0] += 1
 
 		return not any(mult % num for mult in ex[0:-1])
 
 
+class MillerTest(SimplePrimeTest):
+	deterministic = True
+
+	def __init__(self):
+		pass
+
+	def get_range(self, inf, num):
+		return range(1, inf)
+
+	def is_prime(self, num):
+		if num == 2:
+			return True
+		elif num <= 1 or num % 2 == 0:
+			return False
+		
+		d = num -1
+		s = 0
+		while d % 2 == 0:
+			s += 1
+			d = d / 2
+
+		ln2 = int(2*(log(num)**2))
+		inf = num -1
+		if ln2 < inf:
+			inf = ln2
+		a = 2
+		ran = self.get_range(inf, num)
+		for a in ran:
+			p1 = pow(a, d, num)
+			if p1 != 1:
+				for r in range(0,s):
+					p2 = pow(a, pow(2,r)*d, num)
+					if p2 != num-1:
+						return False
+		return True
+
+class LucasLehmer(SimplePrimeTest):
+
+	def is_prime(self, p):
+		if p == 2: return True # Lucas-Lehmer test only works on odd primes
+  		elif p <= 1 or p % 2 == 0: return False
+  		else:
+			for i in range(3, int(sqrt(p))+1, 2 ):
+				if p % i == 0: return False
+			return True
+
+
 class FermatTest(SimplePrimeTest):
+
+	deterministic = False
 
 	def is_prime(self, num):
 		if num % 2 == 0:
@@ -52,11 +109,11 @@ class FermatTest(SimplePrimeTest):
 			test = pow(2,num-1,num)
 			return test == 1
 
-	def is_deterministic(self):
-		return False
 
 
 class MillerRabinTest(SimplePrimeTest):
+
+	deterministic = False
 
 	def is_prime(self, num):
 		if num == 2:
@@ -97,6 +154,3 @@ class MillerRabinTest(SimplePrimeTest):
 				return self.make_test(b1, n)
 			else:
 				return False
-
-	def is_deterministic(self):
-		return False

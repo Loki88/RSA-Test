@@ -13,11 +13,19 @@
       <object class="GtkLabel" id="label1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="opacity">0.97999999999999998</property>
+        <property name="valign">start</property>
         <property name="margin_top">10</property>
-        <property name="margin_bottom">20</property>
-        <property name="label" translatable="yes">Primes</property>
-        <property name="width_chars">1</property>
+        <property name="margin_bottom">10</property>
+        <property name="label" translatable="yes">Try to generate primes in a range of number. Try to change primality test and look at the
+resulting primes and the speed of process.
+
+Note: do not choose too wide intervals!</property>
+        <property name="justify">center</property>
         <property name="max_width_chars">1</property>
+        <style>
+          <class name="section_intro"/>
+        </style>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -26,30 +34,52 @@
       </packing>
     </child>
     <child>
-      <object class="GtkBox" id="box2">
+      <object class="GtkGrid" id="grid1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="row_homogeneous">True</property>
+        <property name="column_homogeneous">True</property>
         <child>
           <object class="GtkLabel" id="label2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Max prime </property>
+            <property name="label" translatable="yes">Primes range:</property>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+            <property name="width">3</property>
+            <property name="height">1</property>
           </packing>
         </child>
         <child>
           <object class="GtkEntry" id="max_size">
+            <property name="width_request">50</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="margin_left">10</property>
+            <property name="margin_right">10</property>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="left_attach">1</property>
+            <property name="top_attach">1</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="min_size">
+            <property name="width_request">50</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="margin_left">10</property>
+            <property name="margin_right">10</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">1</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -64,14 +94,15 @@
             <signal name="clicked" handler="generate_prime" swapped="no"/>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="left_attach">2</property>
+            <property name="top_attach">1</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
           </packing>
         </child>
       </object>
       <packing>
-        <property name="expand">False</property>
+        <property name="expand">True</property>
         <property name="fill">True</property>
         <property name="position">1</property>
       </packing>
@@ -130,7 +161,7 @@
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
+            <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">2</property>
           </packing>
