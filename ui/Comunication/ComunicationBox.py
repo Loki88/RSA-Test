@@ -7,6 +7,7 @@ from gi.repository import Gtk
 from controllers.RSATestController import RSAComunicationTest
 from ui.Window import Content
 from Listener import AliceListener, BobListener
+import threading
 
 class ComunicationBox(Content):
 
@@ -59,9 +60,14 @@ class ComunicationBox(Content):
 		self.bob_private_key = builder.get_object("bob_private_key")
 		self.bob_public_key = builder.get_object("bob_public_key")
 
-		self.set_listeners()
-		
+		threading.Thread(target=self.start_comunication).start()
 
+
+	def start_comunication(self):
+		self.wait("Preparing test")
+		RSAComunicationTest.get_instance().start_comunication()
+		self.set_listeners()
+		self.stop_waiting("Ready")
 
 	def send_message_to_bob(self, widget):
 		self.count = 1
@@ -105,8 +111,12 @@ class ComunicationBox(Content):
 		self.bob_private_key.set_text(pri_k)
 		self.bob_public_key.set_text(pub_k)
 
-	def reload(self, widget):
-		RSAComunicationTest.get_instance().refresh()
+	def reload_action(self, widget):
+		try:
+			RSAComunicationTest.get_instance().refresh()
+		except MemoryError:
+			self.alert("Prime generation takes too much time. Please, choose a different test.")
+
 
 	def clear_messages(self):
 		for action in self.alice_actions.values():

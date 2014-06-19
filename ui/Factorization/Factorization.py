@@ -3,7 +3,7 @@
 __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
-from gi.repository import Gtk
+from gi.repository import Gtk, GLib
 from ui.Window import Content
 from controllers import RSAComunicationAttackTest, SettingsControllerSingleton
 from models.FactorizationMethod import *
@@ -59,7 +59,6 @@ class FactorizationBox(Content, SimpleListener):
 		self.controller.prepare_attack()
 		self.controller.add_listener(self)
 		self.controller.add_alice_listener(self)
-		time.sleep(3)
 		self.stop_waiting()
 
 	def fattorizza_chiave_pubblica(self, widget):
@@ -69,8 +68,7 @@ class FactorizationBox(Content, SimpleListener):
 	def fattorizzazione(self):
 		self.wait("Trying to find primes.")
 		self.controller.fattorizza_chiave_pubblica()
-		self.stop_waiting()
-		self.alert("Is it what you expected?")
+		self.stop_waiting("Is it what you expected?")
 
 	def notifica(self, source):
 		try:
@@ -94,10 +92,9 @@ class FactorizationBox(Content, SimpleListener):
 		if self.sync:
 			if widget.get_active():
 				SettingsControllerSingleton.get_instance().set_strong_prime_generator()
-				self.reload(widget)
 			else:
 				SettingsControllerSingleton.get_instance().set_simple_prime_generator()
-				self.reload(widget)
+			threading.Thread(target=self.reload, args=widget).start()
 
 	def notifica_alice(self, alice):
 		self.mod.set_text(str(alice.get_n()))
@@ -121,14 +118,15 @@ class FactorizationBox(Content, SimpleListener):
 		self.clear_intruder_fields()
 		self.clear_alice_fields()
 
-	def reload(self, widget):
+	def reload_action(self, widget):
+		time.sleep(6)
 		self.sync = False
 		self.clear()
-		threading.Thread(self.controller.refresh).start()
+		self.controller.refresh()
 		if SettingsControllerSingleton.get_instance().is_strong_prime_generator():
-			self.strong_prime.set_active(True)
+			GLib.idle_add(self.strong_prime.set_active, True)
 		else:
-			self.strong_prime.set_active(False)
+			GLib.idle_add(self.strong_prime.set_active, False)
 		self.sync = True
 
 	def back(self):

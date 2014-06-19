@@ -61,7 +61,7 @@ class PrimeGenerator(Content):
 	def add_prime(self, prime):
 		self.primes.add(prime)
 		
-	def reload(self, widget):
+	def reload_action(self, widget):
 		self.min_size.set_text(str(self.min_prime))
 		self.max_size.set_text(str(self.max_prime))
 		self.bottone_genera_primi_cliccato(widget)

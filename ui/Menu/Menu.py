@@ -40,7 +40,6 @@ class MenuBox(Content):
 		return cls._instance
 
 	def bottone_messaggio_semplice_cliccato(self, widget):
-		RSAComunicationTest.get_instance().start_comunication()
 		comunication_box = ComunicationBox()
 		MainWindow.get_instance().set_content(comunication_box)
 

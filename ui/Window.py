@@ -118,7 +118,7 @@ class MainWindow():
 
 	def reload(self, widget):
 		stacked = self._stack[-1]
-		threading.Thread(target=stacked.reload, widget)
+		threading.Thread(target=stacked.reload, args=widget).start()
 
 
 class Content():
@@ -154,10 +154,15 @@ class Content():
 			GLib.idle_add(MainWindow.get_instance().clear_message)
 
 	def reload(self, widget):
-		pass
+		self.wait("Reloading")
+		self.reload_action(widget)
+		self.stop_waiting()
 
 	def show(self, window):
 		window.show_all()
 
 	def run(self, function, *args, **kwargs):
 		threading.Thread(target=function,args=args,kwargs=kwargs).start()
+
+	def reload_action(self, widget):
+		pass

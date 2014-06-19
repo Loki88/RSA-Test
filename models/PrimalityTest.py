@@ -7,9 +7,16 @@ from random import randint
 from Settings import SettingsSingleton
 from math import sqrt, log, ceil
 from utility.Math import gcd
-
+from threading import Timer
+from Exceptions import Timeout
+import thread
 
 class SimplePrimeTest():
+
+	max_time = 0.05
+
+	def __init__(self):
+		pass
 
 	def is_prime(self, num):
 		if num % 2 == 0:
@@ -17,14 +24,22 @@ class SimplePrimeTest():
 
 		max = int(sqrt(num))
 		i = 3
+		timer = Timer(self.max_time, self.time_except)
+		timer.start()
 		while i <= max:
 			if num % i == 0:
+				timer.cancel()
 				return False
 			i += 2
+		timer.cancel()
 		return True
 
 	def is_deterministic(self):
 		return self.deterministic
+
+	def time_except(self):
+		thread.exit()
+		raise MemoryError("This operation takes too much time. Check the settings.")
 
 
 class AKSPrimeTest(SimplePrimeTest):
@@ -32,27 +47,27 @@ class AKSPrimeTest(SimplePrimeTest):
 	deterministic = True
 
 	def __init__(self):
+		SimplePrimeTest.__init__(self)
 		self.speedup = FermatTest()
-		self.max = pow(2, 15)
+		self.max = pow(2, 10)
 
 	def expand_x_1(self, p):
 		ex = [1]
-		
 		for i in range(p):
 			ex.append(ex[-1] * -(p-i) / (i+1))
-
 		return ex[::-1]
 
 	def is_prime(self, num):
-		if num > self.max:
-			raise MemoryError("The number is too big for this version of AKS test. Try probabilistic ones.")
-		if num < 2:
+		if num < 2 or num % 2 == 0:
 			return False
 		if not self.speedup.is_prime(num):
 			return False
+		timer = Timer(self.max_time, self.time_except)
+		timer.start()
 		ex = self.expand_x_1(num)
 		ex[0] += 1
 
+		timer.cancel()
 		return not any(mult % num for mult in ex[0:-1])
 
 
@@ -60,7 +75,7 @@ class MillerTest(SimplePrimeTest):
 	deterministic = True
 
 	def __init__(self):
-		pass
+		SimplePrimeTest.__init__(self)
 
 	def get_range(self, inf, num):
 		return range(1, inf)
@@ -70,7 +85,8 @@ class MillerTest(SimplePrimeTest):
 			return True
 		elif num <= 1 or num % 2 == 0:
 			return False
-		
+		timer = Timer(self.max_time, self.time_except)
+		timer.start()
 		d = num -1
 		s = 0
 		while d % 2 == 0:
@@ -89,17 +105,31 @@ class MillerTest(SimplePrimeTest):
 				for r in range(0,s):
 					p2 = pow(a, pow(2,r)*d, num)
 					if p2 != num-1:
+						timer.cancel()
 						return False
+		timer.cancel()
 		return True
 
 class LucasLehmer(SimplePrimeTest):
 
+	def __init__(self):
+		SimplePrimeTest.__init__(self)
+
 	def is_prime(self, p):
-		if p == 2: return True # Lucas-Lehmer test only works on odd primes
-  		elif p <= 1 or p % 2 == 0: return False
+		timer = Timer(self.max_time, self.time_except)
+		timer.start()
+		if p == 2: 
+			timer.cancel()
+			return True # Lucas-Lehmer test only works on odd primes
+  		elif p <= 1 or p % 2 == 0: 
+  			self.timer.cancel()
+  			return False
   		else:
 			for i in range(3, int(sqrt(p))+1, 2 ):
-				if p % i == 0: return False
+				if p % i == 0: 
+					timer.cancel()
+					return False
+			timer.cancel()
 			return True
 
 
@@ -107,11 +137,18 @@ class FermatTest(SimplePrimeTest):
 
 	deterministic = False
 
+	def __init__(self):
+		SimplePrimeTest.__init__(self)
+
 	def is_prime(self, num):
+		timer = Timer(self.max_time, self.time_except)
+		timer.start()
 		if num % 2 == 0:
+			timer.cancel()
 			return False
 		else:
 			test = pow(2,num-1,num)
+			timer.cancel()
 			return test == 1
 
 
@@ -121,15 +158,20 @@ class MillerRabinTest(SimplePrimeTest):
 	deterministic = False
 
 	def __init__(self):
+		SimplePrimeTest.__init__(self)
 		self.max_iter = SettingsSingleton.get_instance().get_iteration_count()
 
 	def is_prime(self, num):
 		prime = True
 		i = 0
+		timer = Timer(self.max_time, self.time_except)
+		timer.start()
 		while i < self.max_iter:
 			if not self.test(num):
+				timer.cancel()
 				return False
 			i += 1
+		timer.cancel()
 		return True
 
 	def test(self, num):

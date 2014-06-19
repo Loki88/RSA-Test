@@ -8,7 +8,6 @@ from ui.Menu import MenuBox
 from ui.Window import MainWindow
 from controllers import SettingsControllerSingleton
 
-
 menu = MenuBox()
 SettingsControllerSingleton.get_instance()
 MainWindow.get_instance().set_content(menu)

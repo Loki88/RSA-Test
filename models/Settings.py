@@ -7,10 +7,9 @@ class SettingsSingleton():
 
 	max_iteration_count = 5
 
-	factorization_method = None
-
 	def __init__(self):
 		self.listeners = []
+		self.factorization_method = None
 
 	@classmethod
 	def get_instance(cls):

@@ -67,14 +67,18 @@ class SettingsControllerSingleton():
 					self.set_prime_size(db['prime_size'])
 				if db.has_key('max_iteration_count'):
 					self.set_iteration_count(db['max_iteration_count'])
-				if db.has_key('primality_test'):
+				if db.has_key('primality_test') and db.get('primality_test') != None:
 					self.set_primality_test(db['primality_test'])
 				else:
 					self.set_primality_test(MillerRabinTest())
-				if db.has_key('factorization_method'):
+				if db.has_key('factorization_method') and db.get('factorization_method') != None:
 					self.set_factorization_method(db['factorization_method'])
 				else:
 					self.set_factorization_method(PMinusOneAndExponentMethod())
+		else:
+			print("DB NOT SYNC")
+			self.set_primality_test(MillerRabinTest())
+			self.set_factorization_method(PMinusOneAndExponentMethod())
 		db.close()
 
 	def update(self):
@@ -83,8 +87,8 @@ class SettingsControllerSingleton():
 
 		db['prime_size'] = self.get_prime_size()
 		db['max_iteration_count'] = self.get_iteration_count()
-		db['primality_test'] = self.get_primality_test()
-		db['factorization_method'] = self.get_factorization_method()
+		db['primality_test'] = self.get_primality_test().__class__
+		db['factorization_method'] = self.get_factorization_method().__class__
 
 		db['synchronized'] = True
 		db.close()
