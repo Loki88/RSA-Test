@@ -6,15 +6,13 @@ __copyright__   = "Copyright 2014"
 from Number import Number
 from NumberGenerator import PrimeGenerator, CoprimeGenerator, StrongPrimeGenerator
 from math import sqrt
-from PrimalityTest import SimplePrimeTest, MillerRabinTest, MillerTest
 
 class NumberFactorySingleton():
 	
 	_instance = None
-	listeners = []
 
 	def __init__(self):
-		self.prime_generator = PrimeGenerator(MillerRabinTest())
+		self.prime_generator = PrimeGenerator(None)
 
 	@classmethod
 	def get_instance(cls):
@@ -29,7 +27,6 @@ class NumberFactorySingleton():
 
 	def set_primality_test(self, test):
 		self.prime_generator.set_test(test)
-		self.notifica_listeners()
 
 	def get_primality_test(self):
 		return self.prime_generator.get_test()
@@ -44,11 +41,3 @@ class NumberFactorySingleton():
 
 	def get_prime_generator(self):
 		return self.prime_generator
-
-	def aggiungi_listener(self, listener):
-		self.listeners.append(listener)
-
-	def notifica_listeners(self):
-		print(self.listeners, "Listeners di number factory")
-		for listener in self.listeners:
-			listener.notifica(self)

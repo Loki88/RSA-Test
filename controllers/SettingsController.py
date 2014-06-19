@@ -1,8 +1,8 @@
 import shelve, inspect
 from models import SettingsSingleton
+from models.PrimalityTest import MillerRabinTest
 from models.NumberFactory import NumberFactorySingleton
 from models.FactorizationMethod import PMinusOneAndExponentMethod
-from SecurityBrokeController import RSAComunicationAttackTest
 from models.NumberGenerator import StrongPrimeGenerator, PrimeGenerator
 
 class SettingsControllerSingleton():
@@ -10,6 +10,8 @@ class SettingsControllerSingleton():
 	settings_store = "settings"
 
 	_instance = None
+
+	listeners = []
 
 	def __init__(self):
 		self.initialize()
@@ -21,13 +23,12 @@ class SettingsControllerSingleton():
 
 		return cls._instance
 
-
 	def get_primality_test(self):
 		test = NumberFactorySingleton.get_instance().get_primality_test()
 		return test
 
 	def get_factorization_method(self):
-		return RSAComunicationAttackTest.get_instance().get_factorization_method()
+		return SettingsSingleton.get_instance().get_factorization_method()
 
 	def set_primality_test(self, test):
 		if inspect.isclass(test):
@@ -37,10 +38,11 @@ class SettingsControllerSingleton():
 	def set_factorization_method(self, method):
 		if inspect.isclass(method):
 			method = method()
-		RSAComunicationAttackTest.get_instance().set_factorization_method(method)
+		SettingsSingleton.get_instance().set_factorization_method(method)
 
 	def set_prime_size(self, size):
 		SettingsSingleton.get_instance().set_prime_size(size)
+		self.notifica()
 
 	def set_iteration_count(self, count):
 		SettingsSingleton.get_instance().set_iteration_count(count)
@@ -64,8 +66,12 @@ class SettingsControllerSingleton():
 					self.set_iteration_count(db['max_iteration_count'])
 				if db.has_key('primality_test'):
 					self.set_primality_test(db['primality_test'])
+				else:
+					self.set_primality_test(MillerRabinTest())
 				if db.has_key('factorization_method'):
 					self.set_factorization_method(db['factorization_method'])
+				else:
+					self.set_factorization_method(PMinusOneAndExponentMethod())
 		db.close()
 
 	def update(self):
@@ -94,3 +100,10 @@ class SettingsControllerSingleton():
 			test = NumberFactorySingleton.get_instance().get_primality_test()
 			generator = PrimeGenerator(test)
 			NumberFactorySingleton.get_instance().set_prime_generator(generator)
+
+	def add_listener(self, l):
+		self.listeners.append(l)
+
+	def notifica(self):
+		for listener in self.listeners:
+			listener.notifica(self)

@@ -3,7 +3,8 @@
 __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
-from models import RSAClient, SettingsSingleton
+from models import RSAClient
+from SettingsController import SettingsControllerSingleton
 from random import randint
 
 class RSAComunicationTest():
@@ -14,7 +15,8 @@ class RSAComunicationTest():
 	randomizer = [1, 3, 5, 2, 4, 6]
 
 	def __init__(self):
-		self.key_lenght = SettingsSingleton.get_instance().get_prime_size()
+		self.key_lenght = SettingsControllerSingleton.get_instance().get_prime_size()
+		SettingsControllerSingleton.get_instance().add_listener(self)
 
 	@classmethod
 	def get_instance(cls):
@@ -47,8 +49,14 @@ class RSAComunicationTest():
 	def add_listener_to_bob(self, listener):
 		self.bob.add_listener(listener)
 
-	def refresh_keys(self):
+	def refresh(self):
 		pow1 = pow(2, self.key_lenght)
 		pow2 = pow1 * 2
 		self.alice.prepare(randint(pow1, pow2)*self.randomizer[randint(0,2)])
 		self.bob.prepare(randint(pow1, pow2)*self.randomizer[randint(3,5)])
+
+	def notifica(self, client):
+		size = client.get_prime_size()
+		if self.key_lenght != size:
+			self.key_lenght = size
+			self.refresh()

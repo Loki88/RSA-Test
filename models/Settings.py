@@ -1,5 +1,4 @@
 
-
 class SettingsSingleton():
 
 	_instance = None
@@ -7,6 +6,8 @@ class SettingsSingleton():
 	min_prime_size = 10
 
 	max_iteration_count = 5
+
+	factorization_method = None
 
 	def __init__(self):
 		self.listeners = []
@@ -21,6 +22,12 @@ class SettingsSingleton():
 	def get_prime_size(self):
 		return self.min_prime_size
 
+	def set_factorization_method(self, method):
+		self.factorization_method = method
+
+	def get_factorization_method(self):
+		return self.factorization_method
+
 	def get_iteration_count(self):
 		return self.max_iteration_count
 
@@ -29,3 +36,6 @@ class SettingsSingleton():
 
 	def set_iteration_count(self, count):
 		self.max_iteration_count = count
+
+	def aggiungi_listener(self, l):
+		self.listeners.append(l)

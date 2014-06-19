@@ -106,7 +106,7 @@ class ComunicationBox(Content):
 		self.bob_public_key.set_text(pub_k)
 
 	def reload(self, widget):
-		RSAComunicationTest.get_instance().refresh_keys()
+		RSAComunicationTest.get_instance().refresh()
 
 	def clear_messages(self):
 		for action in self.alice_actions.values():

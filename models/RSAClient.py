@@ -11,8 +11,7 @@ import binascii
 
 class RSAClient():
 
-	delta = pow(2, 10)
-	randomizer = range(1,9)
+	randomizer = range(2,10)
 
 	def __init__(self, prime_size):
 		self.listeners = []
@@ -21,7 +20,7 @@ class RSAClient():
 	def prepare(self, prime_size):
 		factory = NumberFactorySingleton.get_instance()
 		self.p = factory.get_prime(prime_size)
-		self.q = factory.get_prime(prime_size+self.delta)
+		self.q = factory.get_prime(self.randomizer[prime_size%8]*prime_size)
 		self.key_algorithm = SimpleFactory.get_instance().get_key_algorithm()
 		self.set_private_key()
 		self.notifica()

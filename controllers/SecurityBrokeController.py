@@ -5,8 +5,8 @@ __copyright__   = "Copyright 2014"
 
 from models import RSAClient, IntruderClient
 from models.Settings import SettingsSingleton
+from SettingsController import SettingsControllerSingleton
 from models.FactorizationMethod import PMinusOneAndExponentMethod, QuadraticSieveMethod
-from models.NumberFactory import NumberFactorySingleton
 from random import randint
 import thread
 
@@ -18,10 +18,10 @@ class RSAComunicationAttackTest():
 
 	def __init__(self):
 		self.listeners = []
-		self.key_lenght = SettingsSingleton.get_instance().get_prime_size()
+		self.key_lenght = SettingsControllerSingleton.get_instance().get_prime_size()
 		self.eva = IntruderClient(PMinusOneAndExponentMethod())
-		self.primality_test = NumberFactorySingleton.get_instance().get_primality_test()
-		NumberFactorySingleton.get_instance().aggiungi_listener(self)
+		self.primality_test = SettingsControllerSingleton.get_instance().get_primality_test()
+		SettingsControllerSingleton.get_instance().add_listener(self)
 
 	@classmethod
 	def get_instance(cls):
@@ -38,12 +38,6 @@ class RSAComunicationAttackTest():
 
 	def fattorizza_chiave_pubblica(self):
 		self.eva.attack()
-
-	def get_factorization_method(self):
-		return self.eva.get_factorization_method()
-
-	def set_factorization_method(self, method):
-		self.eva.set_factorization_method(method)
 
 	def notifica(self, source):
 		self.primality_test = source.get_primality_test()
@@ -64,3 +58,9 @@ class RSAComunicationAttackTest():
 	def refresh(self, *args):
 		self.prepare_attack()
 		self.push_alice_listeners()
+
+	def notifica(self, client):
+		size = client.get_prime_size()
+		if self.key_lenght != size:
+			self.key_lenght = size
+			self.refresh()
