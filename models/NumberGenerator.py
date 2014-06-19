@@ -38,7 +38,6 @@ class StrongPrimeGenerator(PrimeGenerator):
 	'''
 	This class is safe from p-1 and small factors attacks
 	'''
-
 	size = 20
 
 	def generate(self, **kwargs):
@@ -49,10 +48,12 @@ class StrongPrimeGenerator(PrimeGenerator):
 		min = kwargs['min']
 		if min == None:
 			if self.test.is_deterministic():
-				kwargs['min'] = pow(2, 10)
+				kwargs['min'] = pow(2, 8)
 			else:
 				kwargs['min'] = pow(2, 20)
-
+		else:
+			if self.test.is_deterministic():
+				kwargs['min'] = min / 2
 		start = PrimeGenerator.generate(self, **kwargs)
 
 		k = 2

@@ -34,11 +34,13 @@ class SettingsControllerSingleton():
 		if inspect.isclass(test):
 			test = test()
 		NumberFactorySingleton.get_instance().set_primality_test(test)
+		self.notifica()
 
 	def set_factorization_method(self, method):
 		if inspect.isclass(method):
 			method = method()
 		SettingsSingleton.get_instance().set_factorization_method(method)
+		self.notifica()
 
 	def set_prime_size(self, size):
 		SettingsSingleton.get_instance().set_prime_size(size)
@@ -46,6 +48,7 @@ class SettingsControllerSingleton():
 
 	def set_iteration_count(self, count):
 		SettingsSingleton.get_instance().set_iteration_count(count)
+		self.notifica()
 
 	def get_prime_size(self):
 		return SettingsSingleton.get_instance().get_prime_size()
@@ -94,12 +97,14 @@ class SettingsControllerSingleton():
 			test = NumberFactorySingleton.get_instance().get_primality_test()
 			generator = StrongPrimeGenerator(test)
 			NumberFactorySingleton.get_instance().set_prime_generator(generator)
+		self.notifica()
 		
 	def set_simple_prime_generator(self):
 		if self.is_strong_prime_generator():
 			test = NumberFactorySingleton.get_instance().get_primality_test()
 			generator = PrimeGenerator(test)
 			NumberFactorySingleton.get_instance().set_prime_generator(generator)
+		self.notifica()
 
 	def add_listener(self, l):
 		self.listeners.append(l)

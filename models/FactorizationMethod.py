@@ -1,6 +1,7 @@
 from utility.Math import gcd, legendre
 from models import SettingsSingleton
 from random import randint
+from math import sqrt
 
 class FactorizationMethod():
 
@@ -10,6 +11,7 @@ class FactorizationMethod():
 
 	def attack(self, client):
 		self.mod, self.key = client.get_public_key()
+		self.prime_1, self.prime_2 = None, None
 
 	def get_factors(self):
 		return (self.prime_1, self.prime_2)
@@ -30,11 +32,11 @@ class QuadraticSieveMethod(FactorizationMethod):
 		self.n_part = int(sqrt(self.mod))
 
 		factor_base = []
-
-		for i in range(k):
+		i = 0
+		while i < k:
 			if self.is_residuo(k) == 1:
 				factor_base.append(k)
-
+			i += 1
 		print(factor_base)
 
 
@@ -62,11 +64,9 @@ class PMinusOneAndExponentMethod(FactorizationMethod):
 		self.count += 1
 		a = 2
 		self.B_fact = 1
-		print("choose B = "+str(B))
 		b = self.elevate(a, B)
 
 		d = gcd(b-1, self.mod)
-		print("P-1 test give d = "+str(d))
 		if d > 1 and d < self.mod:
 			self.prime_1 = d
 			self.prime_2 = self.mod / d

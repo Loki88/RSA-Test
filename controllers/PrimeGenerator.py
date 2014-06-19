@@ -20,15 +20,15 @@ class PrimeGenerator():
 		return cls._instance
 
 
-	def generate(self, listener, start=2, end=2):		
+	def generate(self, start=2, end=2):		
 		factory = NumberFactorySingleton.get_instance()
 		
 		test = factory.get_primality_test()
 
 		if start == 2:
-			listener.add_prime(start)
+			yield start
 		if start % 2 == 0:
 			start += 1
 		for prime in range(start, end, 2):
 			if test.is_prime(prime):
-				listener.add_prime(prime)
+				yield prime

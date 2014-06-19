@@ -19,7 +19,7 @@ class RSAComunicationAttackTest():
 	def __init__(self):
 		self.listeners = []
 		self.key_lenght = SettingsControllerSingleton.get_instance().get_prime_size()
-		self.eva = IntruderClient(PMinusOneAndExponentMethod())
+		self.eva = IntruderClient(SettingsControllerSingleton.get_instance().get_factorization_method())
 		self.primality_test = SettingsControllerSingleton.get_instance().get_primality_test()
 		SettingsControllerSingleton.get_instance().add_listener(self)
 
@@ -64,3 +64,6 @@ class RSAComunicationAttackTest():
 		if self.key_lenght != size:
 			self.key_lenght = size
 			self.refresh()
+		factorization_method = client.get_factorization_method()
+		if factorization_method.__class__ != self.eva.get_factorization_method().__class__:
+			self.eva.set_factorization_method(factorization_method)

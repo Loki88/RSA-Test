@@ -4,6 +4,7 @@ __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
 from random import randint
+from Settings import SettingsSingleton
 from math import sqrt, log, ceil
 from utility.Math import gcd
 
@@ -32,25 +33,24 @@ class AKSPrimeTest(SimplePrimeTest):
 
 	def __init__(self):
 		self.speedup = FermatTest()
-		self.max = pow(2,15)
+		self.max = pow(2, 15)
 
 	def expand_x_1(self, p):
 		ex = [1]
 		
 		for i in range(p):
 			ex.append(ex[-1] * -(p-i) / (i+1))
-		print(ex)
+
 		return ex[::-1]
 
 	def is_prime(self, num):
 		if num > self.max:
-			raise MemoryError("The number is too big for this version of AKS test.")
+			raise MemoryError("The number is too big for this version of AKS test. Try probabilistic ones.")
 		if num < 2:
 			return False
 		if not self.speedup.is_prime(num):
 			return False
 		ex = self.expand_x_1(num)
-		print(ex)
 		ex[0] += 1
 
 		return not any(mult % num for mult in ex[0:-1])
@@ -109,7 +109,7 @@ class FermatTest(SimplePrimeTest):
 
 	def is_prime(self, num):
 		if num % 2 == 0:
-			return false
+			return False
 		else:
 			test = pow(2,num-1,num)
 			return test == 1
@@ -121,12 +121,16 @@ class MillerRabinTest(SimplePrimeTest):
 	deterministic = False
 
 	def __init__(self):
-		SettingsControllerSingleton
+		self.max_iter = SettingsSingleton.get_instance().get_iteration_count()
 
 	def is_prime(self, num):
 		prime = True
-		for 
-		if self.test
+		i = 0
+		while i < self.max_iter:
+			if not self.test(num):
+				return False
+			i += 1
+		return True
 
 	def test(self, num):
 		if num == 2:

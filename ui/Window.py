@@ -3,36 +3,9 @@
 __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
-from gi.repository import Gtk, Gio, Gdk
+from gi.repository import Gtk, Gio, Gdk, GObject, GLib
 from controllers import SettingsControllerSingleton
-
-# class MainWindow(Gtk.Window):
-
-# 	_instance = None
-
-# 	@classmethod
-# 	def get_instance(cls):
-# 		if cls._instance == None:
-# 			cls._instance = MainWindow()
-			
-# 		return cls._instance
-
-
-# 	def __init__(self):
-# 		Gtk.Window.__init__(self, title="RSA, Primality tests and factorization")
-# 		self.connect("delete-event", self.quit)
-# 		self.set_size_request(640, 360)
-
-# 	def main(self):
-# 		Gtk.main()
-
-# 	def set_content(self, element):
-# 		self.add(element)
-# 		self.show_all()
-
-# 	def quit(self, widget, bho):
-# 		SettingsControllerSingleton.get_instance().store()
-# 		Gtk.main_quit(widget, bho)
+import threading
 
 class MainWindow():
 
@@ -113,6 +86,7 @@ class MainWindow():
 		element.show(self.window)
 
 	def main(self):
+		GObject.threads_init()
 		Gtk.main()
 
 	def set_content(self, element):
@@ -143,22 +117,8 @@ class MainWindow():
 		self.hb.props.title = title
 
 	def reload(self, widget):
-		self._stack[-1].reload(widget)
-
-
-class UIUtilityComponents():
-	_instance = None
-
-	@classmethod
-	def get_instance(cls):
-		if cls._instance == None:
-			cls._instance = UIUtilityComponents()
-			
-		return cls._instance
-
-
-	def __init__(self):
-		pass
+		stacked = self._stack[-1]
+		threading.Thread(target=stacked.reload, widget)
 
 
 class Content():
@@ -181,20 +141,23 @@ class Content():
 		return self.title
 
 	def alert(self, message):
-		MainWindow.get_instance().display_message(message)
+		GLib.idle_add(MainWindow.get_instance().display_message, message)
 
 	def wait(self, message=None):
-		MainWindow.get_instance().wait(message)
+		GLib.idle_add(MainWindow.get_instance().wait, message)
 
 	def stop_waiting(self, message=None):
-		MainWindow.get_instance().stop_waiting()
+		GLib.idle_add(MainWindow.get_instance().stop_waiting)
 		if message != None:
 			self.alert(message)
 		else:
-			MainWindow.get_instance().clear_message()
+			GLib.idle_add(MainWindow.get_instance().clear_message)
 
 	def reload(self, widget):
 		pass
 
 	def show(self, window):
 		window.show_all()
+
+	def run(self, function, *args, **kwargs):
+		threading.Thread(target=function,args=args,kwargs=kwargs).start()

@@ -61,6 +61,7 @@ class SettingsBox(Content):
 		controller.set_factorization_method(self.factorization_methods[self.factorization_method])
 		controller.set_iteration_count(int(self.recursion_size.get_text()))
 		controller.set_prime_size(int(self.key_lenght.get_text()))
+		controller.store()
 		self.go_back(widget)
 
 	def test_checked(self, widget):

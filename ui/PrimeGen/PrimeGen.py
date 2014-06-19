@@ -3,16 +3,18 @@
 __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
-from gi.repository import Gtk
+from gi.repository import Gtk, GLib
 from ui.Window import Content
 from controllers import PrimeGenerator as Pg
-import thread
+import threading
 
 class PrimeGenerator(Content):
 
 	title = "Prime generation"
 
 	buff = None
+
+	primes = []
 
 	def __init__(self):
 		builder = Gtk.Builder()
@@ -30,7 +32,6 @@ class PrimeGenerator(Content):
 		self.buff = self.prime_window.get_buffer()
 
 	def bottone_genera_primi_cliccato(self, widget):
-		self.wait("Please be patient, this may take long time.")
 		if self.min_size.get_text() != "":
 			self.min_prime = int(self.min_size.get_text())
 		else:
@@ -38,19 +39,27 @@ class PrimeGenerator(Content):
 		if self.max_size.get_text() != "":
 			self.max_prime = int(self.max_size.get_text())
 			self.buff.delete(self.buff.get_start_iter(), self.buff.get_end_iter())
-			Pg.get_instance().generate(self, start=self.min_prime, end=self.max_prime)
-			iter2 = self.buff.get_start_iter()
-			iter2.forward_chars(2)
-			self.buff.delete(self.buff.get_start_iter(), iter2)
-			self.buff.set_modified(True)
-			self.stop_waiting()
+			thread = threading.Thread(target=self.genera)
+			thread.start()
 			self.min_size.set_text("")
 			self.max_size.set_text("")
 		else:
 			self.alert("Please enter max size")
 
+	def genera(self):
+		self.wait("Please be patient, this may take long time.")
+		enditer = self.buff.get_end_iter()
+		i = 0
+		for prime in Pg.get_instance().generate(self.min_prime, self.max_prime):
+			if i != 0:
+				GLib.idle_add(self.buff.insert, enditer, ", "+str(prime))
+			else:
+				GLib.idle_add(self.buff.insert, enditer, str(prime))
+				i += 1
+		self.stop_waiting()
+
 	def add_prime(self, prime):
-		self.buff.insert(self.buff.get_end_iter(), ", "+str(prime))
+		self.primes.add(prime)
 		
 	def reload(self, widget):
 		self.min_size.set_text(str(self.min_prime))

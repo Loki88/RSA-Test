@@ -154,6 +154,8 @@ Note: do not choose too wide intervals!</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="resize_mode">queue</property>
+                <property name="pixels_above_lines">2</property>
+                <property name="pixels_below_lines">2</property>
                 <property name="editable">False</property>
                 <property name="wrap_mode">word</property>
                 <property name="overwrite">True</property>

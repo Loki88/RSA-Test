@@ -8,8 +8,8 @@ from ui.Window import Content
 from controllers import RSAComunicationAttackTest, SettingsControllerSingleton
 from models.FactorizationMethod import *
 from ui import SimpleListener
-import thread
-
+import threading
+import time
 
 class FactorizationBox(Content, SimpleListener):
 
@@ -51,16 +51,26 @@ class FactorizationBox(Content, SimpleListener):
 
 		self.controller = RSAComunicationAttackTest.get_instance()
 		self.sync = True
-		thread.start_new_thread(self.prepare_test, (None,))
+		threading.Thread(target=self.prepare_test).start()
 
 	def prepare_test(self, *args):
+		self.wait("Please wait I'm generating primes for this test")
+		self.clear_intruder_fields()
 		self.controller.prepare_attack()
 		self.controller.add_listener(self)
 		self.controller.add_alice_listener(self)
+		time.sleep(3)
+		self.stop_waiting()
 
 	def fattorizza_chiave_pubblica(self, widget):
 		self.clear_intruder_fields()
+		threading.Thread(target=self.fattorizzazione).start()
+
+	def fattorizzazione(self):
+		self.wait("Trying to find primes.")
 		self.controller.fattorizza_chiave_pubblica()
+		self.stop_waiting()
+		self.alert("Is it what you expected?")
 
 	def notifica(self, source):
 		try:
@@ -114,7 +124,7 @@ class FactorizationBox(Content, SimpleListener):
 	def reload(self, widget):
 		self.sync = False
 		self.clear()
-		thread.start_new_thread(self.controller.refresh, (None, ))
+		threading.Thread(self.controller.refresh).start()
 		if SettingsControllerSingleton.get_instance().is_strong_prime_generator():
 			self.strong_prime.set_active(True)
 		else:
