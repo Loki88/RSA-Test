@@ -1,1 +1,1 @@
-from PrimeGen import PrimeGenerator
+from .PrimeGen import PrimeGenerator

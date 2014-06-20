@@ -38,7 +38,7 @@ class IntruderClient():
 
 	def get_factors(self):
 		if self.prime_1 != None and self.prime_2 != None:
-			return (self.prime_1, self.prime_2)
+			return (int(self.prime_1), int(self.prime_2))
 		else:
 			return None
 

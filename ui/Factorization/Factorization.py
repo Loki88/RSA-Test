@@ -9,7 +9,6 @@ from controllers import RSAComunicationAttackTest, SettingsControllerSingleton
 from models.FactorizationMethod import *
 from ui import SimpleListener
 import threading
-import time
 
 class FactorizationBox(Content, SimpleListener):
 
@@ -56,10 +55,15 @@ class FactorizationBox(Content, SimpleListener):
 	def prepare_test(self, *args):
 		self.wait("Please wait I'm generating primes for this test")
 		self.clear_intruder_fields()
-		self.controller.prepare_attack()
-		self.controller.add_listener(self)
-		self.controller.add_alice_listener(self)
-		self.stop_waiting()
+		end_message = ""
+		try:
+			self.controller.prepare_attack()
+			self.controller.add_listener(self)
+			self.controller.add_alice_listener(self)
+		except MemoryError as e:
+			end_message = "Primes too big for this primality test. Check your settings."
+		finally:
+			self.stop_waiting(end_message)
 
 	def fattorizza_chiave_pubblica(self, widget):
 		self.clear_intruder_fields()
@@ -67,8 +71,13 @@ class FactorizationBox(Content, SimpleListener):
 
 	def fattorizzazione(self):
 		self.wait("Trying to find primes.")
-		self.controller.fattorizza_chiave_pubblica()
-		self.stop_waiting("Is it what you expected?")
+		end_message = "Is it what you expected?"
+		try:
+			self.controller.fattorizza_chiave_pubblica()
+		except MemoryError as e:
+			message = "Something's gone wrong"
+		finally:
+			self.stop_waiting(end_message)
 
 	def notifica(self, source):
 		try:
@@ -119,17 +128,22 @@ class FactorizationBox(Content, SimpleListener):
 		self.clear_alice_fields()
 
 	def reload_action(self, widget):
-		time.sleep(6)
 		self.sync = False
-		self.clear()
-		self.controller.refresh()
-		if SettingsControllerSingleton.get_instance().is_strong_prime_generator():
-			GLib.idle_add(self.strong_prime.set_active, True)
-		else:
-			GLib.idle_add(self.strong_prime.set_active, False)
-		self.sync = True
+		end_message = ""
+		try:
+			self.clear()
+			self.controller.refresh()
+			if SettingsControllerSingleton.get_instance().is_strong_prime_generator():
+				GLib.idle_add(self.strong_prime.set_active, True)
+			else:
+				GLib.idle_add(self.strong_prime.set_active, False)
+		except MemoryError as e:
+			end_message = "Primes too big for this primality test. Check your settings."
+		finally:
+			self.alert(end_message)
+			self.sync = True
 
 	def back(self):
 		self.clear()
 		SettingsControllerSingleton.get_instance().set_simple_prime_generator()
-		self.stop_waiting()
+		Content.back(self)

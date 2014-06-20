@@ -129,7 +129,8 @@ class Content():
 		return self.content
 
 	def back(self):
-		pass
+		self.stop_waiting()
+		self.clear_message()
 
 	def next(self):
 		pass
@@ -150,8 +151,9 @@ class Content():
 		GLib.idle_add(MainWindow.get_instance().stop_waiting)
 		if message != None:
 			self.alert(message)
-		else:
-			GLib.idle_add(MainWindow.get_instance().clear_message)
+		
+	def clear_message(self):
+		GLib.idle_add(MainWindow.get_instance().clear_message)
 
 	def reload(self, widget):
 		self.wait("Reloading")

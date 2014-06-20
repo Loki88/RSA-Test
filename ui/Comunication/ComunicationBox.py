@@ -6,7 +6,7 @@ __copyright__   = "Copyright 2014"
 from gi.repository import Gtk
 from controllers.RSATestController import RSAComunicationTest
 from ui.Window import Content
-from Listener import AliceListener, BobListener
+from .Listener import AliceListener, BobListener
 import threading
 
 class ComunicationBox(Content):
@@ -65,9 +65,14 @@ class ComunicationBox(Content):
 
 	def start_comunication(self):
 		self.wait("Preparing test")
-		RSAComunicationTest.get_instance().start_comunication()
-		self.set_listeners()
-		self.stop_waiting("Ready")
+		end_message = "Ready"
+		try:
+			RSAComunicationTest.get_instance().start_comunication()
+			self.set_listeners()
+		except MemoryError as e:
+			end_message = "Primes too big for this primality test. Check your settings."
+		finally:
+			self.stop_waiting(end_message)
 
 	def send_message_to_bob(self, widget):
 		self.count = 1
@@ -112,10 +117,13 @@ class ComunicationBox(Content):
 		self.bob_public_key.set_text(pub_k)
 
 	def reload_action(self, widget):
+		end_message = "Ready"
 		try:
 			RSAComunicationTest.get_instance().refresh()
-		except MemoryError:
-			self.alert("Prime generation takes too much time. Please, choose a different test.")
+		except MemoryError as e:
+			end_message = "Primes too big for this primality test. Check your settings."
+		finally:
+			self.alert(end_message)
 
 
 	def clear_messages(self):

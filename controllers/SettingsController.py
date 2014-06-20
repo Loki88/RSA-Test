@@ -60,38 +60,38 @@ class SettingsControllerSingleton():
 		self.update()
 
 	def initialize(self):
-		db = shelve.open(self.settings_store)
-		if db.has_key('synchronized'):
-			if db['synchronized']:
-				if db.has_key('prime_size'):
-					self.set_prime_size(db['prime_size'])
-				if db.has_key('max_iteration_count'):
-					self.set_iteration_count(db['max_iteration_count'])
-				if db.has_key('primality_test') and db.get('primality_test') != None:
-					self.set_primality_test(db['primality_test'])
-				else:
-					self.set_primality_test(MillerRabinTest())
-				if db.has_key('factorization_method') and db.get('factorization_method') != None:
-					self.set_factorization_method(db['factorization_method'])
-				else:
-					self.set_factorization_method(PMinusOneAndExponentMethod())
-		else:
-			print("DB NOT SYNC")
-			self.set_primality_test(MillerRabinTest())
-			self.set_factorization_method(PMinusOneAndExponentMethod())
-		db.close()
+		with shelve.open(self.settings_store) as db:
+			if 'synchronized' in db:
+				if db['synchronized']:
+					if 'prime_size' in db:
+						self.set_prime_size(db['prime_size'])
+					if 'max_iteration_count' in db:
+						self.set_iteration_count(db['max_iteration_count'])
+					if 'primality_test' in db and db['primality_test'] != None:
+						self.set_primality_test(db['primality_test'])
+					else:
+						self.set_primality_test(MillerRabinTest())
+					if 'factorization_method' in db and db['factorization_method'] != None:
+						self.set_factorization_method(db['factorization_method'])
+					else:
+						self.set_factorization_method(PMinusOneAndExponentMethod())
+			else:
+				self.set_primality_test(MillerRabinTest())
+				self.set_factorization_method(PMinusOneAndExponentMethod())
+			db.close()
+
 
 	def update(self):
-		db = shelve.open(self.settings_store)
-		db['synchronized'] = False
+		with shelve.open(self.settings_store) as db:
+			db['synchronized'] = False
 
-		db['prime_size'] = self.get_prime_size()
-		db['max_iteration_count'] = self.get_iteration_count()
-		db['primality_test'] = self.get_primality_test().__class__
-		db['factorization_method'] = self.get_factorization_method().__class__
+			db['prime_size'] = self.get_prime_size()
+			db['max_iteration_count'] = self.get_iteration_count()
+			db['primality_test'] = self.get_primality_test().__class__
+			db['factorization_method'] = self.get_factorization_method().__class__
 
-		db['synchronized'] = True
-		db.close()
+			db['synchronized'] = True
+			db.close()
 
 	def is_strong_prime_generator(self):
 		return NumberFactorySingleton.get_instance().get_prime_generator().is_strong()

@@ -3,8 +3,8 @@
 __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
-from Number import Number
-from NumberGenerator import PrimeGenerator, CoprimeGenerator, StrongPrimeGenerator
+from .Number import Number
+from .NumberGenerator import PrimeGenerator, CoprimeGenerator, StrongPrimeGenerator
 from math import sqrt
 
 class NumberFactorySingleton():

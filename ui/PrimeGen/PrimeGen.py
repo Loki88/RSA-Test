@@ -6,7 +6,8 @@ __copyright__   = "Copyright 2014"
 from gi.repository import Gtk, GLib
 from ui.Window import Content
 from controllers import PrimeGenerator as Pg
-import threading
+import threading, inspect
+from multiprocessing import TimeoutError
 
 class PrimeGenerator(Content):
 
@@ -38,11 +39,12 @@ class PrimeGenerator(Content):
 			self.min_prime = 2
 		if self.max_size.get_text() != "":
 			self.max_prime = int(self.max_size.get_text())
-			self.buff.delete(self.buff.get_start_iter(), self.buff.get_end_iter())
-			thread = threading.Thread(target=self.genera)
-			thread.start()
-			self.min_size.set_text("")
-			self.max_size.set_text("")
+			if self.max_prime > self.min_prime:
+				self.buff.delete(self.buff.get_start_iter(), self.buff.get_end_iter())
+				thread = threading.Thread(target=self.genera)
+				thread.start()
+			else:
+				self.alert("Max value "+str(self.max_prime)+" should be bigger than min one "+str(self.min_prime))
 		else:
 			self.alert("Please enter max size")
 
@@ -50,13 +52,23 @@ class PrimeGenerator(Content):
 		self.wait("Please be patient, this may take long time.")
 		enditer = self.buff.get_end_iter()
 		i = 0
-		for prime in Pg.get_instance().generate(self.min_prime, self.max_prime):
-			if i != 0:
-				GLib.idle_add(self.buff.insert, enditer, ", "+str(prime))
-			else:
-				GLib.idle_add(self.buff.insert, enditer, str(prime))
-				i += 1
-		self.stop_waiting()
+		end_message = "Generation complete"
+		try:
+			for prime in Pg.get_instance().generate(self.min_prime, self.max_prime):
+				if inspect.isclass(prime):
+					raise prime()
+				if i != 0:
+					GLib.idle_add(self.buff.insert, enditer, ", "+str(prime))
+				else:
+					GLib.idle_add(self.buff.insert, enditer, str(prime))
+					i += 1
+		except MemoryError as e:
+			end_message = "This operation takes too time. Change interval or settings."
+		else:
+			GLib.idle_add(self.min_size.set_text, "")
+			GLib.idle_add(self.max_size.set_text, "")
+		finally:
+			self.stop_waiting(end_message)
 
 	def add_prime(self, prime):
 		self.primes.add(prime)

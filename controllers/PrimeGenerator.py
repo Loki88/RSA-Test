@@ -5,10 +5,10 @@
 __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
-from models.NumberFactory import NumberFactorySingleton
+from controllers.SettingsController import SettingsControllerSingleton
 from models.NumberGenerator import PrimeGenerator as SimpleGenerator
-from models.Exceptions import Timeout
-import sys
+from utility import Timer
+from multiprocessing import Pool, TimeoutError
 
 class PrimeGenerator():
 
@@ -23,17 +23,22 @@ class PrimeGenerator():
 
 
 	def generate(self, start=2, end=2):		
-		factory = NumberFactorySingleton.get_instance()
+		test = SettingsControllerSingleton.get_instance().get_primality_test()
+		prime_timeout = test.get_timeout()
+
+		if start == 2:
+			yield start
+		if start % 2 == 0:
+			start += 1
 		
-		try:
-			test = factory.get_primality_test()
-			if start == 2:
-				yield start
-			if start % 2 == 0:
-				start += 1
-			for prime in range(start, end, 2):
-				if test.is_prime(prime):
-					yield prime
-		except MemoryError as t:
-			yield t
-			sys.stderr.write('Finishing thread cleanly\n')
+		with Pool(processes=1) as pool:
+			try:
+				while start <= end:
+					res = pool.apply_async(test.is_prime, args=(start,))
+					result = res.get(timeout=prime_timeout)
+					res.wait()
+					if result:
+						yield start
+					start += 2
+			except:
+				raise MemoryError()

@@ -1,4 +1,4 @@
 #!/usr/bin/python
 
-import Math
-from Timer import Timer
+from .Math import gcd, egcd, is_perfect_power, wowrange
+from .Timer import Timer

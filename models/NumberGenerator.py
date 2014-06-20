@@ -1,4 +1,5 @@
 from utility.Math import *
+from multiprocessing import Pool, TimeoutError
 
 class NumberGenerator():
 
@@ -18,9 +19,18 @@ class PrimeGenerator(NumberGenerator):
 		start = min + 1
 		if start % 2 == 0:
 			start += 1
-		
-		while not self.test.is_prime(start):
-			start += 2
+
+		max_time = self.test.get_timeout()
+
+		with Pool(processes=1) as pool:
+			try:
+				res = pool.apply_async(self.test.is_prime, args=(start,))
+				while not res.get(timeout=max_time):
+					start += 2
+					res = pool.apply_async(self.test.is_prime, args=(start,))
+			except TimeoutError:
+				print("Error in generator")
+				raise MemoryError("This operation takes too much time.")
 
 		return start
 
@@ -56,13 +66,21 @@ class StrongPrimeGenerator(PrimeGenerator):
 				kwargs['min'] = min / 2
 		start = PrimeGenerator.generate(self, **kwargs)
 
-		k = 2
-		while True:
-			p = k*start + 1
-			if self.test.is_prime(p):
-				break
-			else:
-				k = k + 1
+		max_time = self.test.get_timeout()
+
+		with Pool(processes=1) as pool:
+			try:
+				k = 2
+				while True:
+					p = k*start + 1
+					res = pool.apply_async(self.test.is_prime, args=(p,))
+					if res.get(timeout=max_time):
+						break
+					else:
+						k = k + 1
+			except TimeoutError:
+				print("Error in generator")
+				raise MemoryError("This operation takes too much time.")
 
 		return p
 

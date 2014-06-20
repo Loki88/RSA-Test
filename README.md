@@ -9,3 +9,12 @@ ________
 v 1.0
 
 Alice and Bob can communicate and nobody's listening their messages.
+
+________
+
+v 1.1
+
+Installed numpy to speed computation.
+
+Ubuntu:
+sudo apt-get install python-numpy python-scipy python-matplotlib ipython ipython-notebook python-pandas python-sympy python-nose

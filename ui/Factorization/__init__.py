@@ -1,1 +1,1 @@
-from Factorization import FactorizationBox
+from .Factorization import FactorizationBox

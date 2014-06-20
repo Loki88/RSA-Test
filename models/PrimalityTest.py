@@ -4,19 +4,32 @@ __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
 from random import randint
-from Settings import SettingsSingleton
-from math import sqrt, log, ceil
-from utility.Math import gcd
+from .Settings import SettingsSingleton
 from threading import Timer
-from Exceptions import Timeout
-import thread
+import math
+import itertools as IT
+import numpy as NP
+import fractions
+import time
 
-class SimplePrimeTest():
+class PrimeTest():
 
-	max_time = 0.05
+	deterministic = False
 
-	def __init__(self):
+	max_time = 1.5
+
+	def is_prime(self, num):
 		pass
+
+	def is_deterministic(self):
+		return self.deterministic
+
+	def get_timeout(self):
+		return self.max_time
+
+class SimplePrimeTest(PrimeTest):
+
+	deterministic = True
 
 	def is_prime(self, num):
 		if num % 2 == 0:
@@ -24,58 +37,101 @@ class SimplePrimeTest():
 
 		max = int(sqrt(num))
 		i = 3
-		timer = Timer(self.max_time, self.time_except)
-		timer.start()
 		while i <= max:
 			if num % i == 0:
 				timer.cancel()
 				return False
 			i += 2
-		timer.cancel()
 		return True
 
-	def is_deterministic(self):
-		return self.deterministic
 
-	def time_except(self):
-		thread.exit()
-		raise MemoryError("This operation takes too much time. Check the settings.")
-
-
-class AKSPrimeTest(SimplePrimeTest):
+class AKSPrimeTest(PrimeTest):
 
 	deterministic = True
+	max_time = 3
 
-	def __init__(self):
-		SimplePrimeTest.__init__(self)
-		self.speedup = FermatTest()
-		self.max = pow(2, 10)
-
-	def expand_x_1(self, p):
-		ex = [1]
-		for i in range(p):
-			ex.append(ex[-1] * -(p-i) / (i+1))
-		return ex[::-1]
-
-	def is_prime(self, num):
-		if num < 2 or num % 2 == 0:
+	def ordr(self, r, n):
+	    for k in IT.count(3):
+	        if pow(n, k, r) == 1:
+	            return k
+             
+	def isqrt(self, x):
+	    if x < 0:
+	        raise ValueError('square root not defined for negative numbers')
+	    n = int(x)
+	    if n == 0:
+	        return 0
+	    a, b = divmod(n.bit_length(), 2)
+	    x = 2 ** (a + b)
+	    while True:
+	        y = (x + n // x) // 2
+	        if y >= x:
+	            return x
+	        x = y
+         
+	def mmultn(self, a, b, r, n):
+	    """ Dividing by X^r - 1 is equivalent to shifting the amplitude from
+	        position k to k - r
+	        a and b are vectors of length r maximum
+	        convolve them (equivalent to polynomial mult) and add all amplitudes
+	        with exp k of r and higher to exp k - r
+	        After the multiplication all amplitudes are taken %n
+	    """
+	    res = NP.zeros(2 * r, dtype=NP.int64)
+	    res[:len(a)+len(b)-1] = NP.convolve(a, b)
+	    res = res[:-r] + res[-r:]
+	    return res % n
+ 
+	def powmodn(self, pn, n, r, m):
+	    res = [1]
+	    while n:
+	        if n & 1:
+	            res = self.mmultn(res, pn, r, m)
+	        n //= 2
+	        if n:
+	            pn = self.mmultn(pn, pn, r, m)
+	    return res
+ 
+	def testan(self, a, n, r):
+	    pp = self.powmodn([a, 1], n, r, n)
+	    pp[n%r] = (pp[n%r] - 1 ) % n # subtract X^n
+	    pp[0] = (pp[0] - a) % n      # subtract a
+	    return not any(pp)
+      
+	def phi(self, n):
+	    return sum(fractions.gcd(i, n) == 1 for i in range(1, n))
+         
+	def is_prime(self, n):
+		if n == 2:
+			return True
+		if n < 2:
 			return False
-		if not self.speedup.is_prime(num):
-			return False
-		timer = Timer(self.max_time, self.time_except)
-		timer.start()
-		ex = self.expand_x_1(num)
-		ex[0] += 1
+		for a in range(2, self.isqrt(n) + 1):
+			for b in range(2, n):
+				t = a ** b
+				if t == n:
+					return False
+				if t > n:
+					break
+		logn = math.log(n,2)
+		logn2 = logn ** 2
+		for r in IT.count(3):
+			if fractions.gcd(r, n) == 1 and self.ordr(r, n) >= logn2:
+				break
+		for a in range(2, r + 1):
+			if 1 < fractions.gcd(a, n) < n:
+				return False
+		if n <= r:
+			return True
+		for a in range(1, int(math.sqrt(self.phi(r)) * logn)):
+			if not self.testan(a, n, r):
+				return False
+		return True
 
-		timer.cancel()
-		return not any(mult % num for mult in ex[0:-1])
 
+class MillerTest(PrimeTest):
 
-class MillerTest(SimplePrimeTest):
 	deterministic = True
-
-	def __init__(self):
-		SimplePrimeTest.__init__(self)
 
 	def get_range(self, inf, num):
 		return range(1, inf)
@@ -85,8 +141,6 @@ class MillerTest(SimplePrimeTest):
 			return True
 		elif num <= 1 or num % 2 == 0:
 			return False
-		timer = Timer(self.max_time, self.time_except)
-		timer.start()
 		d = num -1
 		s = 0
 		while d % 2 == 0:
@@ -105,73 +159,49 @@ class MillerTest(SimplePrimeTest):
 				for r in range(0,s):
 					p2 = pow(a, pow(2,r)*d, num)
 					if p2 != num-1:
-						timer.cancel()
 						return False
-		timer.cancel()
 		return True
 
-class LucasLehmer(SimplePrimeTest):
-
-	def __init__(self):
-		SimplePrimeTest.__init__(self)
-
-	def is_prime(self, p):
-		timer = Timer(self.max_time, self.time_except)
-		timer.start()
-		if p == 2: 
-			timer.cancel()
-			return True # Lucas-Lehmer test only works on odd primes
-  		elif p <= 1 or p % 2 == 0: 
-  			self.timer.cancel()
-  			return False
-  		else:
-			for i in range(3, int(sqrt(p))+1, 2 ):
-				if p % i == 0: 
-					timer.cancel()
-					return False
-			timer.cancel()
-			return True
-
-
-class FermatTest(SimplePrimeTest):
+class LucasLehmer(PrimeTest):
 
 	deterministic = False
 
-	def __init__(self):
-		SimplePrimeTest.__init__(self)
+	def is_prime(self, p):
+		if p == 2: 
+			return True # Lucas-Lehmer test only works on odd primes
+		elif p <= 1 or p % 2 == 0:
+  			return False
+		else:
+			for i in range(3, int(sqrt(p))+1, 2 ):
+				if p % i == 0: 
+					return False
+			return True
+
+class FermatTest(PrimeTest):
+
+	deterministic = False
 
 	def is_prime(self, num):
-		timer = Timer(self.max_time, self.time_except)
-		timer.start()
 		if num % 2 == 0:
-			timer.cancel()
 			return False
 		else:
 			test = pow(2,num-1,num)
-			timer.cancel()
 			return test == 1
 
-
-
-class MillerRabinTest(SimplePrimeTest):
+class MillerRabinTest(PrimeTest):
 
 	deterministic = False
 
 	def __init__(self):
-		SimplePrimeTest.__init__(self)
 		self.max_iter = SettingsSingleton.get_instance().get_iteration_count()
 
 	def is_prime(self, num):
 		prime = True
 		i = 0
-		timer = Timer(self.max_time, self.time_except)
-		timer.start()
 		while i < self.max_iter:
 			if not self.test(num):
-				timer.cancel()
 				return False
 			i += 1
-		timer.cancel()
 		return True
 
 	def test(self, num):
@@ -181,6 +211,7 @@ class MillerRabinTest(SimplePrimeTest):
 			return False
 
 		k = 1
+		
 		m = (num-1) / 2
 		while m % 2 == 0:
 			m = m / 2
@@ -193,7 +224,8 @@ class MillerRabinTest(SimplePrimeTest):
 			a = randint(2,num-2)
 		else:
 			a = 2
-		b0 = pow(a, m, num)
+
+		b0 = pow(a, int(m), num)
 
 		if b0 == 1 or b0 == num-1 or b0 == -1:
 			return True

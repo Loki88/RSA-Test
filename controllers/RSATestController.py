@@ -4,13 +4,16 @@ __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
 from models import RSAClient
-from SettingsController import SettingsControllerSingleton
+from .SettingsController import SettingsControllerSingleton
 from random import randint
+from multiprocessing import Pool
 
 class RSAComunicationTest():
 	key_lenght = None
 
 	_instance = None
+
+	max_time = 2
 
 	randomizer = [1, 3, 5, 2, 4, 6]
 
@@ -52,8 +55,12 @@ class RSAComunicationTest():
 	def refresh(self):
 		pow1 = pow(2, self.key_lenght)
 		pow2 = pow1 * 2
-		self.alice.prepare(randint(pow1, pow2)*self.randomizer[randint(0,2)])
-		self.bob.prepare(randint(pow1, pow2)*self.randomizer[randint(3,5)])
+		with Pool(processes=2) as pool:
+			res1 = pool.apply_async(self.alice.prepare, args=(randint(pow1, pow2)*self.randomizer[randint(0,2)]))
+			res2 = pool.apply_async(self.bob.prepare, args=(randint(pow1, pow2)*self.randomizer[randint(3,5)]))
+			res1.get(self.max_time)
+			res2.get(self.max_time)
+			# self.bob.prepare(randint(pow1, pow2)*self.randomizer[randint(3,5)])
 
 	def notifica(self, client):
 		size = client.get_prime_size()

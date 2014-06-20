@@ -1,1 +1,1 @@
-from Menu import MenuBox
+from .Menu import MenuBox

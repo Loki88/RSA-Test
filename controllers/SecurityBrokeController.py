@@ -5,10 +5,9 @@ __copyright__   = "Copyright 2014"
 
 from models import RSAClient, IntruderClient
 from models.Settings import SettingsSingleton
-from SettingsController import SettingsControllerSingleton
+from .SettingsController import SettingsControllerSingleton
 from models.FactorizationMethod import PMinusOneAndExponentMethod, QuadraticSieveMethod
 from random import randint
-import thread
 
 class RSAComunicationAttackTest():
 	
@@ -42,7 +41,7 @@ class RSAComunicationAttackTest():
 	def notifica(self, source):
 		self.primality_test = source.get_primality_test()
 		if self.eva != None:
-			thread.start_new_thread(self.prepare_attack, ())
+			self.prepare_attack()
 
 	def add_listener(self, listener):
 		self.eva.add_listener(listener)

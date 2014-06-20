@@ -2,29 +2,22 @@ from utility.Math import gcd, legendre
 from models import SettingsSingleton
 from random import randint
 from math import sqrt
-from utility import Timer
-from Exceptions import Timeout
 
 class FactorizationMethod():
 
 	def __init__(self):
 		self.prime_1 = None
 		self.prime_2 = None
-		self.timer = Timer(120, self.time_except)
 
 	def attack(self, client):
 		self.mod, self.key = client.get_public_key()
 		self.prime_1, self.prime_2 = None, None
-		self.timer.start()
 
 	def get_factors(self):
 		return (self.prime_1, self.prime_2)
 
 	def is_successful(self):
 		return self.prime_1 != None and self.prime_2 != None
-
-	def time_except(self):
-		raise Timeout()
 
 class QuadraticSieveMethod(FactorizationMethod):
 
@@ -45,7 +38,6 @@ class QuadraticSieveMethod(FactorizationMethod):
 				factor_base.append(k)
 			i += 1
 		print(factor_base)
-		self.timer.cancel()
 
 
 	def is_residuo(self, x):
@@ -67,7 +59,6 @@ class PMinusOneAndExponentMethod(FactorizationMethod):
 		length = len(str(bin(self.mod)))
 		B = randint(1,5)*length
 		self.p_minus_one_factorization(B)
-		self.timer.cancel()
 
 	def p_minus_one_factorization(self, B):
 		self.count += 1
@@ -89,9 +80,9 @@ class PMinusOneAndExponentMethod(FactorizationMethod):
 		B_fact = self.B_fact
 		r = 0
 		while B_fact % 2 == 0:
-			B_fact = B_fact / 2
+			B_fact = long(B_fact) / 2
 			r += 1
-
+		B_fact = B_fact % (self.mod-1)
 		b0 = pow(a, B_fact, self.mod)
 		if b0 != 1:
 			while r > 0:

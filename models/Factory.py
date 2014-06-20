@@ -3,7 +3,7 @@
 __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
-from KeyAlgorithm import SimpleKeySelectionAlgorithm, StrongKeySelectionAlgorithm
+from .KeyAlgorithm import SimpleKeySelectionAlgorithm, StrongKeySelectionAlgorithm
 
 
 class SimpleFactory():

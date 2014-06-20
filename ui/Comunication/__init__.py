@@ -1,1 +1,1 @@
-from ComunicationBox import ComunicationBox
+from .ComunicationBox import ComunicationBox

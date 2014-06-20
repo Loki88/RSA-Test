@@ -3,7 +3,7 @@
 __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
-from NumberFactory import NumberFactorySingleton
+from .NumberFactory import NumberFactorySingleton
 
 class SimpleKeySelectionAlgorithm():
 

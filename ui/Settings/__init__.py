@@ -1,1 +1,1 @@
-from Settings import SettingsBox
+from .Settings import SettingsBox
