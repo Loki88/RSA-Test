@@ -71,7 +71,7 @@ class FactorizationBox(Content, SimpleListener):
 
 	def fattorizzazione(self):
 		self.wait("Trying to find primes.")
-		end_message = "Is it what you expected?"
+		end_message = "Is it what you expected? No? Try again!"
 		try:
 			self.controller.fattorizza_chiave_pubblica()
 		except MemoryError as e:

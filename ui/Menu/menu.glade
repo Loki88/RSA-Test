@@ -15,7 +15,7 @@
     <property name="layout_style">center</property>
     <child>
       <object class="GtkButton" id="secure_message_button">
-        <property name="label" translatable="yes">Messaggi senza intruso</property>
+        <property name="label" translatable="yes">Message exchange with RSA</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -33,7 +33,7 @@
     </child>
     <child>
       <object class="GtkButton" id="factorization_button">
-        <property name="label" translatable="yes">Prove di fattorizzazione</property>
+        <property name="label" translatable="yes">Factorization attacks to RSA</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -50,7 +50,7 @@
     </child>
     <child>
       <object class="GtkButton" id="prime_generator">
-        <property name="label" translatable="yes">Genera numeri primi</property>
+        <property name="label" translatable="yes">Prime generation</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -67,7 +67,7 @@
     </child>
     <child>
       <object class="GtkButton" id="button1">
-        <property name="label" translatable="yes">Impostazioni</property>
+        <property name="label" translatable="yes">Settings</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
