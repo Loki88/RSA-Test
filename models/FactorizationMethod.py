@@ -5,14 +5,22 @@ import numpy as np
 from math import sqrt
 from multiprocessing import Pool
 from .PrimalityTest import AKSPrimeTest
+from utility.Math import continued_fraction_next_step
+import time
 
 class FactorizationMethod():
+	'''
+	Base class for factorization methods.
+	'''
 
 	def __init__(self):
 		self.prime_1 = None
 		self.prime_2 = None
 
 	def attack(self, client):
+		'''
+		Base method. When this method is called with an instance of RSAClient
+		'''
 		self.mod, self.key = client.get_public_key()
 		self.prime_1, self.prime_2 = None, None
 
@@ -190,13 +198,6 @@ class QuadraticSieveMethod(FactorizationMethod):
 		return relations
 
 
-
-			
-
-
-
-
-
 class PMinusOneAndExponentMethod(FactorizationMethod):
 
 	max_iteration_lenght = None
@@ -262,3 +263,42 @@ class PMinusOneAndExponentMethod(FactorizationMethod):
 			k += 1
 
 		return b
+
+class LowExponentAttack(FactorizationMethod):
+
+	def attack(self, client):
+		FactorizationMethod.attack(self, client)
+		x, a, p, q = continued_fraction_next_step(self.key / self.mod)
+		print(self.key / self.mod, "Num")
+		print(x, "X")
+		print(p, "Fraction gives p")
+		print(q, "Fraction gives q")
+		time.sleep(20)
+		'''
+		C è candidato ad essere theta di eulero
+		'''
+		if p[0] != 0:
+			C = (self.key * q[0] - 1) / p[0]
+			if C % 1 == 0:
+				self.solve(C)
+		if self.is_successful():
+			return
+		while True:
+			x, a, p, q = continued_fraction_next_step(x, a, p, q)
+			print(p, "Fraction gives p")
+			print(q, "Fraction gives q")
+			if p[0] != 0:
+				C = (self.key * q[0] - 1) / p[0]
+				if C % 1 == 0:
+					self.solve(C)
+					if self.is_successful():
+						break
+
+	def solve(self, theta):
+		p = [1, -(n - theta + 1), n]
+		primes = np.solve(p)
+		if primes[0] % 1 == 0 and primes[1] % 1 == 0:
+			self.prime_1 = primes[0]
+			self.prime_2 = primes[1]
+
+		print(primes, "Primes attacked")

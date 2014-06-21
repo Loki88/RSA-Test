@@ -24,4 +24,9 @@ class StrongKeySelectionAlgorithm(SimpleKeySelectionAlgorithm):
 class WeakKeySelectionAlgorithm(SimpleKeySelectionAlgorithm):
 
 	def set_private_key(self, client):
-		pass
+		n = client.get_n()
+		p = client.get_p()
+		q = client.get_q()
+		theta_n = client.get_theta()
+		num = NumberFactorySingleton.get_instance().get_coprime(theta_n, 2,sqrt(sqrt(n))/3 - 1)
+		return num % theta_n

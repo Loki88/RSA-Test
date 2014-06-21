@@ -6,7 +6,7 @@ __copyright__   = "Copyright 2014"
 from gi.repository import Gtk, GLib
 from models.PrimalityTest import SimplePrimeTest, MillerRabinTest, AKSPrimeTest
 from controllers import SettingsControllerSingleton
-from models.FactorizationMethod import PMinusOneAndExponentMethod, QuadraticSieveMethod
+from models.FactorizationMethod import PMinusOneAndExponentMethod, QuadraticSieveMethod, LowExponentAttack
 from ui.Window import Content, MainWindow
 
 class SettingsBox(Content):
@@ -38,7 +38,8 @@ class SettingsBox(Content):
 
 		self.factorization_method_buttons ={
 			1: builder.get_object("quadratic_sieve"),
-			2: builder.get_object("exponent_attack")
+			2: builder.get_object("exponent_attack"),
+			3: builder.get_object("low_exponent")
 		}
 
 		self.primality_tests = {
@@ -49,7 +50,8 @@ class SettingsBox(Content):
 
 		self.factorization_methods = {
 			1: QuadraticSieveMethod,
-			2: PMinusOneAndExponentMethod
+			2: PMinusOneAndExponentMethod,
+			3: LowExponentAttack
 		}
 
 		self.recursion_size = builder.get_object("recursion_size")
@@ -80,6 +82,7 @@ class SettingsBox(Content):
 		for method in self.factorization_method_buttons.keys():
 			element = self.factorization_method_buttons[method]
 			if element == widget:
+				print(method, "Method")
 				self.factorization_method = method
 
 	def set_initial_values(self):

@@ -49,7 +49,56 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_bottom">5</property>
-                        <property name="label" translatable="yes">Primality Test</property>
+                        <property name="label" translatable="yes">Not Deterministic Tests</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="miller_rabin_test">
+                        <property name="label" translatable="yes">Miller - Rabin Test</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="image_position">right</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">simple_test</property>
+                        <signal name="clicked" handler="primality_test_checked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="box4">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="label5">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_bottom">5</property>
+                        <property name="label" translatable="yes">Deterministic Tests (Slow)</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -93,32 +142,14 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="miller_rabin_test">
-                        <property name="label" translatable="yes">Miller - Rabin Test</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="xalign">0</property>
-                        <property name="image_position">right</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">simple_test</property>
-                        <signal name="clicked" handler="primality_test_checked" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">3</property>
-                      </packing>
+                      <placeholder/>
                     </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">0</property>
+                    <property name="position">1</property>
                   </packing>
-                </child>
-                <child>
-                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -167,6 +198,7 @@
               <object class="GtkBox" id="box3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
                 <property name="homogeneous">True</property>
                 <child>
                   <object class="GtkRadioButton" id="quadratic_sieve">
@@ -200,6 +232,23 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkRadioButton" id="low_exponent">
+                    <property name="label" translatable="yes">Low Exponent Attack</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="xalign">0</property>
+                    <property name="image_position">right</property>
+                    <property name="draw_indicator">True</property>
+                    <property name="group">quadratic_sieve</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
               </object>

@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Scambio di messaggi con RSA &mdash; RSA &amp; Primality Test 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="RSA &amp; Primality Test 1.0 documentation" href="index.html" />
+    <link rel="prev" title="Introduzione" href="intro.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="intro.html" title="Introduzione"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">RSA &amp; Primality Test 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="scambio-di-messaggi-con-rsa">
+<h1>Scambio di messaggi con RSA<a class="headerlink" href="#scambio-di-messaggi-con-rsa" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line">Scopo di questa sezione è approfondire il funzionamento di RSA, offrendo informazioni sulla struttura base dell&#8217;applicazione.</div>
+<div class="line">Su di essa è basata interamente l&#8217;applicazione, modificabile per innesto di nuovi oggetti, come algoritmi di generazione di chiavi, test di primalità, algoritmi per la generazione di numeri primi, metodi di fattorizzazione, ecc.</div>
+</div>
+<div class="line-block">
+<div class="line">La parte fondamentale è il client RSA. Ogni client (e.g. Alice) possiede due numeri primi p e q, che tiene segreti, e un intero d, esponente di decifratura (anch&#8217;esso segreto). Da questi tre numeri può calcolare n = pq ed e = d^(-1) (mod (p-1)(q-1)) che rappresentano la sua chiave pubblica. Ogni client può generare un messaggio a partire da una stringa:</div>
+</div>
+<ul class="simple">
+<li>il client traduce la stringa in ascii</li>
+<li>il codice ascii viene tradotto in binario e concatenato</li>
+<li>la stringa binaria viene spezzata in blocchi di lunghezza inferiore di n</li>
+<li>ogni blocco viene elevato all&#8217;esponente e del destinatario del messaggio</li>
+</ul>
+<div class="line-block">
+<div class="line">affinchè d ed e siano invertibili modulo (p-1)(q-1), devono essere coprimi con (p-1)(q-1).</div>
+<div class="line"><br /></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">Introduzione</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/rsa.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="intro.html" title="Introduzione"
+             >previous</a> |</li>
+        <li><a href="index.html">RSA &amp; Primality Test 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Lorenzo Di Giuseppe.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

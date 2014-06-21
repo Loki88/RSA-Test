@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduzione &mdash; RSA &amp; Primality Test 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="RSA &amp; Primality Test 1.0 documentation" href="index.html" />
+    <link rel="next" title="Scambio di messaggi con RSA" href="rsa.html" />
+    <link rel="prev" title="Welcome to RSA &amp; Primality Test’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="rsa.html" title="Scambio di messaggi con RSA"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to RSA &amp; Primality Test’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">RSA &amp; Primality Test 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introduzione">
+<h1>Introduzione<a class="headerlink" href="#introduzione" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line">RSA è un crittosistema a chiave pubblica.</div>
+<div class="line">Alice vuole inviare un messaggio a Bob, ma i due non hanno mai comunicato prima d&#8217;ora. Ogni messaggio che Alice invia a Bob potrebbe essere intercettato e letto da Eva. Alice | dovrebbe inviare una chiave a Bob, ma anche in questo caso Eva potrebbe intercettarla per leggere ogni altro messaggio.</div>
+</div>
+<div class="line-block">
+<div class="line">RSA consente ad Alice di scrivere dei messaggi a Bob rendendo quasi impossibile decifrarli. Eva è fuori dai giochi. RSA è basato sulla difficoltà di fattorizzare gli interi in numeri primi, fu proposto da Rivest, Shamir e Adleman nel 1977.</div>
+<div class="line">Brevemente Bob:</div>
+</div>
+<ul class="simple">
+<li>Sceglie due numeri primi p e q grandi e distinti, quindi li moltiplica, ottenendo </li>
+<li>Sceglie un esponente di cifratura e, tale che (e,(p-1)(q-1)) = 1</li>
+<li>Invia ad Alice la coppia (n,e) mantenendo segreti i valori di p e q.</li>
+</ul>
+<p>Alice non ha mai bisogno di conoscere p e q per inviare un messaggio in modo sicuro a Bob, infatti:</p>
+<ul class="simple">
+<li>Scrive un messaggio come un numero m. Se m è maggiore di n allora viene spezzato in blocchi di dimensione inferiore ad n, ma supponiamo m &lt; n</li>
+<li>Produce il messaggio da inviare </li>
+<li>Invia c a Bob</li>
+</ul>
+<div class="line-block">
+<div class="line">Bob che conosce p e q può calcolare mediante la funzione totiente di Eulero l&#8217;esponente di decifrazione d, tale che de = 1 (mod(p-1)(q-1)) quindi può decifrare il messaggio che in virtù dei teoremi di Fermat ed Eulero è: .</div>
+<div class="line">Se Eva intercetta (n,e) non può decifrare il messaggio c inviato da Alice a Bob; per farlo avrebbe bisogno di  (ovvero del valore della funzione totiente di Eulero per n) oppure di p e q, la fattorizzazione di n. Poichè si dimostra che i due problemi sono equivalenti e fattorizzare un numero è ritenuto un problema difficile, possibile solo sotto certe condizioni in tempi ragionevoli, Alice e Bob sono al sicuro.</div>
+</div>
+<p>..note:
+In realtà Eva potrebbe fornire ad Alice una sua chiave, intromettendosi trasparentemente nella comunicazione, ma supponiamo che Eva non possa.</p>
+<div class="line-block">
+<div class="line">Questa applicazione è stata realizzata per l&#8217;esame del corso di Crittografia del Prof. Norberto Gavioli, Università degli Studi dell&#8217;Aquila. Lo scopo è mostrare come sia possibile generare dei numeri primi, mediante differenti test di primalità, e come, sotto opportune condizioni, sia possibile fattorizzare un numero in primi.</div>
+<div class="line">L&#8217;interesse pratico è relativo a molti campi della crittografia:</div>
+</div>
+<ul class="simple">
+<li>generare primi è utile per produrre chiavi in RSA, in ElGamal...</li>
+<li>fattorizzare è di interesse nella crittoanalisi e in molte altre applicazioni.</li>
+</ul>
+<div class="line-block">
+<div class="line">Nel seguito si descriverà l&#8217;applicazione in questione, offrendo, quando ritenuto opportuno, spiegazioni sugli algoritmi implementati, quali:</div>
+</div>
+<ul class="simple">
+<li>Test di primalità: Fermat, Miller-Rabin, AKS, Lucas-Lehmer;</li>
+<li>Metodi di fattorizzazione: metodo p-1 e metodo dell&#8217;esponente (trattati assieme per ragioni che verranno approfondite in seguito), crivello quadratico e un tipo di attacco basato sullo sviluppo in frazioni continue.</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to RSA &amp; Primality Test&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="rsa.html"
+                        title="next chapter">Scambio di messaggi con RSA</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/intro.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="rsa.html" title="Scambio di messaggi con RSA"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to RSA &amp; Primality Test’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">RSA &amp; Primality Test 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Lorenzo Di Giuseppe.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

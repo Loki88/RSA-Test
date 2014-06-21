@@ -8,6 +8,15 @@ from ui.Menu import MenuBox
 from ui.Window import MainWindow
 from controllers import SettingsControllerSingleton
 # from models.PrimalityTest import AKSPrimeTest
+# from utility.Math import continued_fraction, continued_fraction_next_step
+
+# pi = 3.14
+# x, a, p, q = continued_fraction_next_step(pi)
+# print(p[0]/q[0], "Firts expansion [p="+str(p[0])+", q="+str(q[0])+"]")
+# x, a, p, q = continued_fraction_next_step(x, a, p, q)
+# print(p[0]/q[0], "Second expansion [p="+str(p[0])+", q="+str(q[0])+"]")
+# x, a, p, q = continued_fraction_next_step(x, a, p, q)
+# print(p[0]/q[0], "Third expansion [p="+str(p[0])+", q="+str(q[0])+"]")
 
 menu = MenuBox()
 SettingsControllerSingleton.get_instance()

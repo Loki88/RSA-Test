@@ -16,6 +16,7 @@ class FactorizationBox(Content, SimpleListener):
 
 	methods = {PMinusOneAndExponentMethod.__name__: "P-1 & Global Exponent",
 				QuadraticSieveMethod.__name__: "Quadratic Sieve",
+				LowExponentAttack.__name__: "Low Exponent"
 	}
 
 	def __init__(self):
