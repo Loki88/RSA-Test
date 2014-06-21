@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Test di primalità &mdash; RSA &amp; Primality Test 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="RSA &amp; Primality Test 1.0 documentation" href="index.html" />
+    <link rel="next" title="Metodi di fattorizzazione" href="factorization.html" />
+    <link rel="prev" title="Scambio di messaggi con RSA" href="rsa.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="factorization.html" title="Metodi di fattorizzazione"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="rsa.html" title="Scambio di messaggi con RSA"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">RSA &amp; Primality Test 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="test-di-primalita">
+<h1>Test di primalità<a class="headerlink" href="#test-di-primalita" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line">Come già detto, una parte fondamentale dell&#8217;applicazione è rappresentata dai test di primalità.</div>
+<div class="line">I test di primalità si possono suddividere in due categorie:</div>
+</div>
+<ul class="simple">
+<li>deterministici: sono i test che sono validi per qualsiasi numero e danno la certezza assoluta che il numero sia primo</li>
+<li>non deterministici: sono test validi per qualche tipologia di numero o che non danno certezza assoluta sulla primalità di un numero</li>
+</ul>
+<dl class="class">
+<dt id="models.PrimalityTest.PrimeTest">
+<em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">PrimeTest</tt><a class="headerlink" href="#models.PrimalityTest.PrimeTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="models.PrimalityTest.SimplePrimeTest">
+<em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">SimplePrimeTest</tt><a class="headerlink" href="#models.PrimalityTest.SimplePrimeTest" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="models.PrimalityTest.SimplePrimeTest.is_prime">
+<tt class="descname">is_prime</tt><big>(</big><em>num</em><big>)</big><a class="headerlink" href="#models.PrimalityTest.SimplePrimeTest.is_prime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="models.PrimalityTest.AKSPrimeTest">
+<em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">AKSPrimeTest</tt><a class="headerlink" href="#models.PrimalityTest.AKSPrimeTest" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="models.PrimalityTest.AKSPrimeTest.is_prime">
+<tt class="descname">is_prime</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#models.PrimalityTest.AKSPrimeTest.is_prime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="models.PrimalityTest.MillerRabinTest">
+<em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">MillerRabinTest</tt><a class="headerlink" href="#models.PrimalityTest.MillerRabinTest" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="models.PrimalityTest.MillerRabinTest.is_prime">
+<tt class="descname">is_prime</tt><big>(</big><em>num</em><big>)</big><a class="headerlink" href="#models.PrimalityTest.MillerRabinTest.is_prime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="rsa.html"
+                        title="previous chapter">Scambio di messaggi con RSA</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="factorization.html"
+                        title="next chapter">Metodi di fattorizzazione</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/primality.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="factorization.html" title="Metodi di fattorizzazione"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="rsa.html" title="Scambio di messaggi con RSA"
+             >previous</a> |</li>
+        <li><a href="index.html">RSA &amp; Primality Test 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Lorenzo Di Giuseppe.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

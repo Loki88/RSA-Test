@@ -9,7 +9,9 @@ Welcome to RSA & Primality Test's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2   
+
   
    intro
    rsa
+   primality
+   factorization

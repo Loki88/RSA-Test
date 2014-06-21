@@ -11,4 +11,14 @@ Scambio di messaggi con RSA
 - ogni blocco viene elevato all'esponente e del destinatario del messaggio
 
 | affinchè d ed e siano invertibili modulo (p-1)(q-1), devono essere coprimi con (p-1)(q-1).
-| 
+| La classe fondamentale è RSAClient:
+
+.. autoclass:: models.RSAClient.RSAClient
+	:members:
+	:inherited-members:
+
+	.. automethod:: models.RSAClient.RSAClient.prepare
+
+	.. automethod:: models.RSAClient.RSAClient.receive_message
+	
+	.. automethod:: models.RSAClient.RSAClient.generate_message

@@ -1,11 +1,17 @@
+#!/usr/bin/env python
+
+__author__      = "Lorenzo Di Giuseppe"
+__copyright__   = "Copyright 2014"
+
 from utility.Math import gcd, legendre
 from models import SettingsSingleton
 from random import randint
 import numpy as np
+from decimal import *
 from math import sqrt
 from multiprocessing import Pool
 from .PrimalityTest import AKSPrimeTest
-from utility.Math import continued_fraction_next_step
+from utility.Math import continued_fraction_next_step, continued_fraction
 import time
 
 class FactorizationMethod():
@@ -268,37 +274,28 @@ class LowExponentAttack(FactorizationMethod):
 
 	def attack(self, client):
 		FactorizationMethod.attack(self, client)
-		x, a, p, q = continued_fraction_next_step(self.key / self.mod)
 		print(self.key / self.mod, "Num")
-		print(x, "X")
-		print(p, "Fraction gives p")
-		print(q, "Fraction gives q")
-		time.sleep(20)
 		'''
-		C è candidato ad essere theta di eulero
+		C e candidato ad essere theta di eulero
 		'''
-		if p[0] != 0:
-			C = (self.key * q[0] - 1) / p[0]
-			if C % 1 == 0:
-				self.solve(C)
-		if self.is_successful():
-			return
+		i = 1
 		while True:
-			x, a, p, q = continued_fraction_next_step(x, a, p, q)
-			print(p, "Fraction gives p")
-			print(q, "Fraction gives q")
-			if p[0] != 0:
-				C = (self.key * q[0] - 1) / p[0]
+			p, q = continued_fraction(Decimal(self.key / self.mod), i)
+			print(p/q, "Fraction gives")
+			if p != 0:
+				C = (self.key * q - 1) / p
 				if C % 1 == 0:
 					self.solve(C)
 					if self.is_successful():
 						break
+			i += 1
 
 	def solve(self, theta):
-		p = [1, -(n - theta + 1), n]
-		primes = np.solve(p)
-		if primes[0] % 1 == 0 and primes[1] % 1 == 0:
+		p = [1, -(self.mod - theta + 1), self.mod]
+		primes = np.roots(p)
+		print(primes, "Primes attacked")
+		if int(primes[0]) == primes[0] and int(primes[1]) == primes[1]:
 			self.prime_1 = primes[0]
 			self.prime_2 = primes[1]
 
-		print(primes, "Primes attacked")
+		

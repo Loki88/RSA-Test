@@ -1,6 +1,7 @@
 from itertools import *
 from math import *
 import operator
+from decimal import *
 
 def __init__(self):
 	pass
@@ -141,6 +142,6 @@ def continued_fraction_next_step(n, a=0, p=(1, 0), q=(0, 1)):
 	an = int(xn)
 	if xn == an:
 		return (pn_1, pn_2), (qn_1, qn_2)
-	pn = an * pn_1 + pn_2
-	qn = an * qn_1 + qn_2
+	pn = Decimal(an * pn_1 + pn_2)
+	qn = Decimal(an * qn_1 + qn_2)
 	return xn, an, (pn, pn_1), (qn, qn_1)
