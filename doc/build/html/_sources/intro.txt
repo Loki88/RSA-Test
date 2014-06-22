@@ -31,8 +31,11 @@ Alice non ha mai bisogno di conoscere p e q per inviare un messaggio in modo sic
 
 | Questa applicazione è stata realizzata per l'esame del corso di Crittografia del Prof. Norberto Gavioli, Università degli Studi dell'Aquila. Lo scopo è mostrare come sia possibile generare dei numeri primi, mediante differenti test di primalità, e come, sotto opportune condizioni, sia possibile fattorizzare un numero in primi.
 | L'interesse pratico è relativo a molti campi della crittografia: 
+
 - generare primi è utile per produrre chiavi in RSA, in ElGamal...
 - fattorizzare è di interesse nella crittoanalisi e in molte altre applicazioni.
+
 | Nel seguito si descriverà l'applicazione in questione, offrendo, quando ritenuto opportuno, spiegazioni sugli algoritmi implementati, quali:
-- Test di primalità: Fermat, Miller-Rabin, AKS, Lucas-Lehmer;
+
+- Test di primalità: Fermat, Miller-Rabin, AKS;
 - Metodi di fattorizzazione: metodo p-1 e metodo dell'esponente (trattati assieme per ragioni che verranno approfondite in seguito), crivello quadratico e un tipo di attacco basato sullo sviluppo in frazioni continue.

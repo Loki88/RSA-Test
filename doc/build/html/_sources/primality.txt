@@ -94,7 +94,46 @@ Test di Miller-Rabin
 	| **Test di primalità di Fermat**
 	| *Sia n > 1 un intero. Sia a un intero casuale tale che* :math:`1 < a < n-1` *. Se* :math:`a^{n-1} \not\equiv 1 \pmod n` *, allora n è composto. Se* :math:`a^{n-1} \equiv 1 \pmod n` *, allora n è probabilmente primo.*
 
-| Si noti che il test di Fermat risponde con certezza se un numero è composto, la primalità non è certa. Un numero che supera il test di Fermat pur non essendo primo è detto pseudoprimo. In particolare un numero n che supera il test per un certo a è detto pseudoprimo per la base a.
+| Si noti che il test di Fermat risponde con certezza se un numero è composto, ma non se un numero è primo. Si può affermare che molto proababilmente il numero è primo, ma esistono delle eccezioni. In generale un numero che supera il test di Fermat pur non essendo primo è detto pseudoprimo. In particolare un numero n che supera il test per un certo a è detto pseudoprimo per la base a.
+| Nonostante i problemi presentati dal problema di Fermat, la sua applicazione può risultare abbastanza efficiente (*elevamento a potenza mediante quadrati successivi*).
+| Il test di Miller-Rabin è una combinazione del test di Fermat e del principio fondamentale.
+
+	| **Test di primalità di Miller-Rabin**
+	| *Sia n > 1 un intero dispari. Sia* :math:`n-1 = 2^k m` *con m dispari (o sarebbe divisibile per 2). Si scelga un intero casuale a tale che* :math:`1 < a < n-1`. Sia :math:`b_0 \equiv a^m \pmod n` *. Se* :math:`b_0 \equiv \pm 1 \pmod n` *, allora ci si ferma e si dichiara che n è probabilmente primo. Altrimenti, sia* :math:`b_1 \equiv b_0^2 \pmod n` *. Se* :math:`b_1 \equiv 1 \pmod n` allora n è composto (e* :math:`gcd(b_0-1, n)` *) è un fattore non banale di n). Se* :math:`b_1 \equiv -1 \pmod n` *allora ci si ferma e si dichiara che n probabilmente è primo. Altrimenti, sia* :math:`b_2 \equiv b_1^2 \pmod n` *. Se* :math:`b_2 \equiv 1 \pmod n` *allora n è composto. Se* :math:`b_2 \equiv -1 \pmod n` *, allora n è probabilmente primo. Si itera con questo procedimento fino a che non si raggiunge* :math:`b_{k-1}` *. Se* :math:`b_{k-1} \not\equiv -1 \pmod n` *, allora n è composto.*
+
+| Anche il test di Miller-Rabin non da sicurezza sulla primalità di n. Un numero composto che supera questo test si dice pseudoprimo forte. Tuttavia gli pseudoprimi forti per una certa base a sono molto più rari degli pseudoprimi.
+| La probabilità che il test fallisca nel riconoscere un numero composto per un a scelto a caso, è al più 1/4 (fallisce più raramente), ma in generale, ripetendo il test un paio di volte, con delle basi a differenti, riduce drasticamente la probabilità.
+| A differenza dei test visti precedentemente, il test di Miller-Rabin è molto più rapido, anche se esistono test più sofisticati, in grado di fornire la certezza della primalità di un numero.
+| Come abbiamo fatto per il test AKS, forniamo un algoritmo per testare la primalità di un intero:
+
+	.. code::
+		:number-lines: 0
+
+		Miller-Rabin(n)
+			if(n == 2) return PRIME
+			if(n pari) return COMPOSITE
+			trova k ed m affinchè m*2^k == n
+			scegli casualmente a tra 2 e n-1
+			b0 = a^m (ottenuto mediante moltiplicazioni successive mod n)
+			if(b0 == 1 or b0 == num-1) return PRIME
+			while(k > 0)
+				b1 = b0^2 mod n
+				if(b1 == 1)
+					return COMPOSITE
+				else if(b1 == n-1 || b1 == -1)
+					return PRIME
+				else:
+					if(k > 0)
+						k -= 1
+						b0 = b1
+					else
+						return COMPOSITE
+
+| Spieghiamo il funzionamento del test, supponendo :math:`b_{k+1} \equiv 1` con k+1 dispari, questo significa che :math:`b_{k}^2 \equiv 1 \pmod n` ovvero:
+
+- :math:`b_{k} \not\equiv \pm 1 \pmod n`: per il principio fondamentale possiamo affermare che n è composto e possiamo calcolarne un fattore non banale;
+- :math:`b_{k} \equiv \pm 1 \pmod n` in questo caso l'algoritmo si sarebbe fermato al passo precedente. Infatti :math:`b_{k-1} \equiv a^{\frac{n-1}{2}} \pmod n` il cui quadrato è :math:`a^{n-1}` equivalente a 1 se n è primo.
+
 
 
 .. autoclass:: models.PrimalityTest.MillerRabinTest

@@ -183,8 +183,52 @@ Quindi viene svolto il test sul gcd e sulla grandezza di n rispetto ad r. Per co
 </div>
 </div></blockquote>
 <div class="line-block">
-<div class="line">Si noti che il test di Fermat risponde con certezza se un numero è composto, la primalità non è certa. Un numero che supera il test di Fermat pur non essendo primo è detto pseudoprimo. In particolare un numero n che supera il test per un certo a è detto pseudoprimo per la base a.</div>
+<div class="line">Si noti che il test di Fermat risponde con certezza se un numero è composto, ma non se un numero è primo. Si può affermare che molto proababilmente il numero è primo, ma esistono delle eccezioni. In generale un numero che supera il test di Fermat pur non essendo primo è detto pseudoprimo. In particolare un numero n che supera il test per un certo a è detto pseudoprimo per la base a.</div>
+<div class="line">Nonostante i problemi presentati dal problema di Fermat, la sua applicazione può risultare abbastanza efficiente (<em>elevamento a potenza mediante quadrati successivi</em>).</div>
+<div class="line">Il test di Miller-Rabin è una combinazione del test di Fermat e del principio fondamentale.</div>
 </div>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>Test di primalità di Miller-Rabin</strong></div>
+<div class="line"><em>Sia n &gt; 1 un intero dispari. Sia</em> <img class="math" src="_images/math/4970a49c3e0ac8f3974a3cf38745159c8d8001fd.png" alt="n-1 = 2^k m"/> <em>con m dispari (o sarebbe divisibile per 2). Si scelga un intero casuale a tale che</em> <img class="math" src="_images/math/a82f5036137006113dd992819eb930de24f90ba3.png" alt="1 &lt; a &lt; n-1"/>. Sia <img class="math" src="_images/math/9f0438f40e326c9f82a9f86e36571c183a1fe55f.png" alt="b_0 \equiv a^m \pmod n"/> <em>. Se</em> <img class="math" src="_images/math/40d56e4722527150efb0ce33658689f71b55401a.png" alt="b_0 \equiv \pm 1 \pmod n"/> <em>, allora ci si ferma e si dichiara che n è probabilmente primo. Altrimenti, sia</em> <img class="math" src="_images/math/cb35e4df29c099602bb38fdcedc5225c20f0f24f.png" alt="b_1 \equiv b_0^2 \pmod n"/> <em>. Se</em> <img class="math" src="_images/math/efb08cd7fee6b83f9440495a8c8326d23e76da74.png" alt="b_1 \equiv 1 \pmod n"/> allora n è composto (e* <img class="math" src="_images/math/0130cc58599c75ad6275980da621570b32869ba9.png" alt="gcd(b_0-1, n)"/> <em>) è un fattore non banale di n). Se</em> <img class="math" src="_images/math/80ce773af10f0b9c156ac0a13cd212856ceeb5ab.png" alt="b_1 \equiv -1 \pmod n"/> <em>allora ci si ferma e si dichiara che n probabilmente è primo. Altrimenti, sia</em> <img class="math" src="_images/math/7a0c53b649315e0141fa058401b9616e1258c267.png" alt="b_2 \equiv b_1^2 \pmod n"/> <em>. Se</em> <img class="math" src="_images/math/86717ad5449fb0dfff694f5961bc9e3185174224.png" alt="b_2 \equiv 1 \pmod n"/> <em>allora n è composto. Se</em> <img class="math" src="_images/math/26f703f5648f92319c66f75d6eeea520bfadc0e8.png" alt="b_2 \equiv -1 \pmod n"/> <em>, allora n è probabilmente primo. Si itera con questo procedimento fino a che non si raggiunge</em> <img class="math" src="_images/math/822965e42f914aa3d362ef761ea9367201d5c7b1.png" alt="b_{k-1}"/> <em>. Se</em> <img class="math" src="_images/math/bbcb8504366f5ca6b0b6dcd101b0409ae94e6f62.png" alt="b_{k-1} \not\equiv -1 \pmod n"/> <em>, allora n è composto.</em></div>
+</div>
+</div></blockquote>
+<div class="line-block">
+<div class="line">Anche il test di Miller-Rabin non da sicurezza sulla primalità di n. Un numero composto che supera questo test si dice pseudoprimo forte. Tuttavia gli pseudoprimi forti per una certa base a sono molto più rari degli pseudoprimi.</div>
+<div class="line">La probabilità che il test fallisca nel riconoscere un numero composto per un a scelto a caso, è al più 1/4 (fallisce più raramente), ma in generale, ripetendo il test un paio di volte, con delle basi a differenti, riduce drasticamente la probabilità.</div>
+<div class="line">A differenza dei test visti precedentemente, il test di Miller-Rabin è molto più rapido, anche se esistono test più sofisticati, in grado di fornire la certezza della primalità di un numero.</div>
+<div class="line">Come abbiamo fatto per il test AKS, forniamo un algoritmo per testare la primalità di un intero:</div>
+</div>
+<blockquote>
+<div><pre class="code literal-block">
+<span class="ln"> 0 </span>Miller-Rabin(n)
+<span class="ln"> 1 </span>        if(n == 2) return PRIME
+<span class="ln"> 2 </span>        if(n pari) return COMPOSITE
+<span class="ln"> 3 </span>        trova k ed m affinchè m*2^k == n
+<span class="ln"> 4 </span>        scegli casualmente a tra 2 e n-1
+<span class="ln"> 5 </span>        b0 = a^m (ottenuto mediante moltiplicazioni successive mod n)
+<span class="ln"> 6 </span>        if(b0 == 1 or b0 == num-1) return PRIME
+<span class="ln"> 7 </span>        while(k &gt; 0)
+<span class="ln"> 8 </span>                b1 = b0^2 mod n
+<span class="ln"> 9 </span>                if(b1 == 1)
+<span class="ln">10 </span>                        return COMPOSITE
+<span class="ln">11 </span>                else if(b1 == n-1 || b1 == -1)
+<span class="ln">12 </span>                        return PRIME
+<span class="ln">13 </span>                else:
+<span class="ln">14 </span>                        if(k &gt; 0)
+<span class="ln">15 </span>                                k -= 1
+<span class="ln">16 </span>                                b0 = b1
+<span class="ln">17 </span>                        else
+<span class="ln">18 </span>                                return COMPOSITE
+</pre>
+</div></blockquote>
+<div class="line-block">
+<div class="line">Spieghiamo il funzionamento del test, supponendo <img class="math" src="_images/math/459f26cf1496320f743c3c9ef6dc91f8c97130b3.png" alt="b_{k+1} \equiv 1"/> con k+1 dispari, questo significa che <img class="math" src="_images/math/05d7c17faf8cd2b29cde8ec52f3df7391cf83e49.png" alt="b_{k}^2 \equiv 1 \pmod n"/> ovvero:</div>
+</div>
+<ul class="simple">
+<li><img class="math" src="_images/math/ed53343b6d748604cfd1b2f670c2895dccaa2706.png" alt="b_{k} \not\equiv \pm 1 \pmod n"/>: per il principio fondamentale possiamo affermare che n è composto e possiamo calcolarne un fattore non banale;</li>
+<li><img class="math" src="_images/math/3af5c0dc0e99039399659a90ac1b02c9916f6049.png" alt="b_{k} \equiv \pm 1 \pmod n"/> in questo caso l&#8217;algoritmo si sarebbe fermato al passo precedente. Infatti <img class="math" src="_images/math/cd8d80e69d6aca64a656798f8b4dfb22cb38e33f.png" alt="b_{k-1} \equiv a^{\frac{n-1}{2}} \pmod n"/> il cui quadrato è <img class="math" src="_images/math/b077fa0e6decf2332ad3cdf8996a26686a6dfe89.png" alt="a^{n-1}"/> equivalente a 1 se n è primo.</li>
+</ul>
 <dl class="class">
 <dt id="models.PrimalityTest.MillerRabinTest">
 <em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">MillerRabinTest</tt><a class="headerlink" href="#models.PrimalityTest.MillerRabinTest" title="Permalink to this definition">¶</a></dt>
