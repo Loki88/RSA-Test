@@ -1,5 +1,22 @@
 #!/usr/bin/env python
 
+# Copyright (C) 2014  Lorenzo Di Giuseppe
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
 __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
@@ -17,6 +34,13 @@ from controllers import SettingsControllerSingleton
 # print(p[0]/q[0], "Second expansion [p="+str(p[0])+", q="+str(q[0])+"]")
 # x, a, p, q = continued_fraction_next_step(x, a, p, q)
 # print(p[0]/q[0], "Third expansion [p="+str(p[0])+", q="+str(q[0])+"]")
+
+license = '''
+RSA & Primality Test  Copyright (C) 2014  Lorenzo Di Giuseppe
+This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `show c' for details.
+'''
 
 menu = MenuBox()
 SettingsControllerSingleton.get_instance()
