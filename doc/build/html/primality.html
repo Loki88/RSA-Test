@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="RSA &amp; Primality Test 1.0 documentation" href="index.html" />
-    <link rel="next" title="Metodi di fattorizzazione" href="factorization.html" />
+    <link rel="next" title="Generazione di chiavi" href="keygen.html" />
     <link rel="prev" title="Scambio di messaggi con RSA" href="rsa.html" /> 
   </head>
   <body>
@@ -35,7 +35,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="factorization.html" title="Metodi di fattorizzazione"
+          <a href="keygen.html" title="Generazione di chiavi"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="rsa.html" title="Scambio di messaggi con RSA"
@@ -62,28 +62,129 @@
 <dl class="class">
 <dt id="models.PrimalityTest.PrimeTest">
 <em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">PrimeTest</tt><a class="headerlink" href="#models.PrimalityTest.PrimeTest" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="PrimeTest.is_prime">
+<tt class="descname">is_prime</tt><big>(</big><em>num</em><big>)</big><a class="headerlink" href="#PrimeTest.is_prime" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+</dd></dl>
+
+<div class="section" id="test-banale">
+<h2>Test banale<a class="headerlink" href="#test-banale" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Per test banale si è indicato il metodo che prevede, dato un numero num, di provare se sia divisibile per tutti i numeri interi j tali che <img class="math" src="_images/math/186d00e8f54503d5f719d420127be96e3950248c.png" alt="2 \leq j \leq \sqrt{num}"/>.</div>
+<div class="line">Naturalmente questo test è molto dispendioso in quanto a risorse, ma semplice da implementare e da assoluta certezza sulla primalità di un numero. Tuttavia il suo tempo di esecuzione cresce esponenzialmente al crescere del numero da testare.</div>
+</div>
 <dl class="class">
 <dt id="models.PrimalityTest.SimplePrimeTest">
 <em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">SimplePrimeTest</tt><a class="headerlink" href="#models.PrimalityTest.SimplePrimeTest" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="models.PrimalityTest.SimplePrimeTest.is_prime">
 <tt class="descname">is_prime</tt><big>(</big><em>num</em><big>)</big><a class="headerlink" href="#models.PrimalityTest.SimplePrimeTest.is_prime" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Iterativamente verifica se num è divisibile per gli interi minori o uguali di <img class="math" src="_images/math/186901598d90059041211e37c3caf5def0d02a36.png" alt="\sqrt{num}"/></p>
+</dd></dl>
 
 </dd></dl>
 
+</div>
+<div class="section" id="test-aks-prime-is-p">
+<h2>Test AKS: Prime is P!<a class="headerlink" href="#test-aks-prime-is-p" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">AKS è un test di primalità deterministico, pubblicato nel 2002 da Agrawal, Kayal e Saxena <a class="footnote-reference" href="#aks" id="id1">[1]</a>. La sua importanza è legata alla dimostrazione che il problema algoritmico PRIMES è risolvibile in tempo polinomiale, a differenza di quanto si credeva. Il test naturalmente è più lento dei test probabilistici e l&#8217;algoritmo viene riportato in seguito:</div>
+</div>
+<blockquote>
+<div><pre class="code literal-block">
+<span class="ln"> 0 </span>AKS(n)
+<span class="ln"> 1 </span>        if(n è una potenza perfetta)
+<span class="ln"> 2 </span>                return COMPOSITE
+<span class="ln"> 3 </span>        Sia r l'intero più piccolo, il cui ordine è maggiore a log(n)^2
+<span class="ln"> 4 </span>        if( 1 &lt; gcd(a, n) &lt; n per qualche a ≤ r )
+<span class="ln"> 5 </span>                return COMPOSITE
+<span class="ln"> 6 </span>        if( n ≤ r )
+<span class="ln"> 7 </span>                return PRIME
+<span class="ln"> 8 </span>        for( a = 1; a &lt;= parte intera di sqrt(φ(r))*log(n); a++ )
+<span class="ln"> 9 </span>                if((x + a)^n != x^n + a (mod x^r − 1, n))
+<span class="ln">10 </span>                        return COMPOSITE
+<span class="ln">11 </span>        return PRIME
+</pre>
+</div></blockquote>
+<div class="line-block">
+<div class="line">La complessità dell&#8217;algoritmo è insita nei passi 3 e 9: calcolare un intero r opportuno e calcolare le potenze di un polinomio.</div>
+<div class="line">Per quanto riguarda l&#8217;algoritmo AKS, una breve spiegazione:</div>
+</div>
+<ol class="arabic simple">
+<li>n è una potenza perfetta se esistono due interi a e b tali che <img class="math" src="_images/math/1c2f6d9402f83a28b6dbf06fce543378538467c6.png" alt="n = a^{b}"/>, ovvero n è divisibile almeno per a, quindi non è primo</li>
+<li>se esiste qualche intero a tale che il massimo comune divisore, gcd, tra a ed n è diverso da 1 e minore di n, vuol dire che a ed n sono divisibili per esso, quindi n non è primo</li>
+<li>se n è composto, allora n è divisibile per qualche numero minore di <img class="math" src="_images/math/8c36f342872d9bafd8240141c0015a23bae309c4.png" alt="\sqrt{n}"/>. Se <img class="math" src="_images/math/8026098e4e4c44ab21deb04984f5745fd79681c9.png" alt="n \leq r"/>, allora al passo 4 viene individuato ogni fattore non banale di n, quindi se n non ha fattori è primo.</li>
+<li>l&#8217;ultimo passo dell&#8217;algoritmo si basa su una proprietà dei numeri primi, ovvero n è un numero primo se e solo se divide tutti i coefficienti dell&#8217;espansione polinomiale <img class="math" src="_images/math/fd33f0c2a77ff79006c7e0aaf47776db7539ef90.png" alt="(x + a)^n - x^n - a"/></li>
+</ol>
+<div class="line-block">
+<div class="line">Naturalmente la teoria alla base di AKS è molto più estesa e complessa di come è stata descritta, con l&#8217;intento di giustificare l&#8217;algoritmo implementato.</div>
+</div>
 <dl class="class">
 <dt id="models.PrimalityTest.AKSPrimeTest">
 <em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">AKSPrimeTest</tt><a class="headerlink" href="#models.PrimalityTest.AKSPrimeTest" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="models.PrimalityTest.AKSPrimeTest.is_prime">
 <tt class="descname">is_prime</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#models.PrimalityTest.AKSPrimeTest.is_prime" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Rappresenta il metodo base, quando viene chiamato verifica se n è una potenza perfetta.
+Se non lo è calcola r, iterando sui numeri interi maggiori di 2, verificando che questo numero sia coprimo con n e che il suo ordine sia maggiore di <img class="math" src="_images/math/22012c49fab1ba2f5aff645bf272dd376e1ea026.png" alt="log(n)^2"/>.
+Quindi viene svolto il test sul gcd e sulla grandezza di n rispetto ad r. Per concludere vengono svolti i test sui polinomi, mediante la libreria Numpy.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="AKSPrimeTest.phi">
+<tt class="descname">phi</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#AKSPrimeTest.phi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calcola la funzione totiente di Eulero per il numero n.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="AKSPrimeTest.testan">
+<tt class="descname">testan</tt><big>(</big><em>a</em>, <em>n</em>, <em>r</em><big>)</big><a class="headerlink" href="#AKSPrimeTest.testan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tramite Numpy calcola il polinomio <img class="math" src="_images/math/a943da23d549c0583e51641f5be5319656184e12.png" alt="(x + a)^n"/> e testa i coefficienti</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="AKSPrimeTest.powmodn">
+<tt class="descname">powmodn</tt><big>(</big><em>pn</em>, <em>n</em>, <em>r</em>, <em>m</em><big>)</big><a class="headerlink" href="#AKSPrimeTest.powmodn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Effettua l&#8217;elevamento a potenza n del polinomio pn.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="AKSPrimeTest.ordr">
+<tt class="descname">ordr</tt><big>(</big><em>r</em>, <em>n</em><big>)</big><a class="headerlink" href="#AKSPrimeTest.ordr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calcola iterativamente l&#8217;ordine di n.</p>
+</dd></dl>
 
 </dd></dl>
 
+<blockquote class="epigraph">
+<div><em>Per la versione implementata si ringrazia lo sviluppatore che la ha implementata efficientemente in Python, non mi è possibile citarne il nome, in quanto non riportato dalla fonte da cui ho reperito il codice.</em></div></blockquote>
+</div>
+<div class="section" id="test-di-miller-rabin">
+<h2>Test di Miller-Rabin<a class="headerlink" href="#test-di-miller-rabin" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">A differenza degli altri test presentati fino ad ora, quello di Miller-Rabin non è un test deterministico, ma probabilistico.</div>
+<div class="line">Prima di descrivere l&#8217;algoritmo si espone il <strong>Principio fondamentale</strong> sul quale sono basati molti metodi di fattorizzazione, utile per spiegare l&#8217;algoritmo in questione:</div>
+</div>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>Principio fondamentale</strong></div>
+<div class="line"><em>Sia n un intero. Se esistono due interi x e y per cui:</em> <img class="math" src="_images/math/9942ba5c5f7a5d74392d46b9c541c075b61ec950.png" alt="x^2 \equiv y^2 \pmod{n}"/> <em>allora n è un numero composto. Inoltre, gcd(x-y, n) è un fattore non banale di n.</em></div>
+</div>
+</div></blockquote>
+<div class="line-block">
+<div class="line">Risulta più semplice dimostrare che un numero non è primo, che fattorizzarlo. Riprenderemo il discorso sulla fattorizzazione più avanti, per ora enunciamo un semplice test di primalità, molto efficace per numeri grandi, ma che fallisce per alcune tipologie di interi, ad esempio i numeri di Carmichael:</div>
+</div>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>Test di primalità di Fermat</strong></div>
+<div class="line"><em>Sia n &gt; 1 un intero. Sia a un intero casuale tale che</em> <img class="math" src="_images/math/a82f5036137006113dd992819eb930de24f90ba3.png" alt="1 &lt; a &lt; n-1"/> <em>. Se</em> <img class="math" src="_images/math/fa9b563b0da91046a842446386c09a4a589ed7bb.png" alt="a^{n-1} \not\equiv 1 \pmod n"/> <em>, allora n è composto. Se</em> <img class="math" src="_images/math/177544ae3d0f7a31e7ce194882bc69eee0cba08e.png" alt="a^{n-1} \equiv 1 \pmod n"/> <em>, allora n è probabilmente primo.</em></div>
+</div>
+</div></blockquote>
+<div class="line-block">
+<div class="line">Si noti che il test di Fermat risponde con certezza se un numero è composto, la primalità non è certa. Un numero che supera il test di Fermat pur non essendo primo è detto pseudoprimo. In particolare un numero n che supera il test per un certo a è detto pseudoprimo per la base a.</div>
+</div>
 <dl class="class">
 <dt id="models.PrimalityTest.MillerRabinTest">
 <em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">MillerRabinTest</tt><a class="headerlink" href="#models.PrimalityTest.MillerRabinTest" title="Permalink to this definition">¶</a></dt>
@@ -94,6 +195,13 @@
 
 </dd></dl>
 
+<table class="docutils footnote" frame="void" id="aks" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Agrawal, Manindra; Kayal, Neeraj; Saxena, Nitin (2004). <a class="reference external" href="http://www.cse.iitk.ac.in/users/manindra/algebra/primality_v6.pdf">&#8220;PRIMES is in P&#8221;</a></td></tr>
+</tbody>
+</table>
+</div>
 </div>
 
 
@@ -102,12 +210,22 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Test di primalità</a><ul>
+<li><a class="reference internal" href="#test-banale">Test banale</a></li>
+<li><a class="reference internal" href="#test-aks-prime-is-p">Test AKS: Prime is P!</a></li>
+<li><a class="reference internal" href="#test-di-miller-rabin">Test di Miller-Rabin</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="rsa.html"
                         title="previous chapter">Scambio di messaggi con RSA</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="factorization.html"
-                        title="next chapter">Metodi di fattorizzazione</a></p>
+  <p class="topless"><a href="keygen.html"
+                        title="next chapter">Generazione di chiavi</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/primality.txt"
@@ -137,7 +255,7 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="factorization.html" title="Metodi di fattorizzazione"
+          <a href="keygen.html" title="Generazione di chiavi"
              >next</a> |</li>
         <li class="right" >
           <a href="rsa.html" title="Scambio di messaggi con RSA"

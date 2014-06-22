@@ -60,21 +60,28 @@
 <div class="line">Brevemente Bob:</div>
 </div>
 <ul class="simple">
-<li>Sceglie due numeri primi p e q grandi e distinti, quindi li moltiplica, ottenendo </li>
+<li>Sceglie due numeri primi p e q grandi e distinti, quindi li moltiplica, ottenendo <img class="math" src="_images/math/90783c0b01ec52ceec6f91c075f29f8a284004fc.png" alt="n = pq"/></li>
 <li>Sceglie un esponente di cifratura e, tale che (e,(p-1)(q-1)) = 1</li>
 <li>Invia ad Alice la coppia (n,e) mantenendo segreti i valori di p e q.</li>
 </ul>
 <p>Alice non ha mai bisogno di conoscere p e q per inviare un messaggio in modo sicuro a Bob, infatti:</p>
 <ul class="simple">
 <li>Scrive un messaggio come un numero m. Se m è maggiore di n allora viene spezzato in blocchi di dimensione inferiore ad n, ma supponiamo m &lt; n</li>
-<li>Produce il messaggio da inviare </li>
+<li>Produce il messaggio da inviare <img class="math" src="_images/math/8a777e9b8e7322efe410572014ddb995b2fb4ba6.png" alt="c = m^e (mod n)"/></li>
 <li>Invia c a Bob</li>
 </ul>
 <div class="line-block">
-<div class="line">Bob che conosce p e q può calcolare mediante la funzione totiente di Eulero l&#8217;esponente di decifrazione d, tale che de = 1 (mod(p-1)(q-1)) quindi può decifrare il messaggio che in virtù dei teoremi di Fermat ed Eulero è: .</div>
-<div class="line">Se Eva intercetta (n,e) non può decifrare il messaggio c inviato da Alice a Bob; per farlo avrebbe bisogno di  (ovvero del valore della funzione totiente di Eulero per n) oppure di p e q, la fattorizzazione di n. Poichè si dimostra che i due problemi sono equivalenti e fattorizzare un numero è ritenuto un problema difficile, possibile solo sotto certe condizioni in tempi ragionevoli, Alice e Bob sono al sicuro.</div>
+<div class="line">Bob che conosce p e q può calcolare mediante la funzione totiente di Eulero l&#8217;esponente di decifrazione d, tale che de = 1 (mod(p-1)(q-1)) quindi può decifrare il messaggio che in virtù dei teoremi di Fermat ed Eulero è:</div>
 </div>
-<p>In realtà Eva potrebbe fornire ad Alice una sua chiave, intromettendosi trasparentemente nella comunicazione, ma supponiamo che Eva non possa.</p>
+<blockquote>
+<div><div class="math">
+<p><img src="_images/math/4b31eac7049bfbc219dbf2f6f045d551efaa57ec.png" alt="m \equiv (m^e)^d \equiv m^{ed} \pmod n \equiv m^{ed} \pmod {pq} \equiv m^1 \pmod {pq} \equiv m \pmod n"/></p>
+</div></div></blockquote>
+<div class="line-block">
+<div class="line">Se Eva intercetta (n,e) non può decifrare il messaggio c inviato da Alice a Bob; per farlo avrebbe bisogno di <img class="math" src="_images/math/53bcb6dbbd97b23eaaed48c8437e93bbdedc86a5.png" alt="d = e^(-1)"/> (ovvero del valore della funzione totiente di Eulero per n) oppure di p e q, la fattorizzazione di n. Poichè si dimostra che i due problemi sono equivalenti e fattorizzare un numero è ritenuto un problema difficile, possibile solo sotto certe condizioni in tempi ragionevoli, Alice e Bob sono al sicuro.</div>
+</div>
+<blockquote>
+<div>In realtà Eva potrebbe fornire ad Alice una sua chiave, intromettendosi trasparentemente nella comunicazione, ma supponiamo che Eva non possa.</div></blockquote>
 <div class="line-block">
 <div class="line">Questa applicazione è stata realizzata per l&#8217;esame del corso di Crittografia del Prof. Norberto Gavioli, Università degli Studi dell&#8217;Aquila. Lo scopo è mostrare come sia possibile generare dei numeri primi, mediante differenti test di primalità, e come, sotto opportune condizioni, sia possibile fattorizzare un numero in primi.</div>
 <div class="line">L&#8217;interesse pratico è relativo a molti campi della crittografia:</div>

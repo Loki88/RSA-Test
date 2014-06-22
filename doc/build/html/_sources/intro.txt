@@ -20,12 +20,14 @@ Alice non ha mai bisogno di conoscere p e q per inviare un messaggio in modo sic
 
 - Invia c a Bob
 
-| Bob che conosce p e q può calcolare mediante la funzione totiente di Eulero l'esponente di decifrazione d, tale che de = 1 (mod(p-1)(q-1)) quindi può decifrare il messaggio che in virtù dei teoremi di Fermat ed Eulero è: :math:`m = (m^e)^d = m^(ed) (mod n) = m^(ed) (mod p*q) = m (mod pq) = m (mod n)`.
+| Bob che conosce p e q può calcolare mediante la funzione totiente di Eulero l'esponente di decifrazione d, tale che de = 1 (mod(p-1)(q-1)) quindi può decifrare il messaggio che in virtù dei teoremi di Fermat ed Eulero è: 
+
+	.. math::
+		m \equiv (m^e)^d \equiv m^{ed} \pmod n \equiv m^{ed} \pmod {pq} \equiv m^1 \pmod {pq} \equiv m \pmod n
+
 | Se Eva intercetta (n,e) non può decifrare il messaggio c inviato da Alice a Bob; per farlo avrebbe bisogno di :math:`d = e^(-1)` (ovvero del valore della funzione totiente di Eulero per n) oppure di p e q, la fattorizzazione di n. Poichè si dimostra che i due problemi sono equivalenti e fattorizzare un numero è ritenuto un problema difficile, possibile solo sotto certe condizioni in tempi ragionevoli, Alice e Bob sono al sicuro.
 
-.. note::
-In realtà Eva potrebbe fornire ad Alice una sua chiave, intromettendosi trasparentemente nella comunicazione, ma supponiamo che Eva non possa.
-
+	In realtà Eva potrebbe fornire ad Alice una sua chiave, intromettendosi trasparentemente nella comunicazione, ma supponiamo che Eva non possa.
 
 | Questa applicazione è stata realizzata per l'esame del corso di Crittografia del Prof. Norberto Gavioli, Università degli Studi dell'Aquila. Lo scopo è mostrare come sia possibile generare dei numeri primi, mediante differenti test di primalità, e come, sotto opportune condizioni, sia possibile fattorizzare un numero in primi.
 | L'interesse pratico è relativo a molti campi della crittografia: 

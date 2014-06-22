@@ -14,4 +14,5 @@ Contents:
    intro
    rsa
    primality
+   keygen
    factorization
