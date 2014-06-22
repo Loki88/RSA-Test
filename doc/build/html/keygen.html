@@ -51,7 +51,69 @@
             
   <div class="section" id="generazione-di-chiavi-e-primi">
 <h1>Generazione di chiavi e primi<a class="headerlink" href="#generazione-di-chiavi-e-primi" title="Permalink to this headline">¶</a></h1>
-<p>Per completezza nella documentazione del codice, si descrivono le tecniche adottate per la generazione di numeri primi e chiavi all&#8217;interno dell&#8217;applicazione.</p>
+<div class="line-block">
+<div class="line">Per completezza nella documentazione del codice, si descrivono le tecniche adottate per la generazione di numeri primi e chiavi all&#8217;interno dell&#8217;applicazione.</div>
+</div>
+<div class="section" id="generazione-di-primi">
+<h2>Generazione di primi<a class="headerlink" href="#generazione-di-primi" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">I primi vengono prodotti da una classe Factory, che delega ad un oggetto di tipo generatore di primi, che incapsula la logica di generazione.</div>
+<div class="line">Questio oggetti si affidano alle strategie di test per la primalità di un numero descritte nella sezione <a class="reference internal" href="primality.html#test-primality"><em>Test di primalità</em></a>.</div>
+</div>
+<dl class="class">
+<dt id="models.NumberGenerator.PrimeGenerator">
+<em class="property">class </em><tt class="descclassname">models.NumberGenerator.</tt><tt class="descname">PrimeGenerator</tt><big>(</big><em>test</em><big>)</big><a class="headerlink" href="#models.NumberGenerator.PrimeGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Questa è la classe astratta della categoria di generatori di primi. Un generatore viene inizializzato con l&#8217;istanza di test di primalità che si intende usare.</p>
+<dl class="method">
+<dt id="models.NumberGenerator.PrimeGenerator.generate">
+<tt class="descname">generate</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#models.NumberGenerator.PrimeGenerator.generate" title="Permalink to this definition">¶</a></dt>
+<dd><p>E&#8217; il metodo principale della classe, consente di generare un numero primo di dimensione superiore all&#8217;argomento fornito in kwargs[&#8216;min&#8217;].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">models.NumberGenerator.</tt><tt class="descname">PrimeGenerator</tt><big>(</big><em>test</em><big>)</big></dt>
+<dd><p>A partire da un numero iniziale num si considerano tutti i numeri <img class="math" src="_images/math/2c11a8b9fd9eb27a37268000ac02e7a6d3597461.png" alt="n \geq N"/> e tramite il test scelto se ne verifica la primalità. Quando viene trovato un numero primo, viene restituito n.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="models.NumberGenerator.StrongPrimeGenerator">
+<em class="property">class </em><tt class="descclassname">models.NumberGenerator.</tt><tt class="descname">StrongPrimeGenerator</tt><big>(</big><em>test</em><big>)</big><a class="headerlink" href="#models.NumberGenerator.StrongPrimeGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class is safe from p-1 and small factors attacks</p>
+<p>A partire da un numero iniziale num si determina un primo p come in <a class="reference internal" href="#models.NumberGenerator.PrimeGenerator" title="models.NumberGenerator.PrimeGenerator"><tt class="xref py py-class docutils literal"><span class="pre">models.NumberGenerator.PrimeGenerator</span></tt></a> affinchè sia maggiore del minimo richiesto.
+Dunque si generano interi k*p + 1 e se ne verifica la primalità. Quando si trova un numero primo viene restituito.
+Un primo generato in questo modo risulta sufficientemente robusto agli attacchi p-1 e dell&#8217;esponente universale, poichè p-1 avrà fattori primi sufficentemente grandi da non essere fattorizzabili.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="generazione-di-chiavi">
+<h2>Generazione di chiavi<a class="headerlink" href="#generazione-di-chiavi" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Per quanto riguarda la generazione delle chiavi si intende la scelta degli esponenti privati. L&#8217;esponente pubblico di un client può sempre essere dedotto conoscendo l&#8217;esponente privato, il modulo e i due primi p e q.</div>
+<div class="line">Sono stati adottati due meccanismi di generazione delle chiavi, che vengono riportati in seguito:</div>
+</div>
+<blockquote>
+<div><dl class="class">
+<dt id="models.KeyAlgorithm.SimpleKeySelectionAlgorithm">
+<em class="property">class </em><tt class="descclassname">models.KeyAlgorithm.</tt><tt class="descname">SimpleKeySelectionAlgorithm</tt><a class="headerlink" href="#models.KeyAlgorithm.SimpleKeySelectionAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="models.KeyAlgorithm.SimpleKeySelectionAlgorithm.set_private_key">
+<tt class="descname">set_private_key</tt><big>(</big><em>client</em><big>)</big><a class="headerlink" href="#models.KeyAlgorithm.SimpleKeySelectionAlgorithm.set_private_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Il metodo a partire da un client recupera il modulo e determina un numero coprimo con <img class="math" src="_images/math/4f781e1093adbe69b0a64b25e3ef4a5d01461b02.png" alt="\theta(n)"/> (affinchè sia invertibile), compreso tra <img class="math" src="_images/math/c67c92ace1281ac9284f6b4fee7f632ad771c16c.png" alt="\frac{1}{2} \theta(n)"/> e <img class="math" src="_images/math/c116ca96609a48d40c742a6166dcea628b3b61f5.png" alt="\theta(n)-1"/>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="models.KeyAlgorithm.WeakKeySelectionAlgorithm">
+<em class="property">class </em><tt class="descclassname">models.KeyAlgorithm.</tt><tt class="descname">WeakKeySelectionAlgorithm</tt><a class="headerlink" href="#models.KeyAlgorithm.WeakKeySelectionAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>La classe eredita da <a class="reference internal" href="#models.KeyAlgorithm.SimpleKeySelectionAlgorithm" title="models.KeyAlgorithm.SimpleKeySelectionAlgorithm"><tt class="xref py py-class docutils literal"><span class="pre">models.KeyAlgorithm.SimpleKeySelectionAlgorithm</span></tt></a> ma genera un numero coprimo con <img class="math" src="_images/math/4f781e1093adbe69b0a64b25e3ef4a5d01461b02.png" alt="\theta(n)"/> inferiore di <img class="math" src="_images/math/6ef49745d5c6ffa3b6b4a95583e6640136d88981.png" alt="\frac{\sqrt[4]{n}}{3}"/>. Se i primi p e q sono tali che <img class="math" src="_images/math/8e1467fd63a26ff06ced1f7b44f123e3f3087776.png" alt="q &lt; p &lt; 2q"/> o viceversa; l&#8217;esponente così generato consente la fattorizzazione del modulo tramite un attacco ad esponenti bassi.</p>
+</dd></dl>
+
+</div></blockquote>
+</div>
 </div>
 
 
@@ -60,6 +122,15 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Generazione di chiavi e primi</a><ul>
+<li><a class="reference internal" href="#generazione-di-primi">Generazione di primi</a></li>
+<li><a class="reference internal" href="#generazione-di-chiavi">Generazione di chiavi</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="primality.html"
                         title="previous chapter">Test di primalità</a></p>

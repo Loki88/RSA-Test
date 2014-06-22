@@ -4,6 +4,9 @@ from multiprocessing import Pool, TimeoutError
 class NumberGenerator():
 
 	def generate(self, **kwargs):
+		'''
+		:something kwargs['min']: minimum, primes should be bigger than this
+		'''
 		pass
 
 

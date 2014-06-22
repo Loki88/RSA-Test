@@ -171,6 +171,10 @@ Teorema di M. Wiener
 
 | Non si procede alla dimostrazione, ma se valgono queste ipotesi dallo sviluppo della frazione continua e/n si può determinare (p-1)(q-1), nel modo seguente:
 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Algoritmo
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 - Si calcola la frazione continua e/n. Dopo ogni passo si ottiene A/B.
 - Si pone k = A e d = B per calcolare :math:`C = (ed - 1)/k` poichè :math:`ed = 1 +k\phi(n)` dunque C è candidato ad essere :math:`\phi(n)`
 - Se C non è intero si calcola il passo successivo nella frazione continua

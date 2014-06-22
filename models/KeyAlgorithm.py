@@ -12,7 +12,7 @@ class SimpleKeySelectionAlgorithm():
 		p = client.get_p()
 		q = client.get_q()
 		theta_n = client.get_theta()
-		num = NumberFactorySingleton.get_instance().get_coprime(theta_n, int(3*theta_n/4),theta_n)
+		num = NumberFactorySingleton.get_instance().get_coprime(theta_n, int(theta_n/2),theta_n)
 		return num % theta_n
 
 class StrongKeySelectionAlgorithm(SimpleKeySelectionAlgorithm):
