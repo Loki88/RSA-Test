@@ -56,7 +56,7 @@
 <div class="line">Su di essa è basata interamente l&#8217;applicazione, modificabile per innesto di nuovi oggetti, come algoritmi di generazione di chiavi, test di primalità, algoritmi per la generazione di numeri primi, metodi di fattorizzazione, ecc.</div>
 </div>
 <div class="line-block">
-<div class="line">La parte fondamentale è il client RSA. Ogni client (e.g. Alice) possiede due numeri primi p e q, che tiene segreti, e un intero d, esponente di decifratura (anch&#8217;esso segreto). Da questi tre numeri può calcolare n = pq ed e = d^(-1) (mod (p-1)(q-1)) che rappresentano la sua chiave pubblica. Ogni client può generare un messaggio a partire da una stringa:</div>
+<div class="line">La parte fondamentale è il client RSA. Ogni client (e.g. Alice) possiede due numeri primi p e q, che tiene segreti, e un intero d, esponente di decifratura (anch&#8217;esso segreto). Da questi tre numeri può calcolare <img class="math" src="_images/math/90783c0b01ec52ceec6f91c075f29f8a284004fc.png" alt="n = pq"/> ed <img class="math" src="_images/math/c8f6889439c88c100a23e6bf0cfd3450f0327944.png" alt="e \equiv d^{-1} \pmod {(p-1)(q-1)}"/> che rappresentano la sua chiave pubblica. Ogni client può generare un messaggio a partire da una stringa:</div>
 </div>
 <ul class="simple">
 <li>il client traduce la stringa in ascii</li>
@@ -74,17 +74,25 @@
 <dd><dl class="method">
 <dt id="models.RSAClient.RSAClient.prepare">
 <tt class="descname">prepare</tt><big>(</big><em>prime_size</em><big>)</big><a class="headerlink" href="#models.RSAClient.RSAClient.prepare" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Il metodo inizializza il client con i primi p e q, prodotti da <tt class="xref py py-class docutils literal"><span class="pre">models.NumberFactory.NumberFactorySingleton</span></tt> secondo uno degli algoritmi di generazione dei primi: <tt class="xref py py-class docutils literal"><span class="pre">models.NumberGenerator.SimplePrimeGenerator</span></tt> e <tt class="xref py py-class docutils literal"><span class="pre">models.NumberGenerator.StrongPrimeGenerator</span></tt>.
+Noti i due primi, tramite un algoritmo di generazione delle chiavi, viene determinato l&#8217;esponente privato e quindi quello pubblico, mediante inversione.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">I test di primalità e gli algoritmi di generazione delle chiavi sono stati introdotti come classi Strategy affinchè possano essere sostituiti a runtime e modificare il comportamento dell&#8217;applicazione di fronte ai tentativi di fattorizzazione della chiave pubblica di un client.</p>
+</div>
+</dd></dl>
 
 <dl class="method">
 <dt id="models.RSAClient.RSAClient.receive_message">
 <tt class="descname">receive_message</tt><big>(</big><em>message=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#models.RSAClient.RSAClient.receive_message" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Il metodo riceve un messaggio e lo decifra mediante la chiave privata del client.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="models.RSAClient.RSAClient.generate_message">
 <tt class="descname">generate_message</tt><big>(</big><em>public_key</em>, <em>n</em>, <em>message=None</em><big>)</big><a class="headerlink" href="#models.RSAClient.RSAClient.generate_message" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Il metodo produce un messaggio, seguendo la procedura sopra descritta. Per farlo usa la chiave pubblica di un client e restituisce il messaggio cifrato.</p>
+</dd></dl>
 
 </dd></dl>
 

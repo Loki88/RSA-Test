@@ -1,24 +1,188 @@
 Metodi di fattorizzazione
 ==============================================
-| I metodi di fattorizzazione che vengono presentati sono possibili solo sotto certe condizioni, ad esempio, dato un numero n = pq, se p-1 ha fattori primi piccoli, n è facilmente fattorizzabile.
-| In generale tutti i metodi di fattorizzazione sono basati su un principio fondamentale, che viene riportato in seguito:
-
-
-| A differenza dai metodi precedentemente esposti, se l'esponente utilizzato per decifrare i messaggi è sufficientemente piccolo è possibile determinare i primi p e q, a partire da una chiave pubblica. Questo metodo viene riassunto dalla classe :ref: LowExponentAttack o attacco con esponente basso.
-| L'idea di questo attacco deriva da un risultato particolare, ovvero:
-
+| Tra i test di primalità si è già visto un metodo di fattorizzazione: provare a dividere per ogni intero minore della radice del numero da fattorizzare. Se il numero non è primo troveremo tutti i suoi fattori. Come per il test di primalità, questo metodo è troppo lento, quindi non verrà descritto e non è stato implementato.
+| Esistono numerosi metodi di fattorizzazione, ma ne vengono presentati due. Il terzo è un attacco. In realtà, per i fini dell'applicazione, anche i primi due metodi vengono presentati in relazione al sistema RSA, in quanto possono permettere di determinare la chiave privata d a partire da quella pubblica (n,e) mediante la fattorizzazione di n e l'inversione di e.
+| Non viene ulteriormente descritto, ma per il resto della lettura si tenga a mente il principio fondamentale descritto in :ref:`Test di Miller-Rabin <principio-fondamentale>`:
+| Se un intero n possiede dei fattori primi con delle proprietà speciali a volte è più semplice fattorizzarlo.
+| Sempre utilizzando delle strategy, la classe base che rappresenta i metodi di fattorizzazione è quella riportata in seguito.
 
 .. autoclass:: models.FactorizationMethod.FactorizationMethod
 	
 	.. automethod:: models.FactorizationMethod.FactorizationMethod.attack
 
-.. autoclass:: models.FactorizationMethod.QuadraticSieveMethod
+		Il metodo base prende in input un client di tipo :class:`models.RSAClient.RSAClient`, dal quale recupera la chiave pubblica.
+		Quindi procede ad attaccarlo secondo le tecniche previste dalle classi specifiche.
 
-	.. automethod:: models.FactorizationMethod.QuadraticSieveMethod.attack
+	.. automethod:: models.FactorizationMethod.FactorizationMethod.is_successful
+
+		Il metodo restituisce True esclusivamente se la fattorizzazione della chiave di un client è andata a buon fine. Altrimenti restituisce False.
+
+	.. automethod:: models.FactorizationMethod.FactorizationMethod.get_factors
+
+		Il metodo restituisce la coppia di primi trovati nella fattorizzazione della chiave di un client.
+
+Metodo di fattorizzazione p-1 e dell'esponente universale
+-------------------------------------------------------------
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Metodo di fattorizzazione p-1
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*Si scelga un intero a > 1. Si scelga una limitazione B. Si calcoli* :math:`b \equiv a^{B!} \pmod n` *come segue. Siano* :math:`b_1 \equiv a \pmod n` *e* :math:`b_j \equiv b_{j-1}^j \pmod n` *tali che* :math:`b_B \equiv b \pmod n` *. Sia* :math:`d = gcd(b-1, n)` *. Se* :math:`1 < d < n` *si è trovato un fattore non banale di n.*
+
+| Se p è un fattore primo di n e p-1 ha soli fattori primi piccoli, è probabile che p-1 divida B!, ovvero che :math:`B! = (p-1)k`. Dal teorema di Fermat si ha che :math:`b \equiv a^{B!} \equiv (a^{p-1})^k \equiv 1 \pmod p` per cui p apparirà nel gcd di b-1 e n. Se q è un ulteriore fattore primo di n, è improbabile che la stessa congruenza valga (mod q), a meno che anch'esso abbia fattori primi piccoli.
+| Se d = n, sono noti un esponenente :math:`r = B!` e un a tali che :math:`a^r \equiv 1 \pmod n`. Quindi si può utilizzare il metodo dell'esponente, che probabilmente fattorizzerà n; in alternativa si può provare con un valore inferiore per B.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Metodo di fattorizzazione dell'esponente universale
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*Siano r > 0 un esponente e a un intero tale che* :math:`a^r \equiv 1 \pmod n` *. Sia* :math:`r = 2^k m` *con m dispari. Posto* :math:`b_0 \equiv a^m \pmod n` *, sia C per* :math:`0 \leq u \leq k-1` *. Se* :math:`b_0 \equiv 1 \pmod n` *, allora stop; la procedura fallisce nel fattorizzare n. Se esiste un u per cui* :math:`b_u \equiv -1 \pmod n` *, ci si ferma; la procedura fallisce nel fattorizzare n. Se esiste un u per cui* :math:`b_{u+1} \equiv 1 \pmod n` *, ma* :math:`b_u \not\equiv \pm 1 \pmod n` *, allora* :math:`gcd(b_u -1, n)` *è un fattore non banale di n.*
+
+| Il metodo generale prevede che dato r questa relazione valga per ogni a. Tuttavia determinare un esponente r valido per ogni a è molto difficile in pratica. Tuttavia se r è l'esponente di decifrazione di RSA, la sua conoscenza permette di fattorizzare il modulo.
+| Come è stato enunciato in alcune condizioni, senza conoscere un esponente universale, è possibile fattorizzare n. Basta avere un esponente r e un a che consentano di applicare il metodo.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Algoritmo
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+| Da quanto detto relativamente al metodo p-1 e al metodo dell'esponente universale, è evidente che i due metodi si possano applicare assieme.
+| Il metodo p-1 può fattorizzare il modulo; qualora dovesse fallire potrebbe fornire un esponente e un numero a per i quali è possibile applicare il metodo dell'esponente universale.
+| Mettendo insieme i due metodi si perviene allo pseudocodice del metodo:
+
+	.. code::
+		:number-lines: 0
+
+		P-1&Exponent(n,e)
+			scegli un intero B in funzione della dimensione di n
+			a = 2
+			b = a^(B!)
+			d = gcd(b-1,n)
+			if(d > 1 && d < self.mod) return FATTORIZZATO
+			if(d == n)
+				trova k e m tali che B! = m*2^k
+				b0 = a^m % n
+				if(b0 == 1) return NON FATTORIZZATO
+				while(r > 0)
+					b1 = b0^2 % n
+					if(b1 == n-1) return NON FATTORIZZATO
+					else if(b1 == 1)
+						if(b0 != 1 && b0 != n-1) return FATTORIZZATO
+					b0 = b1
+					r--
+
+| La classe che implementa il metodo è riportata in seguito.
 
 .. autoclass:: models.FactorizationMethod.PMinusOneAndExponentMethod
 
 	.. automethod:: models.FactorizationMethod.PMinusOneAndExponentMethod.attack
+
+		Il metodo invoca il metodo p_minus_one_factorization fornendo ad esso un intero B. Qualora il metodo fallisse provvede a fornire un esponente maggiore.
+		L'operazione viene ripetuta un numero prestabilito di volte. Se l'esecuzione del metodo è fallimentare, allora non è possibile fattorizzare l'intero con questo metodo.
+
+	.. automethod:: models.FactorizationMethod.PMinusOneAndExponentMethod.p_minus_one_factorization
+
+		Come si intuisce dal nome, questo metodo implementa l'algoritmo di fattorizzazione p-1. Qualora dovesse trovare un esponente valido per il metodo dell'esponente universale delega al metodo global_exponent_factorization
+
+	.. automethod:: models.FactorizationMethod.PMinusOneAndExponentMethod.global_exponent_factorization
+
+		Il metodo implementa il metodo dell'esponente universale.
+
+	.. automethod:: models.FactorizationMethod.PMinusOneAndExponentMethod.elevate
+
+		Il metodo effettua l'elevamento a potenza B! sfruttando la tecnica descritta dal metodo p-1.
+
+Metodo del crivello quadratico
+----------------------------------------------
+| Il metodo in questione è basato sul principio fondamentale e consiste nell'individuare degli interi che risultino essere dei quadrati modulo n.
+| Una volta individuato un intero x tale che: :math:`x^2 \equiv y^2 \pmod n` se :math:`x \not\equiv \pm y \pmod n` è possibile determinare un fattore non banale di n.
+| Innanzitutto si sceglie un insieme di numeri primi piccoli, che prende il nome di base di fattorizzazione e si provvede a generare dei quadrati, che una volta ridotti :math:`\pmod n` possono essere scritti come prodotto di questi primi. Si pongono sulle righe di una matrice i quadrati generati, associando ad ogni colonna l'esponente del primo corrispondente. Si cercano quindi delle corrispondenze tra le righe affinchè la loro somma sia 0 modulo 2.
+| Ad esempio, consideriamo i numeri :math:`1964^2 \equiv 3^2·13^3 \pmod{3837523}` e :math:`14262^2 \equiv 5^2 7^2 13 \pmod{3837523}`. Moltiplicare i due numeri equivale a sommare i valori delle righe nella matrice, poichè relativi agli esponenti. Si ottiene dunque: :math:`1964^2\cdot14262^2 \equiv (1964\cdot14262)^2 \equiv 3^2\cdot5^2\cdot7^2\cdot13^4 \equiv (3\cdot5\cdot7\cdot13^2)^2 \pmod{3837523}`.
+| Una volta determinate queste relazioni si può applicare il principio fondamentale e, forse, determinare una fattorizzazione di n.
+| Il problema fondamentale è la generazione dei quadrati. Si possono generare quadrati leggermente più grandi di un multiplo di n, così che siano piccoli modulo n, ovvero, probabilmente saranno il prodotto di primi piccoli. Si possono considerare interi :math:`\lfloor\sqrt{i\cdot n} + j\rfloor` al variare di i per j abbastanza piccolo.
+| Quello descritto non è il crivello quadratico, che sfrutta delle ipotesi aggiuntive, ma quest'ultimo è basato sulla teoria esposta, per cui si manterrà questo nome.
+| L'algoritmo implementato è il seguente:
+
+	.. code::
+		:number-lines: 0
+
+		QuadraticSieve(n,e)
+			primes = base di fattorizzazione
+			matrix = matrice nulla
+			trova k quadrati e scomponili secondo primes per ottenere gli esponenti e mettili in matrix
+			matrix1 = matrix % 2
+			if(matrix contiene colonne con un solo 1)
+				elimina la riga corrispondente a quel 1
+			associa un peso ad ogni riga come somma degli 1 presenti
+			combinazioni = []
+			for(int i=0; i<righe matrix; i++)
+				ri = matrix[i]
+				wi = weight[i]
+				combinazione = [ri]
+				candidate = righe con peso minore o uguale a quello delle riga i
+				for(int k=0; k<candidate; k++)
+					rk = matrix[k]
+					if(peso(ri+rk % 2) < peso(ri))
+						combinazione.add(rk)
+						ri = ri+rk % 2
+						if(peso(ri)==0)
+							break
+
+				if(combinazione not empty && peso(ri) == 0)
+					combinazioni.add(combinazione)
+			analizza combinazioni
+
+| Si fornisce una giustificazione dell'algoritmo:
+
+- Trovare k quadrati è possibile, generandoli al variare di j e i in un certo range. Si considerano numeri il cui quadrato ha fattori esclusivamente tra i primi della base di fattorizzazione. Si conservano gli esponenti in una matrice e i numeri in una lista.
+- Trovare colonne con un solo 1 è possibile associando pesi alle colonne, così come possono essere facilmente associati alle righe e possono essere riposti in una lista.
+- Si itera su ogni riga della matrice con l'obiettivo di annullare il peso di una riga sommandola ad altre righe modulo 2. Si fanno combinazioni solo con righe di peso minore o uguale a quella corrente poichè se facessimo combinazioni con righe di peso maggiore, il peso risultante dalla combinazione sarebbe almeno uguale a quello attuale. Volendo minimizzare si scarta questa possibilità (che sarà considerata poi, quando si prenderanno in esame le righe attualmente scartate).
+	
+	- Si itera su questo insieme di righe e si sommano gli elementi modulo 2. Se il peso della riga risultante è nullo abbiamo trovato un quadrato, quindi si esce e si memorizza la relazione trovata.
+
+- Infine si analizza ogni relazione. Si moltiplicano i numeri riposti inizialmente nella lista e i fattori primi della base, elevati a una potenza complessiva dimezzata. Se i numeri ottenuti non sono congruenti modulo n, si può calcolare il gcd della differenza dei due e n, ottenendo un suo fattore non banale.
+
+| La classe contenente quanto detto è la seguente:
+
+.. autoclass:: models.FactorizationMethod.QuadraticSieveMethod
+
+	.. automethod:: models.FactorizationMethod.QuadraticSieveMethod.attack
+
+		Il metodo genera i numeri candidati alla fattorizzazione di n, li ripone nella matrice e invoca il metodo reduce, che elimina quelle righe che non possono comporre quadrati, poichè contengono primi con esponente dispari, quindi non accoppiabile con altri interi presenti. Chiama quindi find_squares che restituisce un insieme di relazioni. Le relazioni vengono passate a is_valid_relation. Se is_valid_relation riesce a trovare un fattore si esce, altrimenti si cercano nuovi interi per determinare una relazione che fattorizzi n. Quando si supera una soglia di ricorsione si abbandona.
+
+	.. automethod:: models.FactorizationMethod.QuadraticSieveMethod.find_squares
+
+		find_squares associa un peso ad ogni riga e procede alla determinazione delle relazioni tra righe nel metodo sopra citato. Se le trova le restituisce.
+
+	.. automethod:: models.FactorizationMethod.QuadraticSieveMethod.reduce
+
+		Il metodo sfruttando la libreria Numpy riduce la matrice rimuovendo ogni riga che presenti 1 isolati nelle colonne.
+
+	.. automethod:: models.FactorizationMethod.QuadraticSieveMethod.is_valid_relation
+
+		Il metodo applica il principio fondamentale per tentare di fattorizzare il numero n. Se ci riesce calcola i due primi.
+
+Attacco agli esponenti bassi
+----------------------------------------------
+| A differenza dai metodi precedentemente esposti, che tentano di fattorizzare il modulo, se l'esponente utilizzato per decifrare i messaggi d è sufficientemente piccolo è possibile determinare i fattori primi p e q di n, a partire da una chiave pubblica (n,e). 
+| Gli esponenti di decifrazione piccoli consentono di decifrare rapidamente i messaggi, ma sono vulnerabili, come dimostra un risultato notevole.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Teorema di M. Wiener
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*Siano p e q due primi con* :math:`q < p < 2q` *. Sia* :math:`n = pq` *e siano* :math:`1 \leq d` , :math:`e<\phi(n)` *tali che* :math:`d\cdot e \equiv 1 \pmod{(p-1)(q-1)}` *. Se* :math:`d < \frac{1}{3}n^{\frac{1}{4}}` *, allora d può essere calcolato rapidamente (in tempo polinomiale in logn).*
+
+| Non si procede alla dimostrazione, ma se valgono queste ipotesi dallo sviluppo della frazione continua e/n si può determinare (p-1)(q-1), nel modo seguente:
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Algoritmo
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Si calcola la frazione continua e/n. Dopo ogni passo si ottiene A/B.
+- Si pone k = A e d = B per calcolare :math:`C = (ed - 1)/k` poichè :math:`ed = 1 +k\phi(n)` dunque C è candidato ad essere :math:`\phi(n)`
+- Se C non è intero si calcola il passo successivo nella frazione continua
+- Se C è intero si calcolano le radici dell'equazione :math:`X^2-(n-C+1)X+n = (X-p)(X-q)` se le soluzioni sono intere si è fattorizzato n.
+
+| Poichè lo sviluppo in frazione continua è limitato ed è al più costante, il tempo di esecuzione è limitato e si fattorizza n rapidamente.
+
+| In pratica a causa di alcuni problemi legati alla rappresentazione dei numeri in virgola mobile, mediante l'algoritmo e la classe sottostante non si perviene mai alla fattorizzazione di n.
 
 .. autoclass:: models.FactorizationMethod.LowExponentAttack
 

@@ -67,7 +67,7 @@
 <p>Alice non ha mai bisogno di conoscere p e q per inviare un messaggio in modo sicuro a Bob, infatti:</p>
 <ul class="simple">
 <li>Scrive un messaggio come un numero m. Se m è maggiore di n allora viene spezzato in blocchi di dimensione inferiore ad n, ma supponiamo m &lt; n</li>
-<li>Produce il messaggio da inviare <img class="math" src="_images/math/8a777e9b8e7322efe410572014ddb995b2fb4ba6.png" alt="c = m^e (mod n)"/></li>
+<li>Produce il messaggio da inviare <img class="math" src="_images/math/b6ae30f4f3d51fe985ba54e8a599cb71052bfb78.png" alt="c \equiv m^e \pmod n"/></li>
 <li>Invia c a Bob</li>
 </ul>
 <div class="line-block">
@@ -81,7 +81,11 @@
 <div class="line">Se Eva intercetta (n,e) non può decifrare il messaggio c inviato da Alice a Bob; per farlo avrebbe bisogno di <img class="math" src="_images/math/53bcb6dbbd97b23eaaed48c8437e93bbdedc86a5.png" alt="d = e^(-1)"/> (ovvero del valore della funzione totiente di Eulero per n) oppure di p e q, la fattorizzazione di n. Poichè si dimostra che i due problemi sono equivalenti e fattorizzare un numero è ritenuto un problema difficile, possibile solo sotto certe condizioni in tempi ragionevoli, Alice e Bob sono al sicuro.</div>
 </div>
 <blockquote>
-<div>In realtà Eva potrebbe fornire ad Alice una sua chiave, intromettendosi trasparentemente nella comunicazione, ma supponiamo che Eva non possa.</div></blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In realtà Eva potrebbe fornire ad Alice la sua chiave pubblica e ritrasmettere i messaggi a Bob in modo trasparente. In questo modo Eva si è intromessa nella comunicazione (<em>man in the middle</em>). Nel resto della trattazione supponiamo che non sia possibile.</p>
+</div>
+</div></blockquote>
 <div class="line-block">
 <div class="line">Questa applicazione è stata realizzata per l&#8217;esame del corso di Crittografia del Prof. Norberto Gavioli, Università degli Studi dell&#8217;Aquila. Lo scopo è mostrare come sia possibile generare dei numeri primi, mediante differenti test di primalità, e come, sotto opportune condizioni, sia possibile fattorizzare un numero in primi.</div>
 <div class="line">L&#8217;interesse pratico è relativo a molti campi della crittografia:</div>

@@ -46,7 +46,7 @@ class QuadraticSieveMethod(FactorizationMethod):
 		FactorizationMethod.__init__(self)
 		self.max_iteration_lenght = SettingsSingleton.get_instance().get_iteration_count()
 		self.count = 0
-		base_size = 40
+		base_size = 20
 		i = 0
 		test = AKSPrimeTest()
 		self.primes = [2]
@@ -74,9 +74,9 @@ class QuadraticSieveMethod(FactorizationMethod):
 		self.n_part = sqrt(self.mod)
 		self.squares = []
 		self.factor_base = []
-		j = randint(1, 9)*self.randomizer
 		while True:
-			for i in range(1,9):
+			for j in range(1,9):
+				i = randint(1, 9)*self.randomizer
 				b = int(sqrt(i)*self.n_part+j)
 				quad = b**b % self.mod
 				fact = []
@@ -94,7 +94,7 @@ class QuadraticSieveMethod(FactorizationMethod):
 				Else our primes are too small to give a correct factorization.
 				Choose another number.
 				"""
-			if len(self.factor_base) > len(self.primes):
+			if len(self.factor_base) > len(self.primes)+4:
 				break
 			j += 1
 

@@ -16,7 +16,7 @@ Alice non ha mai bisogno di conoscere p e q per inviare un messaggio in modo sic
 
 - Scrive un messaggio come un numero m. Se m è maggiore di n allora viene spezzato in blocchi di dimensione inferiore ad n, ma supponiamo m < n
 
-- Produce il messaggio da inviare :math:`c = m^e (mod n)`
+- Produce il messaggio da inviare :math:`c \equiv m^e \pmod n`
 
 - Invia c a Bob
 
@@ -27,7 +27,8 @@ Alice non ha mai bisogno di conoscere p e q per inviare un messaggio in modo sic
 
 | Se Eva intercetta (n,e) non può decifrare il messaggio c inviato da Alice a Bob; per farlo avrebbe bisogno di :math:`d = e^(-1)` (ovvero del valore della funzione totiente di Eulero per n) oppure di p e q, la fattorizzazione di n. Poichè si dimostra che i due problemi sono equivalenti e fattorizzare un numero è ritenuto un problema difficile, possibile solo sotto certe condizioni in tempi ragionevoli, Alice e Bob sono al sicuro.
 
-	In realtà Eva potrebbe fornire ad Alice una sua chiave, intromettendosi trasparentemente nella comunicazione, ma supponiamo che Eva non possa.
+	.. note::
+		In realtà Eva potrebbe fornire ad Alice la sua chiave pubblica e ritrasmettere i messaggi a Bob in modo trasparente. In questo modo Eva si è intromessa nella comunicazione (*man in the middle*). Nel resto della trattazione supponiamo che non sia possibile.
 
 | Questa applicazione è stata realizzata per l'esame del corso di Crittografia del Prof. Norberto Gavioli, Università degli Studi dell'Aquila. Lo scopo è mostrare come sia possibile generare dei numeri primi, mediante differenti test di primalità, e come, sotto opportune condizioni, sia possibile fattorizzare un numero in primi.
 | L'interesse pratico è relativo a molti campi della crittografia: 
