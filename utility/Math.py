@@ -132,6 +132,7 @@ def continued_fraction(n, step=1):
 	pn_1, pn_2 = 1, 0
 	qn_1, qn_2 = 0, 1
 	xn, an = x0, a0
+	context = decimal.Context(prec=100)
 	for i in range(step):
 		pn = an * pn_1 + pn_2
 		qn = an * qn_1 + qn_2
@@ -142,7 +143,7 @@ def continued_fraction(n, step=1):
 			return pn, qn
 		xn_1 = xn
 		an_1 = an
-		xn = 1 / (xn_1 - an_1)
+		xn = context.divide(1, (xn_1 - an_1))
 		an = int(xn)
 		pn_2 = pn_1
 		qn_2 = qn_1
@@ -151,14 +152,16 @@ def continued_fraction(n, step=1):
 		
 	return pn, qn
 
-def continued_fraction_next_step(n, a=0, p=(1, 0), q=(0, 1)):
-	pn_1, pn_2 = p[0], p[1]
-	qn_1, qn_2 = q[0], q[1]
-	if a == 0:
+def continued_fraction_next_step(n, a=0, p=(1, 0), q=(0, 1), context=None, first=False):
+
+	pn_1, pn_2 = Decimal(p[0]), Decimal(p[1])
+	qn_1, qn_2 = Decimal(q[0]), Decimal(q[1])
+	n = Decimal(n)
+	if first:
 		a = int(n)
 		return n, a, (a, 1), (1,0)
 	xn_1, an_1 = n, a
-	xn = 1 / (xn_1 - an_1)
+	xn = Decimal(1) / Decimal(xn_1 - an_1)
 	an = int(xn)
 	if xn == an:
 		return (pn_1, pn_2), (qn_1, qn_2)

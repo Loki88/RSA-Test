@@ -39,7 +39,6 @@ Generazione di chiavi
 
 			Il metodo a partire da un client recupera il modulo e determina un numero coprimo con :math:`\theta(n)` (affinchè sia invertibile), compreso tra :math:`\frac{1}{2} \theta(n)` e :math:`\theta(n)-1`.
 
-
 	.. autoclass:: models.KeyAlgorithm.WeakKeySelectionAlgorithm
 
 		La classe eredita da :class:`models.KeyAlgorithm.SimpleKeySelectionAlgorithm` ma genera un numero coprimo con :math:`\theta(n)` inferiore di :math:`\frac{\sqrt[4]{n}}{3}`. Se i primi p e q sono tali che :math:`q < p < 2q` o viceversa; l'esponente così generato consente la fattorizzazione del modulo tramite un attacco ad esponenti bassi.

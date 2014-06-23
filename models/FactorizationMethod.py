@@ -289,21 +289,29 @@ class LowExponentAttack(FactorizationMethod):
 
 	def attack(self, client):
 		FactorizationMethod.attack(self, client)
-		print(self.key / self.mod, "Num")
+		
 		'''
 		C e candidato ad essere theta di eulero
 		'''
-		i = 1
-		while True:
-			p, q = continued_fraction(Decimal(self.key / self.mod), i)
-			print(p/q, "Fraction gives")
-			if p != 0:
-				C = (self.key * q - 1) / p
-				if C % 1 == 0:
-					self.solve(C)
-					if self.is_successful():
-						break
-			i += 1
+		with localcontext() as ctx:
+			ctx.prec = 100
+			print(self.key / self.mod, "Num")
+			e = Decimal(self.key)
+			n = Decimal(self.mod)
+			print(e/n, "Number")
+			time.sleep(2)
+			x, a, p, q = continued_fraction_next_step(self.key/self.mod,ctx,first=True)
+			i = 1
+			while True:
+				x, a, p, q = continued_fraction_next_step(x,a,p,q,ctx)
+				print(p[0]/q[0], "Fraction gives")
+				if p[0] != 0:
+					C = (self.key * q[0] - 1) / p[0]
+					if C % 1 == 0:
+						self.solve(C)
+						if self.is_successful():
+							break
+				i += 1
 
 	def solve(self, theta):
 		p = [1, -(self.mod - theta + 1), self.mod]

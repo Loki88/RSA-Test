@@ -42,6 +42,8 @@ This is free software, and you are welcome to redistribute it
 under certain conditions; type `show c' for details.
 '''
 
+print(license)
+
 menu = MenuBox()
 SettingsControllerSingleton.get_instance()
 MainWindow.get_instance().set_content(menu)

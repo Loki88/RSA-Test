@@ -16,3 +16,4 @@ Contents:
    primality
    keygen
    factorization
+   license
