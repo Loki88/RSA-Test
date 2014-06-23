@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Copyright (C) 2014  Lorenzo Di Giuseppe
 
@@ -21,11 +22,17 @@ __copyright__   = "Copyright 2014"
 from models import RSAClient, IntruderClient
 from models.Settings import SettingsSingleton
 from .SettingsController import SettingsControllerSingleton
-from models.FactorizationMethod import PMinusOneAndExponentMethod, QuadraticSieveMethod
+from models.FactorizationMethod import PMinusOneAndExponentMethod, QuadraticSieveMethod, LowExponentAttack
+from models.Factory import SimpleFactory
+from models.NumberGenerator import StrongPrimeGenerator, PrimeGenerator
+from models.KeyAlgorithm import SimpleKeySelectionAlgorithm, WeakKeySelectionAlgorithm
 from random import randint
 
 class RSAComunicationAttackTest():
-	
+	'''
+	Controllore per la fattorizzazione/attacco di una chiave pubblica di un client RSA.
+	'''
+
 	key_lenght = None
 
 	_instance = None
@@ -33,7 +40,8 @@ class RSAComunicationAttackTest():
 	def __init__(self):
 		self.listeners = []
 		self.key_lenght = SettingsControllerSingleton.get_instance().get_prime_size()
-		self.eva = IntruderClient(SettingsControllerSingleton.get_instance().get_factorization_method())
+		self.factorization_method = SettingsControllerSingleton.get_instance().get_factorization_method()
+		self.eva = IntruderClient(self.factorization_method)
 		self.primality_test = SettingsControllerSingleton.get_instance().get_primality_test()
 		SettingsControllerSingleton.get_instance().add_listener(self)
 
@@ -78,6 +86,29 @@ class RSAComunicationAttackTest():
 		if self.key_lenght != size:
 			self.key_lenght = size
 			self.refresh()
-		factorization_method = client.get_factorization_method()
-		if factorization_method.__class__ != self.eva.get_factorization_method().__class__:
+		self.factorization_method = client.get_factorization_method()
+		if self.factorization_method.__class__ != self.eva.get_factorization_method().__class__:
 			self.eva.set_factorization_method(factorization_method)
+			self.refresh()
+
+	def set_strong_primes(self):
+		SettingsControllerSingleton.get_instance().set_prime_generator(StrongPrimeGenerator(None))
+		self.refresh()
+
+	def unset_strong_primes(self):
+		SettingsControllerSingleton.get_instance().set_prime_generator(PrimeGenerator(None))
+		self.refresh()
+
+	def is_strong_prime_generator(self):
+		return SettingsControllerSingleton.get_instance().get_prime_generator().is_strong()
+
+	def is_low_exponent(self):
+		return SimpleFactory.get_instance().get_key_algorithm().is_weak()
+
+	def set_low_exponents(self):
+		SimpleFactory.get_instance().set_key_algorithm(WeakKeySelectionAlgorithm())
+		self.alice.set_private_key()
+
+	def unset_low_exponents(self):
+		SimpleFactory.get_instance().set_key_algorithm(SimpleKeySelectionAlgorithm())
+		self.alice.set_private_key()

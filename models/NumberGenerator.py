@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Copyright (C) 2014  Lorenzo Di Giuseppe
 
@@ -79,14 +80,14 @@ class StrongPrimeGenerator(PrimeGenerator):
 		Look: the test logic is added by StrongPrimeGenerator's father (PrimeGenerator)
 		'''
 		min = kwargs['min']
-		if min == None:
-			if self.test.is_deterministic():
-				kwargs['min'] = pow(2, 8)
-			else:
-				kwargs['min'] = pow(2, 20)
-		else:
-			if self.test.is_deterministic():
-				kwargs['min'] = min / 2
+		# if min == None:
+		# 	if self.test.is_deterministic():
+		# 		kwargs['min'] = pow(2, 8)
+		# 	else:
+		# 		kwargs['min'] = pow(2, 20)
+		# else:
+		# 	if self.test.is_deterministic():
+		# 		kwargs['min'] = min / 2
 		start = PrimeGenerator.generate(self, **kwargs)
 
 		max_time = self.test.get_timeout()

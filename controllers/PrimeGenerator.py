@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Copyright (C) 2014  Lorenzo Di Giuseppe
 
@@ -24,6 +25,9 @@ from utility import Timer
 from multiprocessing import Pool, TimeoutError
 
 class PrimeGenerator():
+	'''
+	Controllore che gestisce il caso d'uso: Genera i primi.
+	'''
 
 	_instance = None
 

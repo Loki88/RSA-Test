@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Copyright (C) 2014  Lorenzo Di Giuseppe
 
@@ -22,7 +23,7 @@ from gi.repository import Gtk
 from controllers.RSATestController import RSAComunicationTest
 from ui.Comunication import ComunicationBox
 from ui.Factorization import FactorizationBox
-from ui.PrimeGen import PrimeGenerator
+from ui.PrimeGen import PrimeGeneratorBox
 from ui.Window import MainWindow, Content
 from ui.Settings import SettingsBox
 
@@ -63,7 +64,7 @@ class MenuBox(Content):
 		MainWindow.get_instance().set_content(prime_box)
 
 	def generatore_numeri_primi_cliccato(self, widget):
-		prime_box = PrimeGenerator()
+		prime_box = PrimeGeneratorBox()
 		MainWindow.get_instance().set_content(prime_box)
 
 	def modifica_impostazioni_cliccato(self, widget):

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Copyright (C) 2014  Lorenzo Di Giuseppe
 
@@ -24,7 +25,7 @@ from controllers import PrimeGenerator as Pg
 import threading, inspect
 from multiprocessing import TimeoutError
 
-class PrimeGenerator(Content):
+class PrimeGeneratorBox(Content):
 
 	title = "Prime generation"
 

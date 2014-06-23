@@ -16,4 +16,5 @@ Contents:
    primality
    keygen
    factorization
+   api
    license

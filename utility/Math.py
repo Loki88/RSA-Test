@@ -19,7 +19,7 @@ __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
 from itertools import *
-from math import *
+from math import sqrt, log
 import operator
 from decimal import *
 
@@ -38,6 +38,9 @@ def fast_pow(a,b,mod):
 		return fast_pow(a, b, mod)
 
 def gcd(num1, num2):
+	'''
+	Calcolo del massimo comun divisore tra due numeri
+	'''
 	if num1 > num2:
 		b = num1
 		a = num2
@@ -49,6 +52,47 @@ def gcd(num1, num2):
 		a, b = b % a, a
 
 	return b
+
+def smart_2_decomposition(num):
+	'''
+	Il metodo sfruttando la rappresentazione binaria decompone velocemente un numero intero n in una potenza di 2, k, e un intero m, tali che: n = m*2^k
+	'''
+	if num < 2:
+		return num, 0
+	num_bin = str(bin(num)[2:])
+	r = 0
+	while num_bin[len(num_bin)-1] == "0":
+		if len(num_bin) == 2:
+			num_bin = num_bin[0]
+		else:
+			num_bin = num_bin[:-1]
+		r += 1
+	m = int(str(num_bin), 2)
+	return m, r # num = m*2^r
+
+def smart_int_divide(num, div):
+	l1 = len(str(num))
+	l2 = len(str(div))
+	if l1 > l2:
+		n1 = pow(10, l1-l2-1)
+		n2 = num - div * n1
+		return n1 + n2 / div
+	else:
+		return Decimal(num) / Decimal(div)
+
+def smart_int_pow(num, p, mod):
+	if p < 0:
+		raise ArithmeticError("Negative exponent")
+	num = num % mod
+	if p == 1:
+		return num
+	while p % 2 == 0:
+		num = num * num % mod
+		p = int(bin(p)[:-2])
+	if p > 1:
+		num = pow(int(num), int(p), mod)
+	print("SMART POW!")
+	return num
 
 def egcd(a, b):
     if a == 0:
@@ -125,6 +169,9 @@ def wowrange(start, stop, step=1):
 		start += step
 
 def continued_fraction(n, step=1):
+	'''
+	Calcolo della frazione continua di n al passo step.
+	'''
 	a0 = int(n)
 	x0 = n
 	if a0 == x0:
@@ -153,7 +200,9 @@ def continued_fraction(n, step=1):
 	return pn, qn
 
 def continued_fraction_next_step(n, a=0, p=(1, 0), q=(0, 1), context=None, first=False):
-
+	'''
+	Calcolo della frazione continua di n per passi.
+	'''
 	pn_1, pn_2 = Decimal(p[0]), Decimal(p[1])
 	qn_1, qn_2 = Decimal(q[0]), Decimal(q[1])
 	n = Decimal(n)

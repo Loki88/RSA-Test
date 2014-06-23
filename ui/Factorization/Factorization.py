@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Copyright (C) 2014  Lorenzo Di Giuseppe
 
@@ -40,7 +41,8 @@ class FactorizationBox(Content, SimpleListener):
 
 		signals = {
 			'factorization_clicked': self.fattorizza_chiave_pubblica,
-			'strong_prime_checked': self.use_strong_prime
+			'strong_prime_checked': self.use_strong_prime,
+			'weak_key_checked': self.use_low_exponent
 		}
 
 		self.sync = False
@@ -52,11 +54,6 @@ class FactorizationBox(Content, SimpleListener):
 		self.prime_1 = builder.get_object("prime_1")
 		self.prime_2 = builder.get_object("prime_2")
 
-		self.strong_prime = builder.get_object("strong_prime")
-		if SettingsControllerSingleton.get_instance().is_strong_prime_generator():
-			self.strong_prime.set_active(True)
-		
-
 		#Alice's labels
 		self.mod = builder.get_object("mod")
 		self.alice_exponent = builder.get_object("exponent")
@@ -65,6 +62,12 @@ class FactorizationBox(Content, SimpleListener):
 		self.alice_private_key = builder.get_object("private_key")
 
 		self.controller = RSAComunicationAttackTest.get_instance()
+		self.strong_prime = builder.get_object("strong_prime")
+		if self.controller.is_strong_prime_generator():
+			self.strong_prime.set_active(True)
+		self.low_exponent = builder.get_object("low_exponents")
+		if self.controller.is_low_exponent():
+			self.low_exponent.set_active(True)
 		self.sync = True
 		threading.Thread(target=self.prepare_test).start()
 
@@ -86,7 +89,7 @@ class FactorizationBox(Content, SimpleListener):
 		threading.Thread(target=self.fattorizzazione).start()
 
 	def fattorizzazione(self):
-		self.wait("Trying to find primes.")
+		self.wait("Attacking...")
 		end_message = "Is it what you expected? No? Try again!"
 		try:
 			self.controller.fattorizza_chiave_pubblica()
@@ -116,9 +119,17 @@ class FactorizationBox(Content, SimpleListener):
 	def use_strong_prime(self, widget):
 		if self.sync:
 			if widget.get_active():
-				SettingsControllerSingleton.get_instance().set_strong_prime_generator()
+				self.controller.set_strong_primes()
 			else:
-				SettingsControllerSingleton.get_instance().set_simple_prime_generator()
+				self.controller.unset_strong_primes()
+			threading.Thread(target=self.reload, args=widget).start()
+
+	def use_low_exponent(self, widget):
+		if self.sync:
+			if widget.get_active():
+				self.controller.set_low_exponents()
+			else:
+				self.controller.unset_low_exponents()
 			threading.Thread(target=self.reload, args=widget).start()
 
 	def notifica_alice(self, alice):
@@ -149,10 +160,14 @@ class FactorizationBox(Content, SimpleListener):
 		try:
 			self.clear()
 			self.controller.refresh()
-			if SettingsControllerSingleton.get_instance().is_strong_prime_generator():
+			if self.controller.is_strong_prime_generator():
 				GLib.idle_add(self.strong_prime.set_active, True)
 			else:
 				GLib.idle_add(self.strong_prime.set_active, False)
+			if self.controller.is_low_exponent():
+				GLib.idle_add(self.low_exponent.set_active, True)
+			else:
+				GLib.idle_add(self.low_exponent.set_active, False)
 		except MemoryError as e:
 			end_message = "Primes too big for this primality test. Check your settings."
 		finally:
@@ -161,5 +176,6 @@ class FactorizationBox(Content, SimpleListener):
 
 	def back(self):
 		self.clear()
-		SettingsControllerSingleton.get_instance().set_simple_prime_generator()
+		self.controller.unset_low_exponents()
+		self.controller.unset_strong_primes()
 		Content.back(self)

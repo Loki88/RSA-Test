@@ -1,1 +1,4 @@
-from .PrimeGen import PrimeGenerator
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from .PrimeGen import PrimeGeneratorBox

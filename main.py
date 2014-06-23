@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Copyright (C) 2014  Lorenzo Di Giuseppe
 
@@ -25,7 +26,7 @@ from ui.Menu import MenuBox
 from ui.Window import MainWindow
 from controllers import SettingsControllerSingleton
 # from models.PrimalityTest import AKSPrimeTest
-# from utility.Math import continued_fraction, continued_fraction_next_step
+# from utility.Math import continued_fraction, continued_fraction_next_step, smart_2_decomposition
 
 # pi = 3.14
 # x, a, p, q = continued_fraction_next_step(pi)
@@ -43,6 +44,9 @@ under certain conditions; type `show c' for details.
 '''
 
 print(license)
+
+# for i in range(33):
+# 	print(smart_2_decomposition(i), "Decomposition of "+str(i))
 
 menu = MenuBox()
 SettingsControllerSingleton.get_instance()

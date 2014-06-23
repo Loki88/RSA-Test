@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.16.1 -->
+<!--
+  
+    Copyright (C) 2014  Lorenzo Di Giuseppe
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
 <interface>
   <requires lib="gtk+" version="3.10"/>
   <object class="GtkBox" id="box">
@@ -13,11 +31,11 @@
         <property name="margin_top">10</property>
         <property name="margin_bottom">10</property>
         <property name="xpad">20</property>
-        <property name="label" translatable="yes">Eva attacks Alice, she wants to read the messages she writes to her bank, but Alice takes care 
-of her private key. Eva knows only Alice's public Key (mod+exp), to read her crypted messages 
-she has only one possibility: factorize Alice's mod and find public exp^-1.
-Find prime factors is possible under certain constrains, try to check "Strong prime factors".</property>
+        <property name="label" translatable="yes">Eva attacks Alice. She wants to read the messages to her, but Alice takes care of her private key.
+Eva knows only Alice's public Key (mod+exp), she wants prime factors of mod to decrypt messages.
+These methods are possible under certain constrains, try to check "Make it hard" and see what happens.</property>
         <property name="justify">center</property>
+        <property name="wrap">True</property>
         <property name="ellipsize">end</property>
         <style>
           <class name="section_intro"/>
@@ -278,7 +296,7 @@ Find prime factors is possible under certain constrains, try to check "Strong pr
                           </object>
                           <packing>
                             <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
+                            <property name="top_attach">2</property>
                             <property name="width">1</property>
                             <property name="height">1</property>
                           </packing>
@@ -292,27 +310,27 @@ Find prime factors is possible under certain constrains, try to check "Strong pr
                           </object>
                           <packing>
                             <property name="left_attach">0</property>
-                            <property name="top_attach">2</property>
+                            <property name="top_attach">3</property>
                             <property name="width">1</property>
                             <property name="height">1</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="strong_prime">
-                            <property name="label" translatable="yes">Use strong prime factors</property>
+                            <property name="label" translatable="yes">Use strong primes</property>
                             <property name="use_action_appearance">True</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="halign">start</property>
-                            <property name="xalign">0.0099999997764825821</property>
+                            <property name="xalign">0</property>
                             <property name="image_position">right</property>
                             <property name="draw_indicator">True</property>
                             <signal name="toggled" handler="strong_prime_checked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
+                            <property name="top_attach">1</property>
                             <property name="width">2</property>
                             <property name="height">1</property>
                           </packing>
@@ -325,7 +343,7 @@ Find prime factors is possible under certain constrains, try to check "Strong pr
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
-                            <property name="top_attach">1</property>
+                            <property name="top_attach">2</property>
                             <property name="width">1</property>
                             <property name="height">1</property>
                           </packing>
@@ -338,8 +356,28 @@ Find prime factors is possible under certain constrains, try to check "Strong pr
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
-                            <property name="top_attach">2</property>
+                            <property name="top_attach">3</property>
                             <property name="width">1</property>
+                            <property name="height">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="weak_exponents">
+                            <property name="label" translatable="yes">Use low exponent</property>
+                            <property name="use_action_appearance">True</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="halign">start</property>
+                            <property name="xalign">0</property>
+                            <property name="image_position">right</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="weak_key_checked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">0</property>
+                            <property name="width">2</property>
                             <property name="height">1</property>
                           </packing>
                         </child>
@@ -410,6 +448,7 @@ Find prime factors is possible under certain constrains, try to check "Strong pr
                               <object class="GtkLabel" id="prime_p">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -422,6 +461,7 @@ Find prime factors is possible under certain constrains, try to check "Strong pr
                               <object class="GtkLabel" id="prime_q">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -434,6 +474,7 @@ Find prime factors is possible under certain constrains, try to check "Strong pr
                               <object class="GtkLabel" id="private_key">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>

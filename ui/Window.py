@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Copyright (C) 2014  Lorenzo Di Giuseppe
 
@@ -23,6 +24,9 @@ from controllers import SettingsControllerSingleton
 import threading
 
 class MainWindow():
+	'''
+	Finestra principale dell'applicazione.
+	'''
 
 	_instance = None
 
@@ -137,7 +141,12 @@ class MainWindow():
 
 
 class Content():
-
+	'''
+	Classe padre nella gerarchia di box innestabili in MainWindow.
+	Offre un'interfaccia da implementare dalle classi figlio affinchè sia garantito il corretto funzionamento.
+	Gestisce trasparentemente la comunciazione in multithreading con la finestra, affinchè non vi siano blocchi in esecuzione.
+	'''
+	
 	title = "Empty Title"
 
 	def get_content(self):

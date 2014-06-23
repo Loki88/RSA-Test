@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Copyright (C) 2014  Lorenzo Di Giuseppe
 
@@ -21,6 +22,7 @@ __copyright__   = "Copyright 2014"
 from random import randint
 from .Settings import SettingsSingleton
 from threading import Timer
+from utility.Math import smart_2_decomposition
 import math
 import itertools as IT
 import numpy as NP
@@ -156,11 +158,7 @@ class MillerTest(PrimeTest):
 			return True
 		elif num <= 1 or num % 2 == 0:
 			return False
-		d = num -1
-		s = 0
-		while d % 2 == 0:
-			s += 1
-			d = d / 2
+		d, s = smart_2_decomposition(num-1)
 
 		ln2 = int(2*(log(num)**2))
 		inf = num -1
@@ -225,12 +223,7 @@ class MillerRabinTest(PrimeTest):
 		if num % 2 == 0:
 			return False
 
-		k = 1
-		
-		m = (num-1) / 2
-		while m % 2 == 0:
-			m = m / 2
-			k = k + 1
+		m, k = smart_2_decomposition(num-1)
 
 		self.k = k
 

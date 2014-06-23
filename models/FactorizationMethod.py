@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Copyright (C) 2014  Lorenzo Di Giuseppe
 
@@ -26,7 +27,7 @@ from decimal import *
 from math import sqrt
 from multiprocessing import Pool
 from .PrimalityTest import AKSPrimeTest
-from utility.Math import continued_fraction_next_step, continued_fraction
+from utility.Math import continued_fraction_next_step, continued_fraction, smart_int_divide, smart_int_pow, smart_2_decomposition
 import time
 
 class FactorizationMethod():
@@ -51,6 +52,9 @@ class FactorizationMethod():
 	def is_successful(self):
 		return self.prime_1 != None and self.prime_2 != None 
 		# and self.prime_1 != 1 and self.prime_2 != 1
+
+	def is_on_mod(self):
+		return True
 
 class QuadraticSieveMethod(FactorizationMethod):
 
@@ -252,13 +256,13 @@ class PMinusOneAndExponentMethod(FactorizationMethod):
 
 
 	def global_exponent_factorization(self, a):
-		B_fact = self.B_fact
-		r = 0
-		while B_fact % 2 == 0:
-			B_fact = long(B_fact) / 2
-			r += 1
-		B_fact = B_fact % (self.mod-1)
-		b0 = pow(a, B_fact, self.mod)
+		B_fact, r = smart_2_decomposition(self.B_fact)
+		if r == 0:
+			return
+		try:
+			b0 = pow(a, B_fact, self.mod)
+		except:
+			b0 = smart_int_pow(a, B_fact, self.mod)
 		if b0 != 1:
 			while r > 0:
 				b1 = b0 * b0 % self.mod
@@ -285,40 +289,48 @@ class PMinusOneAndExponentMethod(FactorizationMethod):
 
 		return b
 
+
 class LowExponentAttack(FactorizationMethod):
 
 	def attack(self, client):
 		FactorizationMethod.attack(self, client)
-		
 		'''
 		C e candidato ad essere theta di eulero
 		'''
+		prec = 20
 		with localcontext() as ctx:
-			ctx.prec = 100
+			ctx.prec = prec
 			print(self.key / self.mod, "Num")
 			e = Decimal(self.key)
 			n = Decimal(self.mod)
 			print(e/n, "Number")
-			time.sleep(2)
+			rounding = 1 / prec
 			x, a, p, q = continued_fraction_next_step(self.key/self.mod,ctx,first=True)
-			i = 1
-			while True:
+			i = 0
+			while i < prec+1:
 				x, a, p, q = continued_fraction_next_step(x,a,p,q,ctx)
-				print(p[0]/q[0], "Fraction gives")
+				print(p[0], "p[0]")
+				print(q[0], "q[0]")
+				print(x, "Fraction gives x")
 				if p[0] != 0:
-					C = (self.key * q[0] - 1) / p[0]
-					if C % 1 == 0:
-						self.solve(C)
+					C = (e * q[0] - 1) / p[0]
+					print(C, "Theta?")
+					if C % 1 < rounding:
+						print(int(C), "Rounded C")
+						self.solve(int(C), rounding)
 						if self.is_successful():
 							break
 				i += 1
 
-	def solve(self, theta):
-		p = [1, -(self.mod - theta + 1), self.mod]
+	def solve(self, theta, rounding):
+		p = [1, -self.mod + theta - 1, self.mod]
 		primes = np.roots(p)
 		print(primes, "Primes attacked")
-		if int(primes[0]) == primes[0] and int(primes[1]) == primes[1]:
-			self.prime_1 = primes[0]
-			self.prime_2 = primes[1]
+		if abs(primes[0] - int(primes[0])) < rounding  and abs(primes[1] - int(primes[1])) < rounding:
+			self.prime_1 = int(primes[0])
+			self.prime_2 = int(primes[1])
+
+	def is_on_mod(self):
+		return False
 
 		

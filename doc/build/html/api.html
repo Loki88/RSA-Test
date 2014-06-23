@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>API &mdash; RSA &amp; Primality Test 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="RSA &amp; Primality Test 1.0 documentation" href="index.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="Metodi di fattorizzazione" href="factorization.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="license.html" title="License"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="factorization.html" title="Metodi di fattorizzazione"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">RSA &amp; Primality Test 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-models">
+<span id="models"></span><h2>models<a class="headerlink" href="#module-models" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-models.FactorizationMethod"></span><dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">models.FactorizationMethod.</tt><tt class="descname">FactorizationMethod</tt></dt>
+<dd><p>Base class for factorization methods.</p>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">models.FactorizationMethod.</tt><tt class="descname">QuadraticSieveMethod</tt></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">models.FactorizationMethod.</tt><tt class="descname">LowExponentAttack</tt></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-models.Factory"></span><dl class="class">
+<dt id="models.Factory.SimpleFactory">
+<em class="property">class </em><tt class="descclassname">models.Factory.</tt><tt class="descname">SimpleFactory</tt><a class="headerlink" href="#models.Factory.SimpleFactory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-models.Intruder"></span><dl class="class">
+<dt id="models.Intruder.IntruderClient">
+<em class="property">class </em><tt class="descclassname">models.Intruder.</tt><tt class="descname">IntruderClient</tt><big>(</big><em>method</em><big>)</big><a class="headerlink" href="#models.Intruder.IntruderClient" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-models.KeyAlgorithm"></span><dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">models.KeyAlgorithm.</tt><tt class="descname">SimpleKeySelectionAlgorithm</tt></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">models.KeyAlgorithm.</tt><tt class="descname">StrongKeySelectionAlgorithm</tt></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">models.KeyAlgorithm.</tt><tt class="descname">WeakKeySelectionAlgorithm</tt></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-models.NumberFactory"></span><dl class="class">
+<dt id="models.NumberFactory.NumberFactorySingleton">
+<em class="property">class </em><tt class="descclassname">models.NumberFactory.</tt><tt class="descname">NumberFactorySingleton</tt><a class="headerlink" href="#models.NumberFactory.NumberFactorySingleton" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-models.NumberGenerator"></span><dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">models.NumberGenerator.</tt><tt class="descname">PrimeGenerator</tt><big>(</big><em>test</em><big>)</big></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">models.NumberGenerator.</tt><tt class="descname">StrongPrimeGenerator</tt><big>(</big><em>test</em><big>)</big></dt>
+<dd><p>This class is safe from p-1 and small factors attacks</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="models.NumberGenerator.CoprimeGenerator">
+<em class="property">class </em><tt class="descclassname">models.NumberGenerator.</tt><tt class="descname">CoprimeGenerator</tt><a class="headerlink" href="#models.NumberGenerator.CoprimeGenerator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="models.PrimalityTest.PrimeTest">
+<em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">PrimeTest</tt><a class="headerlink" href="#models.PrimalityTest.PrimeTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">SimplePrimeTest</tt></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">AKSPrimeTest</tt></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="models.PrimalityTest.MillerTest">
+<em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">MillerTest</tt><a class="headerlink" href="#models.PrimalityTest.MillerTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="models.PrimalityTest.LucasLehmer">
+<em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">LucasLehmer</tt><a class="headerlink" href="#models.PrimalityTest.LucasLehmer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="models.PrimalityTest.FermatTest">
+<em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">FermatTest</tt><a class="headerlink" href="#models.PrimalityTest.FermatTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">MillerRabinTest</tt></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">models.RSAClient.</tt><tt class="descname">RSAClient</tt><big>(</big><em>prime_size</em><big>)</big></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-models.Settings"></span><dl class="class">
+<dt id="models.Settings.SettingsSingleton">
+<em class="property">class </em><tt class="descclassname">models.Settings.</tt><tt class="descname">SettingsSingleton</tt><a class="headerlink" href="#models.Settings.SettingsSingleton" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-controllers">
+<span id="controllers"></span><h2>controllers<a class="headerlink" href="#module-controllers" title="Permalink to this headline">¶</a></h2>
+<p>Modulo di controllori. Ogni controllore esegue le operazioni onerose in multiprocessing.
+In ogni caso, per evitare freeze nelle interfacce è opportuno eseguire le operazioni dei controllori in thread separati.</p>
+<span class="target" id="module-controllers.PrimeGenerator"></span><dl class="class">
+<dt id="controllers.PrimeGenerator.PrimeGenerator">
+<em class="property">class </em><tt class="descclassname">controllers.PrimeGenerator.</tt><tt class="descname">PrimeGenerator</tt><a class="headerlink" href="#controllers.PrimeGenerator.PrimeGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controllore che gestisce il caso d&#8217;uso: Genera i primi.</p>
+</dd></dl>
+
+<span class="target" id="module-controllers.RSATestController"></span><dl class="class">
+<dt id="controllers.RSATestController.RSAComunicationTest">
+<em class="property">class </em><tt class="descclassname">controllers.RSATestController.</tt><tt class="descname">RSAComunicationTest</tt><a class="headerlink" href="#controllers.RSATestController.RSAComunicationTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controllore che si occupa del test di comunicazione mediante RSA.</p>
+</dd></dl>
+
+<span class="target" id="module-controllers.SecurityBrokeController"></span><dl class="class">
+<dt id="controllers.SecurityBrokeController.RSAComunicationAttackTest">
+<em class="property">class </em><tt class="descclassname">controllers.SecurityBrokeController.</tt><tt class="descname">RSAComunicationAttackTest</tt><a class="headerlink" href="#controllers.SecurityBrokeController.RSAComunicationAttackTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controllore per la fattorizzazione/attacco di una chiave pubblica di un client RSA.</p>
+</dd></dl>
+
+<span class="target" id="module-controllers.SettingsController"></span><dl class="class">
+<dt id="controllers.SettingsController.SettingsControllerSingleton">
+<em class="property">class </em><tt class="descclassname">controllers.SettingsController.</tt><tt class="descname">SettingsControllerSingleton</tt><a class="headerlink" href="#controllers.SettingsController.SettingsControllerSingleton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controllore che si occupa della gestione della configurazione dell&#8217;applicazione.
+Imposta i metodi di fattorizzazione, i test di primalità, la durata massima della ricorsione, la lunghezza minima dei primi.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-ui">
+<span id="views"></span><h2>views<a class="headerlink" href="#module-ui" title="Permalink to this headline">¶</a></h2>
+<p>Il modulo ui contiene tutti gli elementi dell&#8217;interfaccia grafica dell&#8217;applicazione.
+Le singole interfaccie sono state create con glade.</p>
+<dl class="class">
+<dt id="ui.Window.MainWindow">
+<em class="property">class </em><tt class="descclassname">ui.Window.</tt><tt class="descname">MainWindow</tt><a class="headerlink" href="#ui.Window.MainWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finestra principale dell&#8217;applicazione.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ui.Window.Content">
+<em class="property">class </em><tt class="descclassname">ui.Window.</tt><tt class="descname">Content</tt><a class="headerlink" href="#ui.Window.Content" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classe padre nella gerarchia di box innestabili in MainWindow.
+Offre un&#8217;interfaccia da implementare dalle classi figlio affinchè sia garantito il corretto funzionamento.
+Gestisce trasparentemente la comunciazione in multithreading con la finestra, affinchè non vi siano blocchi in esecuzione.</p>
+</dd></dl>
+
+<span class="target" id="module-ui.Comunication"></span><dl class="class">
+<dt id="ui.Comunication.ComunicationBox.ComunicationBox">
+<em class="property">class </em><tt class="descclassname">ui.Comunication.ComunicationBox.</tt><tt class="descname">ComunicationBox</tt><a class="headerlink" href="#ui.Comunication.ComunicationBox.ComunicationBox" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-ui.Factorization"></span><dl class="class">
+<dt id="ui.Factorization.Factorization.FactorizationBox">
+<em class="property">class </em><tt class="descclassname">ui.Factorization.Factorization.</tt><tt class="descname">FactorizationBox</tt><a class="headerlink" href="#ui.Factorization.Factorization.FactorizationBox" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-ui.Menu"></span><dl class="class">
+<dt id="ui.Menu.Menu.MenuBox">
+<em class="property">class </em><tt class="descclassname">ui.Menu.Menu.</tt><tt class="descname">MenuBox</tt><a class="headerlink" href="#ui.Menu.Menu.MenuBox" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-ui.PrimeGen"></span><dl class="class">
+<dt id="ui.PrimeGen.PrimeGen.PrimeGeneratorBox">
+<em class="property">class </em><tt class="descclassname">ui.PrimeGen.PrimeGen.</tt><tt class="descname">PrimeGeneratorBox</tt><a class="headerlink" href="#ui.PrimeGen.PrimeGen.PrimeGeneratorBox" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-ui.Settings"></span><dl class="class">
+<dt id="ui.Settings.Settings.SettingsBox">
+<em class="property">class </em><tt class="descclassname">ui.Settings.Settings.</tt><tt class="descname">SettingsBox</tt><a class="headerlink" href="#ui.Settings.Settings.SettingsBox" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-utility">
+<span id="utility"></span><h2>utility<a class="headerlink" href="#module-utility" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-utility.Math"></span><dl class="staticmethod">
+<dt id="utility.Math.gcd">
+<em class="property">static </em><tt class="descclassname">Math.</tt><tt class="descname">gcd</tt><big>(</big><em>num1</em>, <em>num2</em><big>)</big><a class="headerlink" href="#utility.Math.gcd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calcolo del massimo comun divisore tra due numeri</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="utility.Math.smart_2_decomposition">
+<em class="property">static </em><tt class="descclassname">Math.</tt><tt class="descname">smart_2_decomposition</tt><big>(</big><em>num</em><big>)</big><a class="headerlink" href="#utility.Math.smart_2_decomposition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Il metodo sfruttando la rappresentazione binaria decompone velocemente un numero intero n in una potenza di 2, k, e un intero m, tali che: n = m*2^k</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="utility.Math.continued_fraction">
+<em class="property">static </em><tt class="descclassname">Math.</tt><tt class="descname">continued_fraction</tt><big>(</big><em>n</em>, <em>step=1</em><big>)</big><a class="headerlink" href="#utility.Math.continued_fraction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calcolo della frazione continua di n al passo step.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="utility.Math.continued_fraction_next_step">
+<em class="property">static </em><tt class="descclassname">Math.</tt><tt class="descname">continued_fraction_next_step</tt><big>(</big><em>n</em>, <em>a=0</em>, <em>p=(1</em>, <em>0)</em>, <em>q=(0</em>, <em>1)</em>, <em>context=None</em>, <em>first=False</em><big>)</big><a class="headerlink" href="#utility.Math.continued_fraction_next_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calcolo della frazione continua di n per passi.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">API</a><ul>
+<li><a class="reference internal" href="#module-models">models</a></li>
+<li><a class="reference internal" href="#module-controllers">controllers</a></li>
+<li><a class="reference internal" href="#module-ui">views</a></li>
+<li><a class="reference internal" href="#module-utility">utility</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="factorization.html"
+                        title="previous chapter">Metodi di fattorizzazione</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="license.html"
+                        title="next chapter">License</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/api.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="license.html" title="License"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="factorization.html" title="Metodi di fattorizzazione"
+             >previous</a> |</li>
+        <li><a href="index.html">RSA &amp; Primality Test 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Lorenzo Di Giuseppe.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Copyright (C) 2014  Lorenzo Di Giuseppe
 
@@ -26,6 +27,10 @@ from models.FactorizationMethod import PMinusOneAndExponentMethod
 from models.NumberGenerator import StrongPrimeGenerator, PrimeGenerator
 
 class SettingsControllerSingleton():
+	'''
+	Controllore che si occupa della gestione della configurazione dell'applicazione.
+	Imposta i metodi di fattorizzazione, i test di primalità, la durata massima della ricorsione, la lunghezza minima dei primi.
+	'''
 
 	settings_store = "settings"
 
@@ -113,22 +118,14 @@ class SettingsControllerSingleton():
 			db['synchronized'] = True
 			db.close()
 
-	def is_strong_prime_generator(self):
-		return NumberFactorySingleton.get_instance().get_prime_generator().is_strong()
-
-	def set_strong_prime_generator(self):
-		if not self.is_strong_prime_generator():
-			test = NumberFactorySingleton.get_instance().get_primality_test()
-			generator = StrongPrimeGenerator(test)
-			NumberFactorySingleton.get_instance().set_prime_generator(generator)
+	def set_prime_generator(self, generator):
+		test = NumberFactorySingleton.get_instance().get_primality_test()
+		generator.set_test(test)
+		NumberFactorySingleton.get_instance().set_prime_generator(generator)
 		self.notifica()
 		
-	def set_simple_prime_generator(self):
-		if self.is_strong_prime_generator():
-			test = NumberFactorySingleton.get_instance().get_primality_test()
-			generator = PrimeGenerator(test)
-			NumberFactorySingleton.get_instance().set_prime_generator(generator)
-		self.notifica()
+	def get_prime_generator(self):
+		return NumberFactorySingleton.get_instance().get_prime_generator()
 
 	def add_listener(self, l):
 		self.listeners.append(l)
