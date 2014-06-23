@@ -53,7 +53,6 @@ class PrimeGenerator(NumberGenerator):
 					start += 2
 					res = pool.apply_async(self.test.is_prime, args=(start,))
 			except TimeoutError:
-				print("Error in generator")
 				raise MemoryError("This operation takes too much time.")
 
 		return start
@@ -103,7 +102,6 @@ class StrongPrimeGenerator(PrimeGenerator):
 					else:
 						k = k + 1
 			except TimeoutError:
-				print("Error in generator")
 				raise MemoryError("This operation takes too much time.")
 
 		return p

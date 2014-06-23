@@ -27,7 +27,6 @@ class SimpleKeySelectionAlgorithm():
 	weak = False
 
 	def set_private_key(self, client):
-		print("Simple key algorithm")
 		n = client.get_n()
 		p = client.get_p()
 		q = client.get_q()
@@ -49,7 +48,6 @@ class WeakKeySelectionAlgorithm(SimpleKeySelectionAlgorithm):
 	weak = True
 
 	def set_private_key(self, client):
-		print("Weak key algorithm")
 		n = client.get_n()
 		p = client.get_p()
 		q = client.get_q()

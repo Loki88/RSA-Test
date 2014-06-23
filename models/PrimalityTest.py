@@ -32,8 +32,15 @@ import time
 class PrimeTest():
 
 	deterministic = False
+	'''
+	Booleano che indica se il test è deterministico o meno
+	'''
 
 	max_time = 1.5
+	'''
+	Tempo massimo concesso per l'esecuzione di un test di primalità.
+	Oltre questo tempo il processo chiamante dovrebbe generare un'eccezione di timeout.
+	'''
 
 	def is_prime(self, num):
 		pass

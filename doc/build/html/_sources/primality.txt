@@ -1,5 +1,6 @@
 
 .. _test-primality:
+
 Test di primalità
 ==============================================
 | Come già detto, una parte fondamentale dell'applicazione è rappresentata dai test di primalità.
@@ -10,7 +11,8 @@ Test di primalità
 
 
 .. autoclass:: models.PrimalityTest.PrimeTest
-	
+	:members:
+
 	.. method:: is_prime(num)
 
 

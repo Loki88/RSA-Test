@@ -122,13 +122,11 @@ class QuadraticSieveMethod(FactorizationMethod):
 
 	def find_squares(self):
 		matrix = np.asarray(self.factor_base).__mod__(2)
-		print(matrix, "Factor base")
 		"""
 		If a column contains only one 1, the row associated
 		cannot be part of a square. Remove it!
 		"""
 		matrix = self.reduce(matrix)
-		print(matrix, "Reduced matrix")
 		"""
 		Base version, iterate on matrices of growing size.
 		Rows contains relations of 1, 2, 3 and so on.
@@ -154,8 +152,6 @@ class QuadraticSieveMethod(FactorizationMethod):
 		if (a - b) % self.mod == 0 or (a + b) % self.mod == 0:
 			return False
 		else:
-			print((a-b)%self.mod, "Resto a-b")
-			print((a+b)%self.mod, "Resto a+b")
 			prime_1 = gcd(a - b, self.mod)
 			if prime_1 == 1:
 				prime_1 = gcd(a+b, self.mod)
@@ -188,23 +184,17 @@ class QuadraticSieveMethod(FactorizationMethod):
 			row_ones.append(matrix[i].sum())
 		for i in range(col):
 			col_ones.append(matrix[:,i].sum())
-		print(row_ones, "Row ones")
-		print(col_ones, "Col ones")
+
 		for i in range(row):
 			row_weight = row_ones[i]
 			if row_weight == 0:
 				continue
 			current_row = matrix[i]
-			
-			print(current_row, "Finding combination with this row with weight <= "+str(row_weight))
 			candidate_rows = []
 			for j in range(row):
 				if i!=j and row_ones[j] <= row_weight:
 					candidate_rows.append(j)
-			print(candidate_rows, "Candidates are")
 			combination = [i]
-			# rows_candidate = len(candidate_rows)
-			# while row_weight > 0 and rows_candidate > 0:
 			for j in candidate_rows:
 				new_weight = current_row.__xor__(matrix[j]).sum()
 				if new_weight < row_weight:
@@ -212,13 +202,8 @@ class QuadraticSieveMethod(FactorizationMethod):
 					current_row = current_row.__xor__(matrix[j])
 					row_weight = new_weight
 					candidate_rows.remove(j)
-						# rows_candidate -= 1
 			if row_weight == 0:
 				relations.append(combination)
-				print(current_row, "Azzerando")
-				print(combination, "Combinazione")
-			else:
-				print(combination, "not good")
 
 		return relations
 
@@ -278,8 +263,6 @@ class PMinusOneAndExponentMethod(FactorizationMethod):
 
 
 	def elevate(self, a, B):
-		# if B > pow(2, 20):
-		# 	raise Exception("Maximum recursion exceded, this method works well with small prime factors")
 		k = 2
 		b = a
 		while k <= B:
@@ -295,7 +278,7 @@ class LowExponentAttack(FactorizationMethod):
 	def attack(self, client):
 		FactorizationMethod.attack(self, client)
 		'''
-		C e candidato ad essere theta di eulero
+		C è candidato ad essere theta di eulero
 		'''
 		prec = 20
 		with localcontext() as ctx:
@@ -309,14 +292,9 @@ class LowExponentAttack(FactorizationMethod):
 			i = 0
 			while i < prec+1:
 				x, a, p, q = continued_fraction_next_step(x,a,p,q,ctx)
-				print(p[0], "p[0]")
-				print(q[0], "q[0]")
-				print(x, "Fraction gives x")
 				if p[0] != 0:
 					C = (e * q[0] - 1) / p[0]
-					print(C, "Theta?")
 					if C % 1 < rounding:
-						print(int(C), "Rounded C")
 						self.solve(int(C), rounding)
 						if self.is_successful():
 							break
@@ -325,7 +303,6 @@ class LowExponentAttack(FactorizationMethod):
 	def solve(self, theta, rounding):
 		p = [1, -self.mod + theta - 1, self.mod]
 		primes = np.roots(p)
-		print(primes, "Primes attacked")
 		if abs(primes[0] - int(primes[0])) < rounding  and abs(primes[1] - int(primes[1])) < rounding:
 			self.prime_1 = int(primes[0])
 			self.prime_2 = int(primes[1])

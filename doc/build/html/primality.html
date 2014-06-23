@@ -53,7 +53,7 @@
           <div class="body">
             
   <div class="section" id="test-di-primalita">
-<h1>Test di primalità<a class="headerlink" href="#test-di-primalita" title="Permalink to this headline">¶</a></h1>
+<span id="test-primality"></span><h1>Test di primalità<a class="headerlink" href="#test-di-primalita" title="Permalink to this headline">¶</a></h1>
 <div class="line-block">
 <div class="line">Come già detto, una parte fondamentale dell&#8217;applicazione è rappresentata dai test di primalità.</div>
 <div class="line">I test di primalità si possono suddividere in due categorie:</div>
@@ -69,6 +69,19 @@
 <dt id="PrimeTest.is_prime">
 <tt class="descname">is_prime</tt><big>(</big><em>num</em><big>)</big><a class="headerlink" href="#PrimeTest.is_prime" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="attribute">
+<dt id="models.PrimalityTest.PrimeTest.deterministic">
+<tt class="descname">deterministic</tt><em class="property"> = False</em><a class="headerlink" href="#models.PrimalityTest.PrimeTest.deterministic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Booleano che indica se il test è deterministico o meno</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="models.PrimalityTest.PrimeTest.max_time">
+<tt class="descname">max_time</tt><em class="property"> = 1.5</em><a class="headerlink" href="#models.PrimalityTest.PrimeTest.max_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tempo massimo concesso per l&#8217;esecuzione di un test di primalità.
+Oltre questo tempo il processo chiamante dovrebbe generare un&#8217;eccezione di timeout.</p>
+</dd></dl>
 
 </dd></dl>
 

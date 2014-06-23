@@ -98,7 +98,6 @@ class SettingsBox(Content):
 		for method in self.factorization_method_buttons.keys():
 			element = self.factorization_method_buttons[method]
 			if element == widget:
-				print(method, "Method")
 				self.factorization_method = method
 
 	def set_initial_values(self):
@@ -115,7 +114,6 @@ class SettingsBox(Content):
 				GLib.idle_add(self.primality_test_buttons[test].set_active, False)
 
 		factorization_method = controller.get_factorization_method()
-		print(factorization_method, "Factorization method")
 		for method in self.factorization_methods.keys():
 			element = self.factorization_methods[method]
 			if factorization_method.__class__ == element:
