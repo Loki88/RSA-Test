@@ -1,3 +1,5 @@
+.. _api:
+
 API
 ============================
 models
@@ -22,6 +24,7 @@ models
 	.. automodule:: models.Intruder
 		
 		.. autoclass:: models.Intruder.IntruderClient
+			:noindex:
 
 	.. automodule:: models.KeyAlgorithm
 		
@@ -52,6 +55,7 @@ models
 		:noindex:
 
 		.. autoclass:: models.PrimalityTest.PrimeTest
+			:noindex:
 
 		.. autoclass:: models.PrimalityTest.SimplePrimeTest
 			:noindex:

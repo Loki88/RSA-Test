@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="RSA &amp; Primality Test 1.0 documentation" href="index.html" />
     <link rel="next" title="Generazione di chiavi e primi" href="keygen.html" />
-    <link rel="prev" title="Scambio di messaggi con RSA" href="rsa.html" /> 
+    <link rel="prev" title="Client RSA per lo scambio di messaggi" href="rsa.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,7 +41,7 @@
           <a href="keygen.html" title="Generazione di chiavi e primi"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="rsa.html" title="Scambio di messaggi con RSA"
+          <a href="rsa.html" title="Client RSA per lo scambio di messaggi"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">RSA &amp; Primality Test 1.0 documentation</a> &raquo;</li> 
       </ul>
@@ -60,8 +60,11 @@
 </div>
 <ul class="simple">
 <li>deterministici: sono i test che sono validi per qualsiasi numero e danno la certezza assoluta che il numero sia primo</li>
-<li>non deterministici: sono test validi per qualche tipologia di numero o che non danno certezza assoluta sulla primalità di un numero</li>
+<li>probabilistici: sono test che non danno certezza assoluta sulla primalità di un numero, ma ne danno riguardo la non primalità</li>
 </ul>
+<div class="line-block">
+<div class="line">I test di primalità costituiscono una gerarchia di Strategy. Poichè in Python non esistono classi interfaccia, l&#8217;interfaccia di un test è rappresentata dalla classe seguente. Implementandola si ha la certezza che l&#8217;applicazione possa funzionare utilizzandola.</div>
+</div>
 <dl class="class">
 <dt id="models.PrimalityTest.PrimeTest">
 <em class="property">class </em><tt class="descclassname">models.PrimalityTest.</tt><tt class="descname">PrimeTest</tt><a class="headerlink" href="#models.PrimalityTest.PrimeTest" title="Permalink to this definition">¶</a></dt>
@@ -88,8 +91,8 @@ Oltre questo tempo il processo chiamante dovrebbe generare un&#8217;eccezione di
 <div class="section" id="test-banale">
 <h2>Test banale<a class="headerlink" href="#test-banale" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
-<div class="line">Per test banale si è indicato il metodo che prevede, dato un numero num, di provare se sia divisibile per tutti i numeri interi j tali che <img class="math" src="_images/math/186d00e8f54503d5f719d420127be96e3950248c.png" alt="2 \leq j \leq \sqrt{num}"/>.</div>
-<div class="line">Naturalmente questo test è molto dispendioso in quanto a risorse, ma semplice da implementare e da assoluta certezza sulla primalità di un numero. Tuttavia il suo tempo di esecuzione cresce esponenzialmente al crescere del numero da testare.</div>
+<div class="line">Per test banale si è indicato il metodo che prevede, dato un numero num dispari, di provare che sia divisibile per tutti i numeri interi dispari j: <img class="math" src="_images/math/186d00e8f54503d5f719d420127be96e3950248c.png" alt="2 \leq j \leq \sqrt{num}"/>.</div>
+<div class="line">Naturalmente questo test è molto dispendioso in quanto a risorse, ma semplice da implementare e da assoluta certezza sulla primalità di un numero. Tuttavia il suo tempo di esecuzione cresce proporzionalmente alla dimensione del numero da testare.</div>
 <div class="line">Per completezza si fornisce lo pseudocodice del metodo.</div>
 </div>
 <blockquote>
@@ -108,7 +111,7 @@ Oltre questo tempo il processo chiamante dovrebbe generare un&#8217;eccezione di
 <dd><dl class="method">
 <dt id="models.PrimalityTest.SimplePrimeTest.is_prime">
 <tt class="descname">is_prime</tt><big>(</big><em>num</em><big>)</big><a class="headerlink" href="#models.PrimalityTest.SimplePrimeTest.is_prime" title="Permalink to this definition">¶</a></dt>
-<dd><p>Iterativamente verifica se num è divisibile per gli interi minori o uguali di <img class="math" src="_images/math/186901598d90059041211e37c3caf5def0d02a36.png" alt="\sqrt{num}"/></p>
+<dd><p>Iterativamente verifica se num è primo, seguendo l&#8217;algoritmo riportato sopra.</p>
 </dd></dl>
 
 </dd></dl>
@@ -117,7 +120,8 @@ Oltre questo tempo il processo chiamante dovrebbe generare un&#8217;eccezione di
 <div class="section" id="test-aks-prime-is-p">
 <h2>Test AKS: Prime is P!<a class="headerlink" href="#test-aks-prime-is-p" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
-<div class="line">AKS è un test di primalità deterministico, pubblicato nel 2002 da Agrawal, Kayal e Saxena <a class="footnote-reference" href="#aks" id="id1">[1]</a>. La sua importanza è legata alla dimostrazione che il problema algoritmico PRIMES è risolvibile in tempo polinomiale, a differenza di quanto si credeva. Il test naturalmente è più lento dei test probabilistici e l&#8217;algoritmo viene riportato in seguito:</div>
+<div class="line">AKS è un test di primalità deterministico, pubblicato nel 2002 da Agrawal, Kayal e Saxena <a class="footnote-reference" href="#aks" id="id1">[1]</a>. La sua importanza è legata alla dimostrazione che il problema algoritmico PRIMES è risolvibile in tempo polinomiale, a differenza di quanto si credeva. Tuttavia il test è più lento dei test probabilistici e non è utilizzabile in pratica, nelle applicazioni che richiedono elevate prestazioni.</div>
+<div class="line">L&#8217;algoritmo viene riportato in seguito:</div>
 </div>
 <blockquote>
 <div><pre class="code literal-block">
@@ -136,17 +140,17 @@ Oltre questo tempo il processo chiamante dovrebbe generare un&#8217;eccezione di
 </pre>
 </div></blockquote>
 <div class="line-block">
-<div class="line">La complessità dell&#8217;algoritmo è insita nei passi 3 e 9: calcolare un intero r opportuno e calcolare le potenze di un polinomio.</div>
+<div class="line">La complessità dell&#8217;algoritmo è insita nei passi 3 e 9: calcolare un intero r opportuno e le potenze di un polinomio.</div>
 <div class="line">Per quanto riguarda l&#8217;algoritmo AKS, una breve spiegazione:</div>
 </div>
 <ol class="arabic simple">
 <li>n è una potenza perfetta se esistono due interi a e b tali che <img class="math" src="_images/math/1c2f6d9402f83a28b6dbf06fce543378538467c6.png" alt="n = a^{b}"/>, ovvero n è divisibile almeno per a, quindi non è primo</li>
 <li>se esiste qualche intero a tale che il massimo comune divisore, gcd, tra a ed n è diverso da 1 e minore di n, vuol dire che a ed n sono divisibili per esso, quindi n non è primo</li>
-<li>se n è composto, allora n è divisibile per qualche numero minore di <img class="math" src="_images/math/8c36f342872d9bafd8240141c0015a23bae309c4.png" alt="\sqrt{n}"/>. Se <img class="math" src="_images/math/8026098e4e4c44ab21deb04984f5745fd79681c9.png" alt="n \leq r"/>, allora al passo 4 viene individuato ogni fattore non banale di n, quindi se n non ha fattori è primo.</li>
+<li>se n è composto, allora è divisibile per qualche numero minore di <img class="math" src="_images/math/8c36f342872d9bafd8240141c0015a23bae309c4.png" alt="\sqrt{n}"/>. Se <img class="math" src="_images/math/8026098e4e4c44ab21deb04984f5745fd79681c9.png" alt="n \leq r"/>, allora al passo 4 viene individuato ogni fattore non banale di n, quindi se n non ha fattori è primo.</li>
 <li>l&#8217;ultimo passo dell&#8217;algoritmo si basa su una proprietà dei numeri primi, ovvero n è un numero primo se e solo se divide tutti i coefficienti dell&#8217;espansione polinomiale <img class="math" src="_images/math/fd33f0c2a77ff79006c7e0aaf47776db7539ef90.png" alt="(x + a)^n - x^n - a"/></li>
 </ol>
 <div class="line-block">
-<div class="line">Naturalmente la teoria alla base di AKS è molto più estesa e complessa di come è stata descritta, con l&#8217;intento di giustificare l&#8217;algoritmo implementato.</div>
+<div class="line">Naturalmente la teoria alla base di AKS è molto più estesa e complessa di come è stata descritta con l&#8217;intento di giustificare l&#8217;algoritmo implementato.</div>
 </div>
 <dl class="class">
 <dt id="models.PrimalityTest.AKSPrimeTest">
@@ -154,9 +158,7 @@ Oltre questo tempo il processo chiamante dovrebbe generare un&#8217;eccezione di
 <dd><dl class="method">
 <dt id="models.PrimalityTest.AKSPrimeTest.is_prime">
 <tt class="descname">is_prime</tt><big>(</big><em>n</em><big>)</big><a class="headerlink" href="#models.PrimalityTest.AKSPrimeTest.is_prime" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rappresenta il metodo base, quando viene chiamato verifica se n è una potenza perfetta.
-Se non lo è calcola r, iterando sui numeri interi maggiori di 2, verificando che questo numero sia coprimo con n e che il suo ordine sia maggiore di <img class="math" src="_images/math/22012c49fab1ba2f5aff645bf272dd376e1ea026.png" alt="log(n)^2"/>.
-Quindi viene svolto il test sul gcd e sulla grandezza di n rispetto ad r. Per concludere vengono svolti i test sui polinomi, mediante la libreria Numpy.</p>
+<dd><p>Rappresenta il metodo base, che implementa l&#8217;algoritmo descritto. Al suo interno viene utilizzata la libreria Numpy per le operazioni polinomiali.</p>
 </dd></dl>
 
 <dl class="method">
@@ -186,44 +188,33 @@ Quindi viene svolto il test sul gcd e sulla grandezza di n rispetto ad r. Per co
 </dd></dl>
 
 <blockquote class="epigraph">
-<div><em>Per la versione implementata si ringrazia lo sviluppatore che la ha implementata efficientemente in Python, non mi è possibile citarne il nome, in quanto non riportato dalla fonte da cui ho reperito il codice.</em></div></blockquote>
+<div><em>La versione implementata è dovuta ad uno sviluppatore anonimo che ha implementato efficientemente l&#8217;algoritmo in Python, ottenendo prestazioni notevolmente migliori di quante non fossi riuscito ad ottenere. Purtroppo non mi è possibile citarne il nome, in quanto non pervenuto.</em></div></blockquote>
 </div>
 <div class="section" id="test-di-miller-rabin">
 <span id="miller-rabin"></span><h2>Test di Miller-Rabin<a class="headerlink" href="#test-di-miller-rabin" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
 <div class="line">A differenza degli altri test presentati fino ad ora, quello di Miller-Rabin non è un test deterministico, ma probabilistico.</div>
-<div class="line">Prima di descrivere l&#8217;algoritmo si espone il <strong>Principio fondamentale</strong> sul quale sono basati molti metodi di fattorizzazione, utile per spiegare l&#8217;algoritmo in questione:</div>
+<div class="line">Il test di Miller-Rabin è un&#8217;estensione del test di Fermat, che sfrutta il Principio Fondamentale.</div>
+<div class="line">Prima di descrivere l&#8217;algoritmo si introducono entrambi.</div>
 </div>
-<div class="section" id="principio-fondamentale">
-<span id="id2"></span><h3>Principio fondamentale<a class="headerlink" href="#principio-fondamentale" title="Permalink to this headline">¶</a></h3>
-<div class="line-block">
+<p class="centered" id="principio-fondamentale">
+<strong>Principio fondamentale</strong></p><div class="line-block">
 <div class="line"><em>Sia n un intero. Se esistono due interi x e y per cui:</em> <img class="math" src="_images/math/9942ba5c5f7a5d74392d46b9c541c075b61ec950.png" alt="x^2 \equiv y^2 \pmod{n}"/> <em>allora n è un numero composto. Inoltre, gcd(x-y, n) è un fattore non banale di n.</em></div>
 </div>
-<div class="line-block">
-<div class="line">Risulta più semplice dimostrare che un numero non è primo, che fattorizzarlo. Riprenderemo il discorso sulla fattorizzazione più avanti, per ora enunciamo un semplice test di primalità, molto efficace per numeri grandi, ma che fallisce per alcune tipologie di interi, ad esempio i numeri di Carmichael:</div>
-</div>
-</div>
-<div class="section" id="test-di-primalita-di-fermat">
-<h3>Test di primalità di Fermat<a class="headerlink" href="#test-di-primalita-di-fermat" title="Permalink to this headline">¶</a></h3>
-<div class="line-block">
+<p class="centered">
+<strong>Test di primalità di Fermat</strong></p><div class="line-block">
 <div class="line"><em>Sia n &gt; 1 un intero. Sia a un intero casuale tale che</em> <img class="math" src="_images/math/a82f5036137006113dd992819eb930de24f90ba3.png" alt="1 &lt; a &lt; n-1"/> <em>. Se</em> <img class="math" src="_images/math/fa9b563b0da91046a842446386c09a4a589ed7bb.png" alt="a^{n-1} \not\equiv 1 \pmod n"/> <em>, allora n è composto. Se</em> <img class="math" src="_images/math/177544ae3d0f7a31e7ce194882bc69eee0cba08e.png" alt="a^{n-1} \equiv 1 \pmod n"/> <em>, allora n è probabilmente primo.</em></div>
 </div>
 <div class="line-block">
-<div class="line">Si noti che il test di Fermat risponde con certezza se un numero è composto, ma non se un numero è primo. Si può affermare che molto proababilmente il numero è primo, ma esistono delle eccezioni. In generale un numero che supera il test di Fermat pur non essendo primo è detto pseudoprimo. In particolare un numero n che supera il test per un certo a è detto pseudoprimo per la base a.</div>
-<div class="line">Nonostante i problemi presentati dal problema di Fermat, la sua applicazione può risultare abbastanza efficiente (<em>elevamento a potenza mediante quadrati successivi</em>).</div>
-<div class="line">Il test di Miller-Rabin è una combinazione del test di Fermat e del principio fondamentale.</div>
+<div class="line">Si noti che il test di Fermat risponde con certezza se un numero è composto, ma non se un numero è primo, nel qual caso si può affermare che molto probabilmente il numero è tale, ma esistono delle eccezioni; questi numeri sono detti pseudoprimi per la base a scelta per il test.</div>
+<div class="line">Il test di Miller-Rabin risulta più affidabile, ma anch&#8217;esso fallisce per alcune tipologie di numeri, gli pseudo-primi forti. Per una base a esistono molti meno pseudo-primi forti che pseudo-primi; l&#8217;esecuzione del test su diverse basi da una certezza quasi assoluta della primalità di un numero, in breve tempo.</div>
 </div>
-</div>
-<div class="section" id="test-di-primalita-di-miller-rabin">
-<h3>Test di primalità di Miller-Rabin<a class="headerlink" href="#test-di-primalita-di-miller-rabin" title="Permalink to this headline">¶</a></h3>
-<div class="line-block">
-<div class="line"><em>Sia n &gt; 1 un intero dispari. Sia</em> <img class="math" src="_images/math/4970a49c3e0ac8f3974a3cf38745159c8d8001fd.png" alt="n-1 = 2^k m"/> <em>con m dispari (o sarebbe divisibile per 2). Si scelga un intero casuale a tale che</em> <img class="math" src="_images/math/a82f5036137006113dd992819eb930de24f90ba3.png" alt="1 &lt; a &lt; n-1"/>. Sia <img class="math" src="_images/math/9f0438f40e326c9f82a9f86e36571c183a1fe55f.png" alt="b_0 \equiv a^m \pmod n"/> <em>. Se</em> <img class="math" src="_images/math/40d56e4722527150efb0ce33658689f71b55401a.png" alt="b_0 \equiv \pm 1 \pmod n"/> <em>, allora ci si ferma e si dichiara che n è probabilmente primo. Altrimenti, sia</em> <img class="math" src="_images/math/cb35e4df29c099602bb38fdcedc5225c20f0f24f.png" alt="b_1 \equiv b_0^2 \pmod n"/> <em>. Se</em> <img class="math" src="_images/math/efb08cd7fee6b83f9440495a8c8326d23e76da74.png" alt="b_1 \equiv 1 \pmod n"/> allora n è composto (e* <img class="math" src="_images/math/0130cc58599c75ad6275980da621570b32869ba9.png" alt="gcd(b_0-1, n)"/> <em>) è un fattore non banale di n). Se</em> <img class="math" src="_images/math/80ce773af10f0b9c156ac0a13cd212856ceeb5ab.png" alt="b_1 \equiv -1 \pmod n"/> <em>allora ci si ferma e si dichiara che n probabilmente è primo. Altrimenti, sia</em> <img class="math" src="_images/math/7a0c53b649315e0141fa058401b9616e1258c267.png" alt="b_2 \equiv b_1^2 \pmod n"/> <em>. Se</em> <img class="math" src="_images/math/86717ad5449fb0dfff694f5961bc9e3185174224.png" alt="b_2 \equiv 1 \pmod n"/> <em>allora n è composto. Se</em> <img class="math" src="_images/math/26f703f5648f92319c66f75d6eeea520bfadc0e8.png" alt="b_2 \equiv -1 \pmod n"/> <em>, allora n è probabilmente primo. Si itera con questo procedimento fino a che non si raggiunge</em> <img class="math" src="_images/math/822965e42f914aa3d362ef761ea9367201d5c7b1.png" alt="b_{k-1}"/> <em>. Se</em> <img class="math" src="_images/math/bbcb8504366f5ca6b0b6dcd101b0409ae94e6f62.png" alt="b_{k-1} \not\equiv -1 \pmod n"/> <em>, allora n è composto.</em></div>
+<p class="centered">
+<strong>Test di primalità di Miller-Rabin</strong></p><div class="line-block">
+<div class="line"><em>Sia n &gt; 1 un intero dispari, si scriva</em> <img class="math" src="_images/math/4970a49c3e0ac8f3974a3cf38745159c8d8001fd.png" alt="n-1 = 2^k m"/> <em>e si scelga un intero casuale a tale che</em> <img class="math" src="_images/math/a82f5036137006113dd992819eb930de24f90ba3.png" alt="1 &lt; a &lt; n-1"/>. Sia <img class="math" src="_images/math/9f0438f40e326c9f82a9f86e36571c183a1fe55f.png" alt="b_0 \equiv a^m \pmod n"/> <em>. Se</em> <img class="math" src="_images/math/40d56e4722527150efb0ce33658689f71b55401a.png" alt="b_0 \equiv \pm 1 \pmod n"/> <em>, allora ci si ferma e si dichiara che n è probabilmente primo. Altrimenti, sia</em> <img class="math" src="_images/math/cb35e4df29c099602bb38fdcedc5225c20f0f24f.png" alt="b_1 \equiv b_0^2 \pmod n"/> <em>. Se</em> <img class="math" src="_images/math/efb08cd7fee6b83f9440495a8c8326d23e76da74.png" alt="b_1 \equiv 1 \pmod n"/> allora n è composto (e* <img class="math" src="_images/math/0130cc58599c75ad6275980da621570b32869ba9.png" alt="gcd(b_0-1, n)"/> <em>) è un fattore non banale di n). Se</em> <img class="math" src="_images/math/80ce773af10f0b9c156ac0a13cd212856ceeb5ab.png" alt="b_1 \equiv -1 \pmod n"/> <em>allora ci si ferma e si dichiara che n probabilmente è primo. Altrimenti, sia</em> <img class="math" src="_images/math/7a0c53b649315e0141fa058401b9616e1258c267.png" alt="b_2 \equiv b_1^2 \pmod n"/> <em>. Se</em> <img class="math" src="_images/math/86717ad5449fb0dfff694f5961bc9e3185174224.png" alt="b_2 \equiv 1 \pmod n"/> <em>allora n è composto. Se</em> <img class="math" src="_images/math/26f703f5648f92319c66f75d6eeea520bfadc0e8.png" alt="b_2 \equiv -1 \pmod n"/> <em>, allora n è probabilmente primo. Si itera con questo procedimento fino a che non si raggiunge</em> <img class="math" src="_images/math/822965e42f914aa3d362ef761ea9367201d5c7b1.png" alt="b_{k-1}"/> <em>. Se</em> <img class="math" src="_images/math/bbcb8504366f5ca6b0b6dcd101b0409ae94e6f62.png" alt="b_{k-1} \not\equiv -1 \pmod n"/> <em>, allora n è composto.</em></div>
 </div>
 <div class="line-block">
-<div class="line">Anche il test di Miller-Rabin non da sicurezza sulla primalità di n. Un numero composto che supera questo test si dice pseudoprimo forte. Tuttavia gli pseudoprimi forti per una certa base a sono molto più rari degli pseudoprimi.</div>
-<div class="line">La probabilità che il test fallisca nel riconoscere un numero composto per un a scelto a caso, è al più 1/4 (fallisce più raramente), ma in generale, ripetendo il test un paio di volte, con delle basi a differenti, riduce drasticamente la probabilità.</div>
-<div class="line">A differenza dei test visti precedentemente, il test di Miller-Rabin è molto più rapido, anche se esistono test più sofisticati, in grado di fornire la certezza della primalità di un numero.</div>
-<div class="line">Come abbiamo fatto per il test AKS, forniamo un algoritmo per testare la primalità di un intero:</div>
+<div class="line">Forniamo l&#8217;algoritmo per testare la primalità di un intero:</div>
 </div>
 <blockquote>
 <div><pre class="code literal-block">
@@ -232,7 +223,7 @@ Quindi viene svolto il test sul gcd e sulla grandezza di n rispetto ad r. Per co
 <span class="ln"> 2 </span>        if(n pari) return COMPOSITE
 <span class="ln"> 3 </span>        trova k ed m affinchè m*2^k == n
 <span class="ln"> 4 </span>        scegli casualmente a tra 2 e n-1
-<span class="ln"> 5 </span>        b0 = a^m (ottenuto mediante moltiplicazioni successive mod n)
+<span class="ln"> 5 </span>        b0 = a^m
 <span class="ln"> 6 </span>        if(b0 == 1 or b0 == num-1) return PRIME
 <span class="ln"> 7 </span>        while(k &gt; 0)
 <span class="ln"> 8 </span>                b1 = b0^2 mod n
@@ -249,14 +240,16 @@ Quindi viene svolto il test sul gcd e sulla grandezza di n rispetto ad r. Per co
 </pre>
 </div></blockquote>
 <div class="line-block">
-<div class="line">Spieghiamo il funzionamento del test, supponendo <img class="math" src="_images/math/459f26cf1496320f743c3c9ef6dc91f8c97130b3.png" alt="b_{k+1} \equiv 1"/> con k+1 dispari, questo significa che <img class="math" src="_images/math/05d7c17faf8cd2b29cde8ec52f3df7391cf83e49.png" alt="b_{k}^2 \equiv 1 \pmod n"/> ovvero:</div>
+<div class="line">Spieghiamo il funzionamento del test:</div>
 </div>
 <ul class="simple">
-<li><img class="math" src="_images/math/ed53343b6d748604cfd1b2f670c2895dccaa2706.png" alt="b_{k} \not\equiv \pm 1 \pmod n"/>: per il principio fondamentale possiamo affermare che n è composto e possiamo calcolarne un fattore non banale;</li>
-<li><img class="math" src="_images/math/3af5c0dc0e99039399659a90ac1b02c9916f6049.png" alt="b_{k} \equiv \pm 1 \pmod n"/> in questo caso l&#8217;algoritmo si sarebbe fermato al passo precedente. Infatti <img class="math" src="_images/math/cd8d80e69d6aca64a656798f8b4dfb22cb38e33f.png" alt="b_{k-1} \equiv a^{\frac{n-1}{2}} \pmod n"/> il cui quadrato è <img class="math" src="_images/math/b077fa0e6decf2332ad3cdf8996a26686a6dfe89.png" alt="a^{n-1}"/> equivalente a 1 se n è primo, per il teorema di Fermat.</li>
+<li>supponiamo <img class="math" src="_images/math/e89ea73d2541a80dfcdf7ddb6fca691fb45e5413.png" alt="b_{k+1} \equiv 1 \pmod n"/>, questo significa che <img class="math" src="_images/math/a666e1dc95428c05102519b52a358aec6db0ebde.png" alt="b_{k}^2 \not\equiv \pm 1 \pmod n"/> o l&#8217;algoritmo si sarebbe arrestato al passo precedente. Per il principio fondamentale n è composto;</li>
+<li>supponiamo invece <img class="math" src="_images/math/dc4a0a7afa37832cdc0f6ac84ba51e2e57573e3d.png" alt="b_{k} \equiv -1 \pmod n"/> al passo successivo <img class="math" src="_images/math/e89ea73d2541a80dfcdf7ddb6fca691fb45e5413.png" alt="b_{k+1} \equiv 1 \pmod n"/> e il principio fondamentale fallisce. Quindi n è probabilmente primo;</li>
+<li>se si arriva all&#8217;ultimo quadrato, la risposta è giustificata dal test di Fermat; infatti se <img class="math" src="_images/math/f8de69c8eb48b3c8b38cb4dd45c53995497095f4.png" alt="b_{k} \equiv a^{\frac{n-1}{2}} \pmod n \equiv -1 \pmod n"/> elevando al quadrato si avrebbe <img class="math" src="_images/math/a8a94c4c5a021bbf42e6c3c52df45345f1e8a9dd.png" alt="b_{k+1} \equiv a^{n-1} \pmod n"/>. Dunque n è probabilmente primo se <img class="math" src="_images/math/dc4a0a7afa37832cdc0f6ac84ba51e2e57573e3d.png" alt="b_{k} \equiv -1 \pmod n"/>.</li>
 </ul>
 <div class="line-block">
-<div class="line">Supponiamo <img class="math" src="_images/math/90783c0b01ec52ceec6f91c075f29f8a284004fc.png" alt="n = pq"/> e <img class="math" src="_images/math/177544ae3d0f7a31e7ce194882bc69eee0cba08e.png" alt="a^{n-1} \equiv 1 \pmod n"/>, è improbabile che accada, poichè considerando separatamente le successioni <img class="math" src="_images/math/5297a2c39c035905dc16f74a46fcb1b04743f8c5.png" alt="b_i"/> per p e q, solitamente le due raggiungono 1 e -1 in istanti differenti, per cui <img class="math" src="_images/math/9b6fad5b80e7468a2088186ad5e81e6f6239182c.png" alt="b_i^2 \equiv 1 \pmod n"/> con <img class="math" src="_images/math/9b07532f997146f3079d66c38673552f79fd52cb.png" alt="b_i^2 \not\equiv \pm 1 \pmod n"/> e per il principio fondamentale può essere fattorizzato. A volte però le due successioni convergono allo stesso valore, per cui il test può fallire.</div>
+<div class="line">Se un numero e composto, ad esempio <img class="math" src="_images/math/90783c0b01ec52ceec6f91c075f29f8a284004fc.png" alt="n = pq"/>, bisogna capire cosa accade alle potenze di a modulo p e q separatamente.</div>
+<div class="line">Evitando di scendere nel dettaglio, le potenze modulo p e modulo q daranno un risultato contrastante il più delle volte, quindi il numero non risulterà primo. Quando un numero è pseudoprimo questo non avviene e le due successioni convergono a <img class="math" src="_images/math/c091da5892e1033a193a0a3d720eeb3b1765a1ec.png" alt="a^{2^r m} \equiv \pm 1 \pmod n"/> per <img class="math" src="_images/math/41585f28365822c4794e4a6a40fd8467a611bbb1.png" alt="0 \leq r \leq k"/> quindi il numero può superare il test.</div>
 </div>
 <dl class="class">
 <dt id="models.PrimalityTest.MillerRabinTest">
@@ -264,7 +257,8 @@ Quindi viene svolto il test sul gcd e sulla grandezza di n rispetto ad r. Per co
 <dd><dl class="method">
 <dt id="models.PrimalityTest.MillerRabinTest.is_prime">
 <tt class="descname">is_prime</tt><big>(</big><em>num</em><big>)</big><a class="headerlink" href="#models.PrimalityTest.MillerRabinTest.is_prime" title="Permalink to this definition">¶</a></dt>
-<dd><p>Il metodo corrisponde all&#8217;algoritmo visto sopra, restituisce True o False a seconda che il numero sia primo o meno. Per ridurre la possibilità di incorrere in pseudoprimi forti il test sopra esposto viene ripetuto più volte con basi a scelte casualmente.</p>
+<dd><p>Il metodo corrisponde all&#8217;algoritmo visto sopra, restituisce True o False a seconda che il numero sia primo o meno.
+Per ridurre la possibilità di incorrere in pseudoprimi forti il test sopra esposto viene ripetuto più volte con basi a scelte casualmente qualora risponda True.</p>
 </dd></dl>
 
 </dd></dl>
@@ -275,7 +269,6 @@ Quindi viene svolto il test sul gcd e sulla grandezza di n rispetto ad r. Per co
 <tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Agrawal, Manindra; Kayal, Neeraj; Saxena, Nitin (2004). <a class="reference external" href="http://www.cse.iitk.ac.in/users/manindra/algebra/primality_v6.pdf">&#8220;PRIMES is in P&#8221;</a></td></tr>
 </tbody>
 </table>
-</div>
 </div>
 </div>
 
@@ -290,19 +283,14 @@ Quindi viene svolto il test sul gcd e sulla grandezza di n rispetto ad r. Per co
 <li><a class="reference internal" href="#">Test di primalità</a><ul>
 <li><a class="reference internal" href="#test-banale">Test banale</a></li>
 <li><a class="reference internal" href="#test-aks-prime-is-p">Test AKS: Prime is P!</a></li>
-<li><a class="reference internal" href="#test-di-miller-rabin">Test di Miller-Rabin</a><ul>
-<li><a class="reference internal" href="#principio-fondamentale">Principio fondamentale</a></li>
-<li><a class="reference internal" href="#test-di-primalita-di-fermat">Test di primalità di Fermat</a></li>
-<li><a class="reference internal" href="#test-di-primalita-di-miller-rabin">Test di primalità di Miller-Rabin</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#test-di-miller-rabin">Test di Miller-Rabin</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="rsa.html"
-                        title="previous chapter">Scambio di messaggi con RSA</a></p>
+                        title="previous chapter">Client RSA per lo scambio di messaggi</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="keygen.html"
                         title="next chapter">Generazione di chiavi e primi</a></p>
@@ -341,7 +329,7 @@ Quindi viene svolto il test sul gcd e sulla grandezza di n rispetto ad r. Per co
           <a href="keygen.html" title="Generazione di chiavi e primi"
              >next</a> |</li>
         <li class="right" >
-          <a href="rsa.html" title="Scambio di messaggi con RSA"
+          <a href="rsa.html" title="Client RSA per lo scambio di messaggi"
              >previous</a> |</li>
         <li><a href="index.html">RSA &amp; Primality Test 1.0 documentation</a> &raquo;</li> 
       </ul>

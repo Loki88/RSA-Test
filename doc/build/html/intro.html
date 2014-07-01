@@ -24,8 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="RSA &amp; Primality Test 1.0 documentation" href="index.html" />
-    <link rel="next" title="Scambio di messaggi con RSA" href="rsa.html" />
-    <link rel="prev" title="Welcome to RSA &amp; Primality Test’s documentation!" href="index.html" /> 
+    <link rel="next" title="Client RSA per lo scambio di messaggi" href="rsa.html" />
+    <link rel="prev" title="RSA: test di primalità e fattorizzazione" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,10 +35,13 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="rsa.html" title="Scambio di messaggi con RSA"
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rsa.html" title="Client RSA per lo scambio di messaggi"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to RSA &amp; Primality Test’s documentation!"
+          <a href="index.html" title="RSA: test di primalità e fattorizzazione"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">RSA &amp; Primality Test 1.0 documentation</a> &raquo;</li> 
       </ul>
@@ -53,54 +56,66 @@
 <h1>Introduzione<a class="headerlink" href="#introduzione" title="Permalink to this headline">¶</a></h1>
 <div class="line-block">
 <div class="line">RSA è un crittosistema a chiave pubblica.</div>
-<div class="line">Alice vuole inviare un messaggio a Bob, ma i due non hanno mai comunicato prima d&#8217;ora. Ogni messaggio che Alice invia a Bob potrebbe essere intercettato e letto da Eva. Alice | dovrebbe inviare una chiave a Bob, ma anche in questo caso Eva potrebbe intercettarla per leggere ogni altro messaggio.</div>
+<div class="line">Alice vuole inviare un messaggio a Bob, ma i due non hanno mai comunicato prima d&#8217;ora. Ogni messaggio che Alice invia a Bob potrebbe essere intercettato e letto da Eva. Alice dovrebbe inviare una chiave a Bob, ma anche in questo caso Eva potrebbe intercettarla per leggere ogni altro messaggio.</div>
 </div>
 <div class="line-block">
-<div class="line">RSA consente ad Alice di scrivere dei messaggi a Bob rendendo quasi impossibile decifrarli. Eva è fuori dai giochi. RSA è basato sulla difficoltà di fattorizzare gli interi in numeri primi, fu proposto da Rivest, Shamir e Adleman nel 1977.</div>
-<div class="line">Brevemente Bob:</div>
+<div class="line">L&#8217;idea dei crittosistemi a chiave pubblica è sfruttare funzioni unidirezionali per codificare i messaggi, il destinatario conosce una trap-door e sa come decifrare il messaggio. Poichè è l&#8217;unico a conoscere la scappatoia, nessun altro è in grado di leggerlo, poichè il problema dell&#8217;inversione di questa funzione unidirezionale è ritenuto difficile.</div>
+<div class="line">RSA fu proposto da Rivest, Shamir e Adleman nel 1977; è basato sulla difficoltà di fattorizzare un intero grande in primi. Poichè fattorizzare numeri è ritenuto un problema difficile, RSA è ritenuto sicuro.</div>
+</div>
+<div class="section" id="le-basi-di-rsa">
+<h2>Le basi di RSA<a class="headerlink" href="#le-basi-di-rsa" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Si descrive brevemente l&#8217;algoritmo di codifica/decodifica. Inizialmente Bob:</div>
 </div>
 <ul class="simple">
 <li>Sceglie due numeri primi p e q grandi e distinti, quindi li moltiplica, ottenendo <img class="math" src="_images/math/90783c0b01ec52ceec6f91c075f29f8a284004fc.png" alt="n = pq"/></li>
-<li>Sceglie un esponente di cifratura e, tale che (e,(p-1)(q-1)) = 1</li>
+<li>Sceglie un esponente di cifratura e, tale che <img class="math" src="_images/math/db08de833a4e29a0f7403c677a18b9d20e7a4f7b.png" alt="(e,(p-1)(q-1)) = 1"/></li>
 <li>Invia ad Alice la coppia (n,e) mantenendo segreti i valori di p e q.</li>
 </ul>
-<p>Alice non ha mai bisogno di conoscere p e q per inviare un messaggio in modo sicuro a Bob, infatti:</p>
+<p>Alice non ha bisogno di conoscere p e q per inviare un messaggio in modo sicuro a Bob, infatti:</p>
 <ul class="simple">
-<li>Scrive un messaggio come un numero m. Se m è maggiore di n allora viene spezzato in blocchi di dimensione inferiore ad n, ma supponiamo m &lt; n</li>
+<li>Scrive un messaggio come un numero m. Se m è maggiore di n allora viene spezzato in blocchi di dimensione inferiore, supponiamo quindi m &lt; n</li>
 <li>Produce il messaggio da inviare <img class="math" src="_images/math/b6ae30f4f3d51fe985ba54e8a599cb71052bfb78.png" alt="c \equiv m^e \pmod n"/></li>
 <li>Invia c a Bob</li>
 </ul>
 <div class="line-block">
-<div class="line">Bob che conosce p e q può calcolare mediante la funzione totiente di Eulero l&#8217;esponente di decifrazione d, tale che de = 1 (mod(p-1)(q-1)) quindi può decifrare il messaggio che in virtù dei teoremi di Fermat ed Eulero è:</div>
+<div class="line">Bob che conosce p e q può calcolare l&#8217;esponente di decifrazione d, tale che <img class="math" src="_images/math/f10ff50208b6028ea622d61b2124c495cf253bfe.png" alt="de \equiv 1 \pmod{(p-1)(q-1)}"/> quindi può decifrare il messaggio, che in virtù del teorema di Eulero è:</div>
 </div>
 <blockquote>
 <div><div class="math">
 <p><img src="_images/math/4b31eac7049bfbc219dbf2f6f045d551efaa57ec.png" alt="m \equiv (m^e)^d \equiv m^{ed} \pmod n \equiv m^{ed} \pmod {pq} \equiv m^1 \pmod {pq} \equiv m \pmod n"/></p>
 </div></div></blockquote>
 <div class="line-block">
-<div class="line">Se Eva intercetta (n,e) non può decifrare il messaggio c inviato da Alice a Bob; per farlo avrebbe bisogno di <img class="math" src="_images/math/53bcb6dbbd97b23eaaed48c8437e93bbdedc86a5.png" alt="d = e^(-1)"/> (ovvero del valore della funzione totiente di Eulero per n) oppure di p e q, la fattorizzazione di n. Poichè si dimostra che i due problemi sono equivalenti e fattorizzare un numero è ritenuto un problema difficile, possibile solo sotto certe condizioni in tempi ragionevoli, Alice e Bob sono al sicuro.</div>
+<div class="line">Se Eva intercetta (n,e) e c non può leggere il messaggio; per farlo avrebbe bisogno di <img class="math" src="_images/math/87ad1f7eebe3027b565f467df35a13764c8423ca.png" alt="d \equiv e^{-1} \pmod n"/>, ovvero di <img class="math" src="_images/math/ddc6340f2f98eceba9e001982bbcde4bc1688a56.png" alt="\phi (n) = (p-1)(q-1)"/>, che si dimostra un problema equivalente alla conoscenza di p e q, la fattorizzazione di n. Poichè è ritenuto un problema difficile, Alice e Bob sono al sicuro.</div>
 </div>
 <blockquote>
 <div><div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">In realtà Eva potrebbe fornire ad Alice la sua chiave pubblica e ritrasmettere i messaggi a Bob in modo trasparente. In questo modo Eva si è intromessa nella comunicazione (<em>man in the middle</em>). Nel resto della trattazione supponiamo che non sia possibile.</p>
+<p class="last">In realtà un&#8217;implementazione errata di RSA può portare a non pochi problemi di sicurezza, se ne presenteranno alcuni, altri saranno accennati nel seguito.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Osserviamo che Bob non fornisce direttamente la chiave ad Alice, ma si affida ad enti di certificazione e pubblicazione.
+Infatti Eva potrebbe fornire ad Alice la sua chiave pubblica e comportarsi come intermediaria tra lei e Bob, ritrasmettendo i messaggi, che nel frattempo ha letto. Una simile violazione è detta <em>man in the middle</em>. Nel resto della trattazione supporremo che non sia possibile.</p>
 </div>
 </div></blockquote>
+</div>
+<div class="section" id="motivazioni-di-questa-implementazione">
+<h2>Motivazioni di questa implementazione<a class="headerlink" href="#motivazioni-di-questa-implementazione" title="Permalink to this headline">¶</a></h2>
 <div class="line-block">
-<div class="line">Questa applicazione è stata realizzata per l&#8217;esame del corso di Crittografia del Prof. Norberto Gavioli, Università degli Studi dell&#8217;Aquila. Lo scopo è mostrare come sia possibile generare dei numeri primi, mediante differenti test di primalità, e come, sotto opportune condizioni, sia possibile fattorizzare un numero in primi.</div>
-<div class="line">L&#8217;interesse pratico è relativo a molti campi della crittografia:</div>
+<div class="line">Questa applicazione è stata realizzata per l&#8217;esame del corso di Crittografia del Prof. Norberto Gavioli, Università degli Studi dell&#8217;Aquila. Lo scopo è mostrare come sia possibile generare dei numeri primi, testando la primalità degli interi con differenti tecniche, e come, sotto opportune condizioni, sia possibile fattorizzare un numero in primi.</div>
+</div>
+<div class="line-block">
+<div class="line">Nel seguito si descriverà l&#8217;applicazione in questione, offrendo in apertura di sezione nozioni teoriche che giustificano l&#8217;implementazione.</div>
+<div class="line">In particolare, in ordine si presenteranno:</div>
 </div>
 <ul class="simple">
-<li>generare primi è utile per produrre chiavi in RSA, in ElGamal...</li>
-<li>fattorizzare è di interesse nella crittoanalisi e in molte altre applicazioni.</li>
+<li><a class="reference internal" href="rsa.html#rsa-messages"><em>Struttura base dell&#8217;applicazione per quanto riguarda RSA</em></a></li>
+<li><a class="reference internal" href="primality.html#test-primality"><em>Test di primalità: Fermat, Miller-Rabin, AKS</em></a>;</li>
+<li><a class="reference internal" href="keygen.html#key-generation"><em>Tecniche di generazione di chiavi e numeri primi per prevenire alcuni tipi di attacco</em></a></li>
+<li><a class="reference internal" href="factorization.html#factorization-method"><em>Metodi di fattorizzazione: p-1, esponente universale, crivello quadratico, attacco con esponenti bassi</em></a></li>
 </ul>
-<div class="line-block">
-<div class="line">Nel seguito si descriverà l&#8217;applicazione in questione, offrendo, quando ritenuto opportuno, spiegazioni sugli algoritmi implementati, quali:</div>
 </div>
-<ul class="simple">
-<li>Test di primalità: Fermat, Miller-Rabin, AKS;</li>
-<li>Metodi di fattorizzazione: metodo p-1 e metodo dell&#8217;esponente (trattati assieme per ragioni che verranno approfondite in seguito), crivello quadratico e un tipo di attacco basato sullo sviluppo in frazioni continue.</li>
-</ul>
 </div>
 
 
@@ -109,12 +124,21 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduzione</a><ul>
+<li><a class="reference internal" href="#le-basi-di-rsa">Le basi di RSA</a></li>
+<li><a class="reference internal" href="#motivazioni-di-questa-implementazione">Motivazioni di questa implementazione</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to RSA &amp; Primality Test&#8217;s documentation!</a></p>
+                        title="previous chapter">RSA: test di primalità e fattorizzazione</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="rsa.html"
-                        title="next chapter">Scambio di messaggi con RSA</a></p>
+                        title="next chapter">Client RSA per lo scambio di messaggi</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/intro.txt"
@@ -144,10 +168,13 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="rsa.html" title="Scambio di messaggi con RSA"
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rsa.html" title="Client RSA per lo scambio di messaggi"
              >next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to RSA &amp; Primality Test’s documentation!"
+          <a href="index.html" title="RSA: test di primalità e fattorizzazione"
              >previous</a> |</li>
         <li><a href="index.html">RSA &amp; Primality Test 1.0 documentation</a> &raquo;</li> 
       </ul>

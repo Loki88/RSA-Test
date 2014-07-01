@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Scambio di messaggi con RSA &mdash; RSA &amp; Primality Test 1.0 documentation</title>
+    <title>Client RSA per lo scambio di messaggi &mdash; RSA &amp; Primality Test 1.0 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -52,23 +52,28 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="scambio-di-messaggi-con-rsa">
-<h1>Scambio di messaggi con RSA<a class="headerlink" href="#scambio-di-messaggi-con-rsa" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="client-rsa-per-lo-scambio-di-messaggi">
+<span id="rsa-messages"></span><h1>Client RSA per lo scambio di messaggi<a class="headerlink" href="#client-rsa-per-lo-scambio-di-messaggi" title="Permalink to this headline">¶</a></h1>
 <div class="line-block">
-<div class="line">Scopo di questa sezione è approfondire il funzionamento di RSA, offrendo informazioni sulla struttura base dell&#8217;applicazione.</div>
-<div class="line">Su di essa è basata interamente l&#8217;applicazione, modificabile per innesto di nuovi oggetti, come algoritmi di generazione di chiavi, test di primalità, algoritmi per la generazione di numeri primi, metodi di fattorizzazione, ecc.</div>
+<div class="line">Scopo di questa sezione è presentare la parte di applicazione che consente lo scambio di messaggi tra client mediante RSA. L&#8217;insieme di classi in questione costituisce la struttura base sulla quale è strutturato il codice restante.</div>
 </div>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">L&#8217;applicazione è stata sviluppata pensando alla sua flessibilità, organizzando il codice affinchè sia facilmente estendibile. Possono essere aggiunti semplicemente algoritmi di generazione di chiavi e numeri primi, test di primalità, metodi di fattorizzazione, ecc.</p>
+</div>
+</div></blockquote>
 <div class="line-block">
-<div class="line">La parte fondamentale è il client RSA. Ogni client (e.g. Alice) possiede due numeri primi p e q, che tiene segreti, e un intero d, esponente di decifratura (anch&#8217;esso segreto). Da questi tre numeri può calcolare <img class="math" src="_images/math/90783c0b01ec52ceec6f91c075f29f8a284004fc.png" alt="n = pq"/> ed <img class="math" src="_images/math/c8f6889439c88c100a23e6bf0cfd3450f0327944.png" alt="e \equiv d^{-1} \pmod {(p-1)(q-1)}"/> che rappresentano la sua chiave pubblica. Ogni client può generare un messaggio a partire da una stringa:</div>
+<div class="line">La parte fondamentale è il client RSA. Ogni client (e.g. Alice) possiede due numeri primi p e q, che tiene segreti, e un intero d, esponente di decifratura (anch&#8217;esso segreto). Da questi tre numeri può calcolare <img class="math" src="_images/math/c8f6889439c88c100a23e6bf0cfd3450f0327944.png" alt="e \equiv d^{-1} \pmod {(p-1)(q-1)}"/> e <img class="math" src="_images/math/25014893ce7519aa8c5bf017735a32e2891aa20c.png" alt="n = p \cdot q"/> che rappresentano la sua chiave pubblica.</div>
+<div class="line">Ogni client può generare un messaggio a partire da una stringa:</div>
 </div>
 <ul class="simple">
 <li>il client traduce la stringa in ascii</li>
 <li>il codice ascii viene tradotto in binario e concatenato</li>
 <li>la stringa binaria viene spezzata in blocchi di lunghezza inferiore di n</li>
-<li>ogni blocco viene elevato all&#8217;esponente e del destinatario del messaggio</li>
+<li>ogni blocco viene elevato all&#8217;esponente del destinatario del messaggio</li>
 </ul>
 <div class="line-block">
-<div class="line">affinchè d ed e siano invertibili modulo (p-1)(q-1), devono essere coprimi con (p-1)(q-1).</div>
 <div class="line">La classe fondamentale è RSAClient:</div>
 </div>
 <dl class="class">
@@ -81,24 +86,38 @@
 Noti i due primi, tramite un algoritmo di generazione delle chiavi, viene determinato l&#8217;esponente privato e quindi quello pubblico, mediante inversione.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">I test di primalità e gli algoritmi di generazione delle chiavi sono stati introdotti come classi Strategy affinchè possano essere sostituiti a runtime e modificare il comportamento dell&#8217;applicazione di fronte ai tentativi di fattorizzazione della chiave pubblica di un client.</p>
+<p class="last">I test di primalità e gli algoritmi di generazione delle chiavi sono stati introdotti come classi Strategy affinchè possano essere sostituiti a runtime, modificando il comportamento dell&#8217;applicazione. In particolare rendono possibili attacchi alla sicurezza di RSA o producono chiavi difficilmente attaccabili. Per maggiori informazioni si legga la documentazione relativa alle classi in questione.</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="models.RSAClient.RSAClient.receive_message">
 <tt class="descname">receive_message</tt><big>(</big><em>message=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#models.RSAClient.RSAClient.receive_message" title="Permalink to this definition">¶</a></dt>
-<dd><p>Il metodo riceve un messaggio e lo decifra mediante la chiave privata del client.</p>
+<dd><p>Il metodo riceve un messaggio, lo traduce in binario, quindi lo decifra mediante la chiave privata del client; infine traduce la stringa binaria ottenuta in caratteri ascii.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="models.RSAClient.RSAClient.generate_message">
 <tt class="descname">generate_message</tt><big>(</big><em>public_key</em>, <em>n</em>, <em>message=None</em><big>)</big><a class="headerlink" href="#models.RSAClient.RSAClient.generate_message" title="Permalink to this definition">¶</a></dt>
-<dd><p>Il metodo produce un messaggio, seguendo la procedura sopra descritta. Per farlo usa la chiave pubblica di un client e restituisce il messaggio cifrato.</p>
+<dd><p>Il metodo produce un messaggio, seguendo la procedura inversa a quella del metodo di ricezione, sopra descritto. Per farlo usa la chiave pubblica di un client e restituisce il messaggio cifrato.</p>
 </dd></dl>
 
 </dd></dl>
 
+<p>Non vengono descritte in dettaglio le classi di ausilio, quali:</p>
+<ul>
+<li><p class="first"><a class="reference internal" href="api.html#controllers.RSATestController.RSAComunicationTest" title="controllers.RSATestController.RSAComunicationTest"><tt class="xref py py-class docutils literal"><span class="pre">controllers.RSATestController.RSAComunicationTest</span></tt></a>:</p>
+<blockquote>
+<div><p>controller del caso d&#8217;uso &#8220;Scambio di messaggi RSA&#8221;</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference internal" href="api.html#models.NumberFactory.NumberFactorySingleton" title="models.NumberFactory.NumberFactorySingleton"><tt class="xref py py-class docutils literal"><span class="pre">models.NumberFactory.NumberFactorySingleton</span></tt></a>:</p>
+<blockquote>
+<div><p>factory per la generazione di numeri primi grazie al test scelto</p>
+</div></blockquote>
+</li>
+</ul>
+<p>Per maggiori informazioni a riguardo si consulti la <a class="reference internal" href="api.html#api"><em>API</em></a>.</p>
 </div>
 
 
