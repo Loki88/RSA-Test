@@ -33,7 +33,7 @@
         <property name="xpad">20</property>
         <property name="label" translatable="yes">Eva attacks Alice. She wants to read the messages to her, but Alice takes care of her private key.
 Eva knows only Alice's public Key (mod+exp), she wants prime factors of mod to decrypt messages.
-These methods are possible under certain constrains, try to check "Make it hard" and see what happens.</property>
+These methods are possible under certain constrains, check the options and see what happens.</property>
         <property name="justify">center</property>
         <property name="wrap">True</property>
         <property name="ellipsize">end</property>

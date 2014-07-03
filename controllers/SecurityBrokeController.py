@@ -88,7 +88,7 @@ class RSAComunicationAttackTest():
 			self.refresh()
 		self.factorization_method = client.get_factorization_method()
 		if self.factorization_method.__class__ != self.eva.get_factorization_method().__class__:
-			self.eva.set_factorization_method(factorization_method)
+			self.eva.set_factorization_method(self.factorization_method)
 			self.refresh()
 
 	def set_strong_primes(self):

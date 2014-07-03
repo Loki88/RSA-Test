@@ -26,9 +26,15 @@ import numpy as np
 from decimal import *
 from math import sqrt
 from multiprocessing import Pool
-from .PrimalityTest import AKSPrimeTest
+from .PrimalityTest import AKSPrimeTest, MillerRabinTest
 from utility.Math import continued_fraction_next_step, continued_fraction, smart_int_divide, smart_int_pow, smart_2_decomposition
 import time
+
+
+
+n_primes = []
+
+
 
 class FactorizationMethod():
 	'''
@@ -58,21 +64,22 @@ class FactorizationMethod():
 
 class QuadraticSieveMethod(FactorizationMethod):
 
+	base_size = 30
 	primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 33, 37]
-	randomizer = 1
+	randomizer = 0.1
 
 	def __init__(self):
 		FactorizationMethod.__init__(self)
 		self.max_iteration_lenght = SettingsSingleton.get_instance().get_iteration_count()
 		self.count = 0
-		base_size = 20
+		
 		i = 0
-		test = AKSPrimeTest()
+		test = MillerRabinTest()
 		self.primes = [2]
 		prime_timeout = test.get_timeout()
 		start = 3
 		with Pool(processes=1) as pool:
-			while len(self.primes) < base_size:
+			while len(self.primes) < self.base_size:
 				res = pool.apply_async(test.is_prime, args=(start,))
 				result = res.get(timeout=prime_timeout)
 				res.wait()
@@ -95,7 +102,7 @@ class QuadraticSieveMethod(FactorizationMethod):
 		self.factor_base = []
 		while True:
 			for j in range(1,9):
-				i = randint(1, 9)*self.randomizer
+				i = randint(1, 9)*(1+self.randomizer)
 				b = int(sqrt(i)*self.n_part+j)
 				quad = b**b % self.mod
 				fact = []

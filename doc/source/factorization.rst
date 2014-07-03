@@ -223,15 +223,11 @@ Attacco agli esponenti bassi
 .. centered::
 	Teorema di M. Wiener
 
-*Siano p e q due primi con* :math:`q < p < 2q` *. Sia* :math:`n = pq` *e siano* :math:`1 \leq d` , :math:`e<\phi(n)` *tali che* :math:`d\cdot e \equiv 1 \pmod{(p-1)(q-1)}` *. Se* :math:`d < \frac{1}{3}n^{\frac{1}{4}}` *, allora d può essere calcolato rapidamente (in tempo polinomiale in logn).*
+*Siano p e q due primi con* :math:`q < p < 2q` *. Sia* :math:`n = pq` *e siano* :math:`1 \leq d, e<\phi(n)` *tali che* :math:`d\cdot e \equiv 1 \pmod{(p-1)(q-1)}` *. Se* :math:`d < \frac{1}{3}n^{\frac{1}{4}}` *, allora d può essere calcolato rapidamente (in tempo polinomiale in log(n)).*
 
 | Sotto queste ipotesi si scopre che:
 
 .. math::
-	
-	q^2 \leq pq = n 
-
-	e\cdot d - 1 = k\cdot \phi(n), e\cdot d \geq k\cdot \phi(n)
 
 	|\frac{k}{d} - \frac{e}{n}| < \frac{1}{2d^2}
 
