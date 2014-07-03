@@ -87,8 +87,7 @@ class FactorizationBox(Content, SimpleListener):
 
 	def fattorizza_chiave_pubblica(self, widget):
 		self.clear_intruder_fields()
-		self.current_thread = threading.Thread(target=self.fattorizzazione)
-		self.current_thread.start()
+		threading.Thread(target=self.fattorizzazione).start()
 
 	def fattorizzazione(self):
 		self.wait("Attacking...")
@@ -178,7 +177,6 @@ class FactorizationBox(Content, SimpleListener):
 
 	def back(self):
 		self.clear()
-		del( self.current_thread )
 		self.controller.unset_low_exponents()
 		self.controller.unset_strong_primes()
 		Content.back(self)
