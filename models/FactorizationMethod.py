@@ -317,6 +317,7 @@ class LowExponentAttack(FactorizationMethod):
 						self.solve(int(C), rounding)
 						if self.is_successful():
 							break
+				x, a, p, q = continued_fraction_next_step(x,a,p,q,ctx)
 				i += 2
 
 	def solve(self, theta, rounding):

@@ -20,7 +20,7 @@ __author__      = "Lorenzo Di Giuseppe"
 __copyright__   = "Copyright 2014"
 
 from gi.repository import Gtk, GLib
-from models.PrimalityTest import SimplePrimeTest, MillerRabinTest, AKSPrimeTest
+from models.PrimalityTest import SimplePrimeTest, MillerRabinTest, AKSPrimeTest, FermatTest
 from controllers import SettingsControllerSingleton
 from models.FactorizationMethod import PMinusOneAndExponentMethod, QuadraticSieveMethod, LowExponentAttack
 from ui.Window import Content, MainWindow
@@ -50,6 +50,7 @@ class SettingsBox(Content):
 			1: builder.get_object("simple_test"),
 			2: builder.get_object("AKS_test"),
 			3: builder.get_object("miller_rabin_test"),
+			4: builder.get_object("fermat_test")
 		}
 
 		self.factorization_method_buttons ={
@@ -62,6 +63,7 @@ class SettingsBox(Content):
 			1: SimplePrimeTest,
 			2: AKSPrimeTest,
 			3: MillerRabinTest,
+			4: FermatTest
 		}
 
 		self.factorization_methods = {

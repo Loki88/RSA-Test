@@ -17,7 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
---> 
+-->
 <interface>
   <requires lib="gtk+" version="3.10"/>
   <object class="GtkBox" id="settings">
@@ -94,7 +94,22 @@
                       </packing>
                     </child>
                     <child>
-                      <placeholder/>
+                      <object class="GtkRadioButton" id="fermat_test">
+                        <property name="label" translatable="yes">Fermat Test</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="image_position">right</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">simple_test</property>
+                        <signal name="clicked" handler="primality_test_checked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
                     </child>
                     <child>
                       <placeholder/>
